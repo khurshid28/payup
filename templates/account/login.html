@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PulMakon Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <link href="{% static 'css/styles.css' %} " rel="stylesheet"/>
+
+    <!-- Custom styles for this template-->
+    <style>
+        .login-page {
+            position: relative;
+            z-index: 1;
+            background: #FFFFFF;
+            text-align: center;
+        }
+
+        .login-page input {
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .bg-gradient-primary {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-page label {
+            padding-top: 4px;
+        }
+
+        .login-page .custom-checkbox {
+            float: left;
+            padding-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-6 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class=" ">
+
+                        <div class="login-page">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <img src="{% static 'img/pulmakon-logo.png' %}" class="img-fluid px-5" alt="">
+                                    <p class="text-muted">version 2.0</p>
+                                </div>
+                                <form method="POST" action="{% url 'account_login' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ form.login }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form.password }}
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-primary btn-lg btn-block w-100">Kirish</button>
+                                    <hr>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
+
+
+
+

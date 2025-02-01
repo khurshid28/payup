@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Shartnoma kiritish</h2>
+
+    <div id="app" data-initial-value="{{ request.user.id|escapejs }}"> {# START VUE APP #}
+        <h3 class="alert alert-info">[[message]]</h3>
+
+
+        <fieldset>
+            <form ref="myForm" :class="{'was-validated': isValidated}" novalidate>
+
+                <!-- SHARTNOMA MA'LUMOTLARI -->
+
+                <div class="card mt-2">
+                    <div class="card-header">Shartnoma ma'lumotlari</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="inputContractNumber" class="form-label">Shartnoma raqami</label>
+                                <input type="text" class="form-control" v-model="doc.contract.contract_number"
+                                       id="inputContractNumber" required>
+                                <div class="invalid-feedback">
+                                    Shartnoma raqamini kiriting.
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label  class="form-label">Shartnoma sanasi</label>
+                                <input type="text" class="form-control" id="contract_date"
+                                       v-model="doc.contract.contract_date" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label  class="form-label">Kredit turi</label>
+                                <input type="text" class="form-control"  value="mikroqarz" readonly>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-2">
+                                <label  class="form-label">Kredit summasi</label>
+                                <input type="text" class="form-control" v-model="doc.contract.credit_loan_total"
+                                       @change="handleNum2Word" id="credit_loan_total" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Kredit summasi so'zda</label> <br>
+                                <input type="text" class="form-control text-success text-uppercase readonly"
+                                       v-model="doc.contract.credit_loan_total_word_uz" readonly>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Foiz stavkasi (%)</label>
+                                <input type="number" class="form-control" v-model="doc.contract.credit_percent"
+                                       @change="handleNum2Word" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label  class="form-label">Foiz stavkasi so'zda</label>
+                                <input type="text" class="form-control text-success text-uppercase readonly"
+                                       v-model="doc.contract.credit_percent_word_uz"
+                                       readonly>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="form-label">Mikroqarz muddati (oy)</label>
+                                <input type="number" class="form-control" v-model="doc.contract.credit_term"
+                                       @change="handleNum2Word" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label  class="form-label">Mikroqarz muddati so'zda</label>
+                                <input type="text" class="form-control text-success text-uppercase readonly"
+                                       v-model="doc.contract.credit_term_word_uz"
+                                       readonly>
+                            </div>
+
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label  class="form-label">Kredit boshlanishi</label>
+                                <input type="text" class="form-control" v-model="doc.contract.credit_start_date"
+                                       id="credit_start_date" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label  class="form-label">Kredit tugashi</label>
+                                <input type="text" class="form-control" v-model="doc.contract.credit_end_date"
+                                       id="credit_end_date" required>
+
+                            </div>
+                            <div class="col-md-3">
+                                <label  class="form-label">Grafik turi</label>
+                                <select class="form-select" v-model="doc.contract.credit_graphic_type">
+                                    <option>Annuitet</option>
+                                    <option>Differensial</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MIJOZ MA'LUMOTLARI -->
+                <div class="card mt-2">
+                    <div class="card-header">Mijoz ma'lumotlari</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label  class="form-label">Pasport</label>
+                                <input type="text" class="form-control" v-model="doc.customer.customer_document"
+                                       id="customer_document" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="inputPassword4" class="form-label">JSSHIR</label>
+                                <input type="text" class="form-control" v-model="doc.customer.customer_passport_pinfl"
+                                       id="customer_passport_pinfl" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="inputPassword4" class="form-label">Tug'ilgan sana</label>
+                                <input type="text" class="form-control" v-model="doc.customer.customer_birthDate"
+                                       id="customer_birthDate" required>
+                            </div>
+                            <div class="col-md-3 ">
+                                <label for="">Tugmani bosing</label> <br>
+                                <button type="button" class="btn w-50 btn-info mt-2" @click="get_person">Izlash</button>
+                            </div>
+                            <br>
+                            <hr class="mt-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label  class="form-label">FIO</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_fullname" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label  class="form-label">Tug'ilgan sanasi</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_birthDate" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label  class="form-label">Manzili</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_address" required>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <label  class="form-label">Kim tomonidan berilgan</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_issuedBy" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label  class="form-label">Berilgan sana</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_startDate" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label  class="form-label">Initsial</label>
+                                    <input type="text" class="form-control"
+                                           v-model="doc.customer.customer_fullname_initials" required>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <label  class="form-label">Telefon 1</label>
+                                    <input type="text" class="form-control"
+                                           v-model="doc.customer.customer_phone1" id="customer_phone1" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label  class="form-label">Telefon 2</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_phone2"
+                                           id="customer_phone2" required>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- GAROV egasi -->
+                <div class="row g-0 border rounded p-2">
+                    <h4>Garov egasini tanlang</h4>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="yes" v-model="doc.pledge.pledge_is_owner" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            O'zi
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="no" v-model="doc.pledge.pledge_is_owner">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Boshqa shaxs
+                        </label>
+                    </div>
+                    <hr class="mt-2">
+                    <div v-if="doc.pledge.pledge_is_owner === 'yes'">
+
+                    </div>
+                    <div v-else-if="doc.pledge.pledge_is_owner === 'no'">
+                        <div class="card mt-2">
+                            <div class="card-header bg-info bg-gradient">Garov egasining ma'lumotlarini kiritish</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Pasport</label>
+                                        <input type="text" class="form-control" v-model="doc.owner_data.owner_document"
+                                               id="customer_document" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputPassword4" class="form-label">JSSHIR</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.owner_data.owner_passport_pinfl"
+                                               id="customer_passport_pinfl" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="inputPassword4" class="form-label">Tug'ilgan sana</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.owner_data.owner_birthDate"
+                                               id="customer_birthDate" required>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <label for="">Tugmani bosing</label> <br>
+                                        <button type="button" class="btn w-50 btn-warning mt-2" @click="get_owner">
+                                            Izlash
+                                        </button>
+                                    </div>
+                                    <br>
+                                    <hr class="mt-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label  class="form-label">FIO</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_fullname" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label  class="form-label">Tug'ilgan sanasi</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_birthDate" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label  class="form-label">Manzili</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_address" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label  class="form-label">Kim tomonidan berilgan</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_issuedBy" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label  class="form-label">Berilgan sana</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_startDate" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label  class="form-label">Initsial</label>
+                                            <input type="text" class="form-control"
+                                                   v-model="doc.owner_data.owner_fullname_initials" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- GAROV MA'LUMOTLARI -->
+                <div class="mt-2">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#home-tab-pane" type="button" role="tab"
+                                    aria-controls="home-tab-pane" aria-selected="true">
+                                AVTOMOBIL
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                    aria-controls="profile-tab-pane" aria-selected="false">KO'CHMAS MULK
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                    data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                    aria-controls="contact-tab-pane" aria-selected="false">TILLA BUYUM
+                            </button>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                             aria-labelledby="home-tab" tabindex="0">
+                            <div class="card card-body border-top-0 mt-1">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label  class="form-label">Tex.pasport seria</label>
+                                        <input type="text" class="form-control text-uppercase"
+                                               v-model="doc.pledge.pledge_vehicle_TP_series"
+                                               id="pledge_vehicle_TP_series" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label  class="form-label">Tex.pasport raqam</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.pledge.pledge_vehicle_TP_number"
+                                               id="pledge_vehicle_TP_number" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Davlat raqami</label>
+                                        <input type="text" class="form-control text-uppercase"
+                                               v-model="doc.pledge.pledge_govNumber" required>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <label for="">Tugmani bosing</label> <br>
+                                        <button type="button" class="btn w-50 btn-info mt-2" @click="get_vehicle">
+                                            Izlash
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-2">
+                                        <label  class="form-label">Nomi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_modelName" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label  class="form-label">Yili</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_issueYear" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Rangi</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.pledge.pledge_vehicleColor" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Shassi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_shassi" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label  class="form-label">Kuzov turi</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.pledge.pledge_vehicleTypeStr" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Dvigatel raqami</label>
+                                        <input type="text" class="form-control"
+                                               v-model="doc.pledge.pledge_engineNumber" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Kuzov raqami</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_bodyNumber" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Egasi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_owner" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Garov summasi</label>
+                                        <input type="text" class="form-control "
+                                               v-model="doc.pledge.pledge_loan_total" @change="handleNum2Word"
+                                               id="pledge_loan_total" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label  class="form-label">Garov summasi so'zda</label>
+                                        <input type="text" class="form-control "
+                                               v-model="doc.pledge.pledge_loan_total_word_uz">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                             tabindex="0">
+                            Ko'chmas mulk
+                        </div>
+                        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                             tabindex="0">Tilla
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bordered mt-2 ">
+                    <p>username: {{ request.user }}</p>
+                    <input type="text" v-model="doc.config.created_by" readonly/>
+
+                </div>
+
+
+                <div class="col-12 mt-2">
+                    <!-- Yuborish tugmasi (type="button") -->
+                    <button type="button" class="btn btn-primary" @click="validateForm">Yuborish</button>
+                </div>
+            </form>
+        </fieldset>
+
+        <fieldset>
+            <div class="col-12 mt-2">
+                <pre class="alert alert-warning"> [[doc]]</pre>
+
+            </div>
+        </fieldset>
+    </div> {# END VUE APP #}
+{% endblock %}
+
+
+
+{% block JavaScript %}
+    <!-- Vue.js 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        document.getElementById("validateBtn").addEventListener("click", function () {
+            let form = document.getElementById("myForm");
+
+            if (form.checkValidity()) {
+                alert("Forma to‘g‘ri to‘ldirildi ✅");
+                // Shu joyda formani jo‘natish yoki boshqa harakat qilish mumkin
+            } else {
+                form.classList.add("was-validated");
+            }
+        });
+    </script>
+    <script src="{% static 'vueapp/mikroqarz_form_app.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.js"></script>
+
+{% endblock %}
