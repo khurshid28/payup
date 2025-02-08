@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
 
     <div id="app" data-initial-value="{{ request.user.id|escapejs }}"> {# START VUE APP #}
-        <p>[[message]]</p>
-        <h3 class="alert alert-warning text-uppercase text-center">Mikroqarz shartnomasini kiritish</h3>
-
+        <p class="text-danger"> [[message]]</p>
+        <h3 class="alert alert-info mt-2 text-uppercase">Mikrokredit shartnomasini kiritish</h3>
 
         <fieldset>
             <form ref="myForm" :class="{'was-validated': isValidated}" novalidate>
@@ -27,18 +27,18 @@
 
                             </div>
                             <div class="col-md-3">
-                                <label  class="form-label">Shartnoma sanasi</label>
+                                <label class="form-label">Shartnoma sanasi</label>
                                 <input type="text" class="form-control" id="contract_date"
                                        v-model="doc.contract.contract_date" required>
                             </div>
                             <div class="col-md-3">
-                                <label  class="form-label">Kredit turi</label>
-                                <input type="text" class="form-control text-warning"  v-model="doc.contract.credit_type" readonly>
+                                <label class="form-label">Kredit turi</label>
+                                <input type="text" class="form-control text-danger" v-model="doc.contract.credit_type" readonly>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-2">
-                                <label  class="form-label">Kredit summasi</label>
+                                <label class="form-label">Kredit summasi</label>
                                 <input type="text" class="form-control" v-model="doc.contract.credit_loan_total"
                                        @change="handleNum2Word" id="credit_loan_total" required>
                             </div>
@@ -53,7 +53,7 @@
                                        @change="handleNum2Word" required>
                             </div>
                             <div class="col-md-2">
-                                <label  class="form-label">Foiz stavkasi so'zda</label>
+                                <label class="form-label">Foiz stavkasi so'zda</label>
                                 <input type="text" class="form-control text-success text-uppercase readonly"
                                        v-model="doc.contract.credit_percent_word_uz"
                                        readonly>
@@ -65,7 +65,7 @@
                                        @change="handleNum2Word" required>
                             </div>
                             <div class="col-md-2">
-                                <label  class="form-label">Mikroqarz muddati so'zda</label>
+                                <label class="form-label">Mikroqarz muddati so'zda</label>
                                 <input type="text" class="form-control text-success text-uppercase readonly"
                                        v-model="doc.contract.credit_term_word_uz"
                                        readonly>
@@ -74,18 +74,18 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-3">
-                                <label  class="form-label">Kredit boshlanishi</label>
+                                <label class="form-label">Kredit boshlanishi</label>
                                 <input type="text" class="form-control" v-model="doc.contract.credit_start_date"
                                        id="credit_start_date" required>
                             </div>
                             <div class="col-md-3">
-                                <label  class="form-label">Kredit tugashi</label>
+                                <label class="form-label">Kredit tugashi</label>
                                 <input type="text" class="form-control" v-model="doc.contract.credit_end_date"
                                        id="credit_end_date" required>
 
                             </div>
                             <div class="col-md-3">
-                                <label  class="form-label">Grafik turi</label>
+                                <label class="form-label">Grafik turi</label>
                                 <select class="form-select" v-model="doc.contract.credit_graphic_type">
                                     <option>Annuitet</option>
                                     <option>Differensial</option>
@@ -101,7 +101,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <label  class="form-label">Pasport</label>
+                                <label class="form-label">Pasport</label>
                                 <input type="text" class="form-control" v-model="doc.customer.customer_document"
                                        id="customer_document" required>
                             </div>
@@ -123,30 +123,35 @@
                             <hr class="mt-4">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label  class="form-label">FIO</label>
-                                    <input type="text" class="form-control" v-model="doc.customer.customer_fullname" required>
+                                    <label class="form-label">FIO</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_fullname"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label  class="form-label">Tug'ilgan sanasi</label>
-                                    <input type="text" class="form-control" v-model="doc.customer.customer_birthDate" required>
+                                    <label class="form-label">Tug'ilgan sanasi</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_birthDate"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label  class="form-label">Manzili</label>
-                                    <input type="text" class="form-control" v-model="doc.customer.customer_address" required>
+                                    <label class="form-label">Manzili</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_address"
+                                           required>
                                 </div>
                             </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label  class="form-label">Kim tomonidan berilgan</label>
-                                    <input type="text" class="form-control" v-model="doc.customer.customer_issuedBy" required>
+                                    <label class="form-label">Kim tomonidan berilgan</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_issuedBy"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label  class="form-label">Berilgan sana</label>
-                                    <input type="text" class="form-control" v-model="doc.customer.customer_startDate" required>
+                                    <label class="form-label">Berilgan sana</label>
+                                    <input type="text" class="form-control" v-model="doc.customer.customer_startDate"
+                                           required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label  class="form-label">Initsial</label>
+                                    <label class="form-label">Initsial</label>
                                     <input type="text" class="form-control"
                                            v-model="doc.customer.customer_fullname_initials" required>
                                 </div>
@@ -154,12 +159,12 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label  class="form-label">Telefon 1</label>
+                                    <label class="form-label">Telefon 1</label>
                                     <input type="text" class="form-control"
                                            v-model="doc.customer.customer_phone1" id="customer_phone1" required>
                                 </div>
                                 <div class="col-md-4">
-                                    <label  class="form-label">Telefon 2</label>
+                                    <label class="form-label">Telefon 2</label>
                                     <input type="text" class="form-control" v-model="doc.customer.customer_phone2"
                                            id="customer_phone2" required>
                                 </div>
@@ -173,7 +178,8 @@
                 <div class="row g-0 border rounded p-2">
                     <h4>Garov egasini tanlang</h4>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" value="yes" v-model="doc.pledge.pledge_is_owner" checked>
+                        <input class="form-check-input" type="radio" value="yes" v-model="doc.pledge.pledge_is_owner"
+                               checked>
                         <label class="form-check-label" for="flexRadioDefault1">
                             O'zi
                         </label>
@@ -194,7 +200,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label  class="form-label">Pasport</label>
+                                        <label class="form-label">Pasport</label>
                                         <input type="text" class="form-control" v-model="doc.owner_data.owner_document"
                                                id="customer_document" required>
                                     </div>
@@ -220,17 +226,17 @@
                                     <hr class="mt-4">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label  class="form-label">FIO</label>
+                                            <label class="form-label">FIO</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_fullname" required>
                                         </div>
                                         <div class="col-md-4">
-                                            <label  class="form-label">Tug'ilgan sanasi</label>
+                                            <label class="form-label">Tug'ilgan sanasi</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_birthDate" required>
                                         </div>
                                         <div class="col-md-4">
-                                            <label  class="form-label">Manzili</label>
+                                            <label class="form-label">Manzili</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_address" required>
                                         </div>
@@ -238,17 +244,17 @@
 
                                     <div class="row mt-3">
                                         <div class="col-md-4">
-                                            <label  class="form-label">Kim tomonidan berilgan</label>
+                                            <label class="form-label">Kim tomonidan berilgan</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_issuedBy" required>
                                         </div>
                                         <div class="col-md-4">
-                                            <label  class="form-label">Berilgan sana</label>
+                                            <label class="form-label">Berilgan sana</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_startDate" required>
                                         </div>
                                         <div class="col-md-4">
-                                            <label  class="form-label">Initsial</label>
+                                            <label class="form-label">Initsial</label>
                                             <input type="text" class="form-control"
                                                    v-model="doc.owner_data.owner_fullname_initials" required>
                                         </div>
@@ -292,19 +298,19 @@
                             <div class="card card-body border-top-0 mt-1">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <label  class="form-label">Tex.pasport seria</label>
+                                        <label class="form-label">Tex.pasport seria</label>
                                         <input type="text" class="form-control text-uppercase"
                                                v-model="doc.pledge.pledge_vehicle_TP_series"
                                                id="pledge_vehicle_TP_series" required>
                                     </div>
                                     <div class="col-md-2">
-                                        <label  class="form-label">Tex.pasport raqam</label>
+                                        <label class="form-label">Tex.pasport raqam</label>
                                         <input type="text" class="form-control"
                                                v-model="doc.pledge.pledge_vehicle_TP_number"
                                                id="pledge_vehicle_TP_number" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Davlat raqami</label>
+                                        <label class="form-label">Davlat raqami</label>
                                         <input type="text" class="form-control text-uppercase"
                                                v-model="doc.pledge.pledge_govNumber" required>
                                     </div>
@@ -318,24 +324,27 @@
 
                                 <div class="row mt-2">
                                     <div class="col-md-2">
-                                        <label  class="form-label">Nomi</label>
-                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_modelName" required>
+                                        <label class="form-label">Nomi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_modelName"
+                                               required>
                                     </div>
                                     <div class="col-md-2">
-                                        <label  class="form-label">Yili</label>
-                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_issueYear" required>
+                                        <label class="form-label">Yili</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_issueYear"
+                                               required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Rangi</label>
+                                        <label class="form-label">Rangi</label>
                                         <input type="text" class="form-control"
                                                v-model="doc.pledge.pledge_vehicleColor" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Shassi</label>
-                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_shassi" required>
+                                        <label class="form-label">Shassi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_shassi"
+                                               required>
                                     </div>
                                     <div class="col-md-2">
-                                        <label  class="form-label">Kuzov turi</label>
+                                        <label class="form-label">Kuzov turi</label>
                                         <input type="text" class="form-control"
                                                v-model="doc.pledge.pledge_vehicleTypeStr" required>
                                     </div>
@@ -343,28 +352,30 @@
 
                                 <div class="row mt-2">
                                     <div class="col-md-3">
-                                        <label  class="form-label">Dvigatel raqami</label>
+                                        <label class="form-label">Dvigatel raqami</label>
                                         <input type="text" class="form-control"
                                                v-model="doc.pledge.pledge_engineNumber" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Kuzov raqami</label>
-                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_bodyNumber" required>
+                                        <label class="form-label">Kuzov raqami</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_bodyNumber"
+                                               required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Egasi</label>
-                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_owner" required>
+                                        <label class="form-label">Egasi</label>
+                                        <input type="text" class="form-control" v-model="doc.pledge.pledge_owner"
+                                               required>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col-md-3">
-                                        <label  class="form-label">Garov summasi</label>
+                                        <label class="form-label">Garov summasi</label>
                                         <input type="text" class="form-control "
                                                v-model="doc.pledge.pledge_loan_total" @change="handleNum2Word"
                                                id="pledge_loan_total" required>
                                     </div>
                                     <div class="col-md-3">
-                                        <label  class="form-label">Garov summasi so'zda</label>
+                                        <label class="form-label">Garov summasi so'zda</label>
                                         <input type="text" class="form-control "
                                                v-model="doc.pledge.pledge_loan_total_word_uz">
                                     </div>
@@ -422,8 +433,7 @@
             }
         });
     </script>
-{#    <script src="{% static 'vueapp/mikroqarz_form_app.js' %}"></script>#}
-    <script src="{% static 'vueapp/mikrokredit_doc_form_app.js' %}"></script>
+    <script src="{% static 'vueapp/mikrokredit_form_app.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.js"></script>
 
 {% endblock %}

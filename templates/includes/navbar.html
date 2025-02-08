@@ -12,7 +12,13 @@
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
         </div>
     </form>
-    <p class="navbar-nav text-warning">{{ request.user.first_name }}</p>
+
+    <p class="navbar-nav text-warning gap-1">
+        {% for group in user_groups %}
+            <span class="text text-uppercase text-muted">{{ group.name }}: </span>
+        {% endfor %}
+        {{ request.user.first_name }}
+    </p>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">

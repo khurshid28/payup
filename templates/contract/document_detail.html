@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clever MKO Tashkiloti</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .container-custom {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-shartnoma {
+            background-color: #ff4c4c;
+            color: white;
+        }
+
+        .btn-buyruq {
+            background-color: #ffb74d;
+            color: white;
+        }
+
+        .btn-dalolatnoma {
+            background-color: #64b5f6;
+            color: white;
+        }
+
+        .btn-grafik {
+            background-color: #81c784;
+            color: white;
+        }
+    </style>
+</head>
+<body style="background-color: #f8f9fa;">
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12 container-custom">
+                <!-- Clever MKO tashkiloti -->
+                <div class="text-center mb-4">
+                    <h2 class="text-primary fw-bold">{{ org.title }}</h2>
+                </div>
+
+                <!-- Mijoz FIO -->
+                <div class="text-center mb-4">
+                    <p class="lead text-secondary">Mijoz: <b>{{ document.meta.customer.customer_fullname }}</b></p>
+                </div>
+
+                <!-- Links with Icons -->
+                <div class="d-grid gap-3">
+                    <a href="{{ generated_doc_pdf.shartnoma_pdf.url }}" target="_blank" class="btn btn-shartnoma btn-custom d-flex align-items-center justify-content-center">
+                        <i class="fas fa-file-contract text-white me-2"></i> Shartnoma
+                    </a>
+                    <a href="{{ generated_doc_pdf.buyruq_pdf.url }}" target="_blank" class="btn btn-buyruq btn-custom d-flex align-items-center justify-content-center">
+                        <i class="fas fa-cogs text-white me-2"></i> Buyruq
+                    </a>
+                    <a href="{{ generated_doc_pdf.dalolatnoma_pdf.url }}" target="_blank" class="btn btn-dalolatnoma btn-custom d-flex align-items-center justify-content-center">
+                        <i class="fas fa-clipboard text-white me-2"></i> Dalolatnoma
+                    </a>
+                    <a href="{{ generated_doc_pdf.grafik_pdf.url }}" target="_blank" class="btn btn-grafik btn-custom d-flex align-items-center justify-content-center">
+                        <i class="fas fa-chart-line text-white me-2"></i> Grafik
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

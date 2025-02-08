@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            {{ obj.meta.contract.contract_date }} yildagi {{ obj.meta.contract.contract_number }}-sonli shartnoma
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <h4>Shartnoma ma'lumotlari</h4>
+                    <table class="table table-bordered table-hover table-striped" style="font-size: 12px">
+                        <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>Raqami va yili</td>
+                            <td> {{ obj.meta.contract.contract_date }} yildagi {{ obj.meta.contract.contract_number }}-sonli shartnoma</td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Kredit muddati</td>
+                            <td> {{ obj.meta.contract.credit_loan_total }} ({{ obj.meta.contract.credit_loan_total_word_uz }}) so'm</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>Kredit summasi</td>
+                            <td> {{ obj.meta.contract.credit_start_date }} - {{ obj.meta.contract.credit_end_date }} yil</td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Kredit foizi</td>
+                            <td> {{ obj.meta.contract.credit_percent }} ({{ obj.meta.contract.credit_percent_word_uz }})</td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Kredit foizi</td>
+                            <td> {{ obj.meta.contract.credit_term }} ({{ obj.meta.contract.credit_term_word_uz }})</td>
+                        </tr>
+                        <tr>
+                            <th>6</th>
+                            <td>Grafik turi foizi</td>
+                            <td> {{ obj.meta.contract.credit_graphic_type }} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <h4>Mijoz ma'lumotlari</h4>
+                    <table class="table table-bordered table-hover table-striped" style="font-size: 12px">
+                        <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>F.I.O.</td>
+                            <td> {{ obj.meta.customer.customer_fullname }} </td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Passport</td>
+                            <td> {{ obj.meta.customer.customer_document }}, {{ obj.meta.customer.customer_startdate }}, {{ obj.meta.customer_issuedby }}</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>JSHHIR</td>
+                            <td> {{ obj.meta.customer.customer_passport_pinfl }} </td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Manzili</td>
+                            <td> {{ obj.meta.customer.customer_address }} </td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Telefon</td>
+                            <td> {{ obj.meta.customer.customer_phone1 }} {{ obj.meta.customer.customer_phone2 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <h4>Garov ma'lumotlari</h4>
+                    <table class="table table-bordered table-hover table-striped" style="font-size: 12px">
+                        <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>Garov nomi</td>
+                            <td> {{ obj.meta.pledge.pledge_modelName }} </td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>TP ma'lumotlari</td>
+                            <td> {{ obj.meta.pledge.pledge_vehicle_TP_series }}{{ obj.meta.pldege.pledge_vehicle_TP_number }}</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>Davlat raqami</td>
+                            <td> {{ obj.meta.pledge.pledge_govNumber }} </td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Dvigatel va Kuzov raqami</td>
+                            <td> Dvigatel: {{ obj.meta.plege.pledge_engineNumber }} <br> Kuzov:{{ obj.meta.plege.pledge_bodyNumber }}</td>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <td>Garov egasi</td>
+                            <td> {{ obj.meta.pledge.pledge_owner }} </td>
+                        </tr>
+                        <tr>
+                            <th>6</th>
+                            <td>Garov summasi</td>
+                            <td> {{ obj.meta.pledge.pledge_loan_total }} ({{ obj.meta.plege.pledge_loan_total_word_uz }}) so'm</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col">
+                    <h4>Garov egasi ma'lumotlari</h4>
+                    <table class="table table-bordered table-hover table-striped" style="font-size: 12px">
+                        <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>F.I.O.</td>
+                            <td> {{ obj.meta.owner_data.owner_fullname_initials }} </td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>Passport</td>
+                            <td> {{ obj.meta.owner.owner_document }}, {{ obj.meta.owner.owner_startdate }}, {{ obj.meta.owner.owner_issuedby }}</td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>JSHHIR</td>
+                            <td> {{ obj.meta.owner.owner_passport_pinfl }} </td>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <td>Manzili</td>
+                            <td> {{ obj.meta.owner.owner_address }} </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
+{% endblock %}
+

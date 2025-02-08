@@ -1,3 +1,5 @@
+// MIKROKREDIT JS
+
 //  START NUM TO WORDS
 function numberToWords(num) {
     if (num === 0) return "nol";
@@ -61,15 +63,15 @@ const app = Vue.createApp({
                     "credit_term": 12,
                     "credit_term_word_uz": "",
                     "credit_graphic_type": "Annuitet",
-                    "credit_type": "mikroqarz",
+                    "credit_type": "mikrokredit",
                 }, "customer": {
                     "customer_passport_series": "AD",
-                    "customer_passport_number": "1074617",
-                    "customer_passport_pinfl": "31002873680015",
-                    "customer_birthDate": "10.02.1987",
+                    "customer_passport_number": "1582556",
+                    "customer_passport_pinfl": "30610790560063",
+                    "customer_birthDate": "06.10.1979",
                     "customer_fullname": "",
                     "customer_fullname_initials": "",
-                    "customer_document": "AD1074617",
+                    "customer_document": "AD1582556",
                     "customer_issuedBy": "",
                     "customer_startDate": "",
                     "customer_address": "",
@@ -85,15 +87,15 @@ const app = Vue.createApp({
                     "organization_phone2": "+998 (93) 656-56-81"
                 }, "pledge": {
                     "pledge_is_owner": "yes",
-                    "pledge_vehicle_TP_series": "AAG",
-                    "pledge_vehicle_TP_number": "3371973",
+                    "pledge_vehicle_TP_series": "AAF",
+                    "pledge_vehicle_TP_number": "4345420",
                     "pledge_vehicleColor": "",
                     "pledge_issueYear": "",
                     "pledge_engineNumber": "",
                     "pledge_shassi": "Raqamsiz",
                     "pledge_vehicleTypeStr": "SEDAN",
                     "pledge_bodyNumber": "",
-                    "pledge_govNumber": "01V940MC ",
+                    "pledge_govNumber": "01R888QA ",
                     "pledge_modelName": "",
                     "pledge_owner": "",
                     "pledge_loan_total": "",
