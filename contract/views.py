@@ -29,21 +29,6 @@ def mikroqarz_form(request):
 
 
 @login_required(login_url='account_login')
-def mikroqarz_list(request):
-    user = request.user
-    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-
-    reports = ViewReport3Document.objects.all().order_by('-id')
-    print(reports)
-    context = {
-        'user_groups': user_groups,
-        'reports': reports,
-
-    }
-    return render(request, 'contract/mikroqarz_list.html', context)
-
-
-@login_required(login_url='account_login')
 def mikroqarz_detail(request, pk):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
@@ -69,22 +54,6 @@ def mikrokredit_form(request):
 
 
 @login_required(login_url='account_login')
-def mikrokredit_list(request):
-    user = request.user
-    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-
-    report = Report3View.objects.all().order_by('-id')
-
-    # Home sahifasini render qilish
-    context = {
-        'user_groups': user_groups,
-        'report': report,
-
-    }
-    return render(request, 'contract/mikroqarz_list.html', context)
-
-
-@login_required(login_url='account_login')
 def mikrokredit_detail(request, pk):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
@@ -97,10 +66,9 @@ def mikrokredit_detail(request, pk):
     }
     return render(request, 'contract/mikroqarz_detail.html', context)
 
-
-# Moderator
+# Mikroqqarz Moderator
 @login_required(login_url='account_login')
-def moderator_list(request):
+def moderator_list(request, pk=None):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
     reports = ViewReport3Document.objects.all().order_by('-id')
@@ -118,6 +86,7 @@ def moderator_form(request, pk):
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
 
     document = get_object_or_404(Document, pk=pk)
+    credit_type = document.meta['contract']['credit_type']
 
     file_url = None
 
@@ -127,7 +96,7 @@ def moderator_form(request, pk):
 
         # Fayl kengaytmasini olish
         ext = uploaded_file.name.split('.')[-1]
-        new_filename = f"{document.id}_excel.{ext}"  # Yangi UUID nom yaratish
+        new_filename = f"{credit_type}_{document.id}_excel.{ext}"  # Yangi UUID nom yaratish
 
         # Faylni `media/uploads/` ichiga saqlash
         save_path = os.path.join(settings.MEDIA_ROOT, 'uploads/xlsx/', new_filename)
@@ -183,7 +152,7 @@ def direktor_form(request, document_id):
     generated_document_doc_pdf = GeneratedDocPdfModel()
 
     if request.method == 'POST':
-        # report.direktor_signature = True
+        report.direktor_signature = True
         generate_doc = GenDocument(
             generated_document_doc_pdf=generated_document_doc_pdf,
             filename=filename,
@@ -210,6 +179,24 @@ def direktor_form(request, document_id):
         'user_groups': user_groups,
     }
     return render(request, 'contract/direktor_form.html', context)
+
+
+
+
+
+@login_required(login_url='account_login')
+def document_list(request):
+    user = request.user
+    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
+
+    reports = ViewReport3Document.objects.all().order_by('-id')
+    print(reports)
+    context = {
+        'user_groups': user_groups,
+        'reports': reports,
+
+    }
+    return render(request, 'contract/document_list.html', context)
 
 def document_detail(request, unique_identifier):
     org = Organization.objects.get(id=1)
@@ -349,7 +336,3 @@ class CreateContractDoc(APIView):
         )
         report.save()
         return Response("document", status=status.HTTP_201_CREATED)
-
-
-
-

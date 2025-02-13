@@ -16,6 +16,7 @@
                     <th>Mijoz</th>
                     <th>Passport</th>
                     <th>Kredit summasi</th>
+                    <th>Kredit turi</th>
                     <th>Garov</th>
                     <th>Hujjatlar</th>
                 </tr>
@@ -34,6 +35,7 @@
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
                         <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
+                        <td><span class="text text-uppercase" style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
                         <td>{{ obj.meta.pledge.pledge_modelName }}</td>
                         <td>
                             {% if obj.moderator_signature == False %}

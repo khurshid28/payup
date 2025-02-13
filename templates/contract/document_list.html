@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
+
 {% block content %}
-    <h3 class="mt-2">Direktor sahifasi</h3>
-    <div class="card mt-2">
+    <h3 class="mt-2">Operator sahifasi</h3>
+    <div class="card mt-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Shartnomalar
+            DataTable Example
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table id="datatablesSimple" class="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -21,33 +23,46 @@
                     <th>Hujjatlar</th>
                 </tr>
                 </thead>
-
                 <tbody>
                 {% for obj in reports %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>
                             <a href="{% url 'mikroqarz_detail' obj.pk %}">
-                                {{ obj.meta.contract.contract_date }} yildagi
-                                №{{ obj.meta.contract.contract_number }}-son
-                            </a>
+                                № {{ obj.meta.contract.contract_date }} yildagi {{ obj.meta.contract.contract_number }}
+                            </a> <br>
+
                         </td>
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
-                        <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
-                        <td><span class="text text-uppercase"  style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
-                        <td>{{ obj.meta.pledge.pledge_modelName }}</td>
+                        <td>{{ obj.meta.contract.credit_loan_total | intcomma }} so'm</td>
                         <td>
-                            {% if obj.direktor_signature == False %}
-                                <a href="{% url 'direktor_form' obj.document_id %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
-                            {% elif obj.direktor_signature == True %}
+
+                            {% if obj.meta.contract.credit_type == 'mikroqarz' %}
+                                <span style="color: #0a53be; font-weight: bold">MIKROQARZ</span>
+                                {% elif obj.meta.contract.credit_type == 'mikrokredit' %}
+                                <span style="color: #a52834; font-weight: bold">MIKROKREDIT</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span>Model: {{ obj.meta.pledge.pledge_modelName }}</span> <br>
+                            <span>Yili: {{ obj.meta.pledge.pledge_issueYear }} yil</span> <br>
+                            <span>Davlat raqami: {{ obj.meta.pledge.pledge_govNumber }}</span>
+                        </td>
+                        <td>
+                            {% if obj.moderator_signature == False and obj.direktor_signature == False %}
+                                <span class="btn btn-warning btn-sm text-uppercase">Moderatorda</span>
+                            {% endif %}
+                            {% if obj.moderator_signature == True and obj.direktor_signature == False %}
+                                <span class="btn btn-success btn-sm text-uppercase">Direktorda</span>
+                            {% endif %}
+
+                            {% if obj.direktor_signature == True %}
                                 1. <a href="{{ obj.shartnoma_pdf.url }}" target="_blank">Shartnoma</a> <br>
                                 2. <a href="{{ obj.buyruq_pdf.url }}" target="_blank">Buyruq</a> <br>
                                 3. <a href="{{ obj.dalolatnoma_pdf.url }}" target="_blank">Dalolatnoma</a> <br>
                                 4. <a href="{{ obj.grafik_pdf.url }}" target="_blank">Grafik</a> <br>
-                                <h6 class="mt-2"><a href="{% url 'document_detail' obj.unique_identifier %}">Document DETAIL</a></h6>
                             {% endif %}
-
                         </td>
                     </tr>
                 {% endfor %}

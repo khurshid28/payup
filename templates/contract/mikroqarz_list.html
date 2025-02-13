@@ -10,7 +10,7 @@
             DataTable Example
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table id="datatablesSimple" class="table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -18,6 +18,7 @@
                     <th>Mijoz</th>
                     <th>Passport</th>
                     <th>Kredit summasi</th>
+                    <th>Kredit turi</th>
                     <th>Garov</th>
                     <th>Hujjatlar</th>
                 </tr>
@@ -30,11 +31,12 @@
                             <a href="{% url 'mikroqarz_detail' obj.pk %}">
                                 № {{ obj.meta.contract.contract_date }} yildagi {{ obj.meta.contract.contract_number }}
                             </a> <br>
-                            <span>{{ obj.meta.contract.credit_type }}</span>
+
                         </td>
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
                         <td>{{ obj.meta.contract.credit_loan_total | intcomma }} so'm</td>
+                        <td><span class="text text-uppercase" style="color: darkred;">{{ obj.meta.contract.credit_type }}</span></td>
                         <td>
                             <span>Model: {{ obj.meta.pledge.pledge_modelName }}</span> <br>
                             <span>Yili: {{ obj.meta.pledge.pledge_issueYear }} yil</span> <br>

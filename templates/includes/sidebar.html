@@ -9,62 +9,14 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
                     Shartnoma kiritish
                 </a>
-                <a class="nav-link  {% if request.path == '/contract/mikroqarz_list/' %} active {% endif %}"
-                   href="{% url 'mikroqarz_list' %}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
-                    Shartnomalar ro'yxati
-                </a>
-                {% for group in user_groups %}
-                    {% if group.name == 'moderator' or group.name == 'admin' %}
-                        <a class="nav-link {% if request.path == '/contract/moderator_list/' %} active {% endif %}"
-                           href="{% url 'moderator_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
-                            Moderator
-                        </a>
-                    {% endif %}
-                {% endfor %}
-
-                {% for group in user_groups %}
-                    {% if group.name == 'direktor' or group.name == 'admin' %}
-                        <a class="nav-link {% if request.path == '/contract/direktor_list/' %} active {% endif %}  "
-                           href="{% url 'direktor_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
-                            Direktor
-                        </a>
-                    {% endif %}
-                {% endfor %}
 
                 <!-- MIKROKREDIT-->
                 <div class="sb-sidenav-menu-heading">Mikrokredit</div>
-                <a class="nav-link "
+                <a class="nav-link {% if request.path == '/contract/mikrokredit_form/' %} active {% endif %}"
                    href="{% url 'mikrokredit_form' %}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Shartnoma kiritish
                 </a>
-                <a class="nav-link  "
-                   href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Shartnomalar ro'yxati
-                </a>
-                {% for group in user_groups %}
-                    {% if group.name == 'moderator' or group.name == 'admin' %}
-                        <a class="nav-link   "
-                           href="{% url 'moderator_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Moderator
-                        </a>
-                    {% endif %}
-                {% endfor %}
-
-                {% for group in user_groups %}
-                    {% if group.name == 'direktor' or group.name == 'admin' %}
-                        <a class="nav-link   "
-                           href="{% url 'direktor_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Direktor
-                        </a>
-                    {% endif %}
-                {% endfor %}
 
                 <!-- SUGURTA-->
                 <div class="sb-sidenav-menu-heading">Sugurta polisi asosida</div>
@@ -73,30 +25,39 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Shartnoma kiritish
                 </a>
-                <a class="nav-link  "
-                   href="#">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Shartnomalar ro'yxati
+
+                <!-- Shartnomalar ro'yxati-->
+                <div class="sb-sidenav-menu-heading">Shartnomalar ro'yxati</div>
+                <a class="nav-link  {% if request.path == '/contract/document_list/' %} active {% endif %}"
+                   href="{% url 'document_list' %}">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
+                    Barcha shartnomalar
                 </a>
+
+                <!-- Moderator-->
+                <div class="sb-sidenav-menu-heading">Moderator</div>
                 {% for group in user_groups %}
                     {% if group.name == 'moderator' or group.name == 'admin' %}
-                        <a class="nav-link   "
+                        <a class="nav-link {% if request.path == '/contract/moderator_list/' %} active {% endif %}"
                            href="{% url 'moderator_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Moderator
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            Shartnomalar
                         </a>
                     {% endif %}
                 {% endfor %}
 
+                <!-- Moderator-->
+                <div class="sb-sidenav-menu-heading">Direktor</div>
                 {% for group in user_groups %}
                     {% if group.name == 'direktor' or group.name == 'admin' %}
-                        <a class="nav-link   "
+                        <a class="nav-link {% if request.path == '/contract/direktor_list/' %} active {% endif %}  "
                            href="{% url 'direktor_list' %}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Direktor
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            Shartnomalar
                         </a>
                     {% endif %}
                 {% endfor %}
+
             </div>
         </div>
         <div class="sb-sidenav-footer">
