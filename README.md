@@ -140,14 +140,30 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ## 2. Apache httpd.conf faylida quyidagilarni qo‘shing:
 ```` 
-Alias /static/ "C:/path_to_your_django_project/static/"
-Alias /media/ "C:/path_to_your_django_project/media/"
+# Python DLL yuklash
+LoadFile "C:/Users/Администратор/AppData/Local/Programs/Python/Python312/python312.dll"
 
-<Directory "C:/path_to_your_django_project/static">
-    Require all granted
+# mod_wsgi yuklash
+LoadModule wsgi_module "C:/DjangoApp/venv/Lib/site-packages/mod_wsgi/server/mod_wsgi.cp312-win_amd64.pyd"
+
+# WSGI muhitini o‘rnatish
+WSGIPythonHome "C:/DjangoApp/venv"
+WSGIPythonPath "C:/DjangoApp/myproject"
+
+# Django loyihasi uchun WSGI sozlamalari
+WSGIScriptAlias / "C:/DjangoApp/myproject/myproject/wsgi.py"
+WSGIPythonHome "C:/DjangoApp/venv"
+WSGIPythonPath "C:/DjangoApp/myproject"
+
+<Directory "C:/DjangoApp/myproject/myproject">
+    <Files wsgi.py>
+        Require all granted
+    </Files>
 </Directory>
 
-<Directory "C:/path_to_your_django_project/media">
+# Django static fayllar
+Alias /static "C:/DjangoApp/myproject/staticfiles/"
+<Directory "C:/DjangoApp/myproject/staticfiles">
     Require all granted
 </Directory>
 ````
@@ -170,3 +186,17 @@ curl http://127.0.0.1:8000
 
 ##  Shu bosqichlardan so‘ng Django loyihangiz PostgreSQL, Apache va statik fayllar bilan to‘liq ishlab chiqarish (production) muhitida ishlaydi!
 
+# Qo'shimchalar
+## 1. Microsoft Visual C++ Build Tools ni o‘rnatish
+## Sizga Microsoft Visual C++ 14.0 yoki undan yangi versiya kerak. Quyidagi bosqichlarni bajaring:
+
+### Rasmiy sayt ga kiring.
+### "Download Build Tools" tugmasini bosing.
+### Visual Studio Installer ochiladi.
+### C++ Build Tools ni tanlang va quyidagilarni belgilang:
+### ✅ MSVC v142 - Visual C++ build tools
+### ✅ Windows 10 SDK
+### ✅ C++ CMake tools for Windows
+
+O‘rnatishni boshlang va tugashini kuting.
+⏳ O‘rnatish tugagach, kompyuterni qayta yuklang.
