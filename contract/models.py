@@ -247,7 +247,7 @@ class Report3(models.Model):
     operator_signature = models.BooleanField(default=False)
     moderator_signature = models.BooleanField(default=False)
     direktor_signature = models.BooleanField(default=False, blank=False)
-    unique_identifier = models.CharField(default=uuid.uuid4, editable=False)
+    unique_identifier = models.CharField(default=uuid.uuid4, editable=False, max_length=1024)
     xlsx = models.FileField(upload_to='uploads/')
 
     class Meta:
