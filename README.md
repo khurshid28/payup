@@ -107,7 +107,10 @@ httpd -k start
 ```
  pip install mod_wsgi
 ```
-
+## 2. Keyin quyidagi buyruq bilan tekshiring:
+``` 
+mod_wsgi-express module-config
+```
 
 ## 2. httpd.conf faylida quyidagilarni qo‘shing:
 ````
