@@ -138,9 +138,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'  # URL orqali kirish
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Statik fayllar joylashgan katalog
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Statik fayllar yig'iladigan joy (collectstatic uchun)
+
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Statik fayllar shu papkaga yig‘iladi
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),  # Qo‘shimcha statik papkalar
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
