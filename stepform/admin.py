@@ -1,6 +1,13 @@
 from django.contrib import admin
-from .models import Branch, DocxTemplate, GeneratedDocument
+from .models import Branch, DocxTemplate, GeneratedDocument, Application
 
+
+@admin.register(Application)
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = ("id", "contract_id", "customer_id", "state", "direktor_signature")
+    list_filter = ("state", "created_at", "direktor_signature")
+    search_fields = ("id", "contract_id", "customer_id", "owner_id")
+    readonly_fields = ("created_at",)
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
