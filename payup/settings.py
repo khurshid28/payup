@@ -177,3 +177,22 @@ GLOBAL_IP = 'http://83.221.176.88:1661'
 CSRF_TRUSTED_ORIGINS = [
     "http://192.168.3.214:1661",
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'django_debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
