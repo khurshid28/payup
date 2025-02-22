@@ -172,27 +172,27 @@ ACCOUNT_LOGOUT_ON_GET = True
 # GLOBAL_IP = 'http://192.168.0.109:1661'
 GLOBAL_IP = 'http://83.221.176.88:1661'
 
-SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+# SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+#
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://192.168.3.214:1661",
+# ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://192.168.3.214:1661",
-]
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'django_debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': 'django_debug.log',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+# }
