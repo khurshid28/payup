@@ -323,16 +323,16 @@ class CreateContract(APIView):
 class CreateContractDoc(APIView):
     def post(self, request, format=None):
         print(request.data)
-        metadata_dict = request.data
-        document = Document(
-            meta=metadata_dict,
-            state=True
-        )
-        document.save()
-        report = Report3(
-            created_by=request.data['config']['created_by'],
-            document_id=document.id,
-            state=True
-        )
-        report.save()
+        # metadata_dict = request.data
+        # document = Document(
+        #     meta=metadata_dict,
+        #     state=True
+        # )
+        # document.save()
+        # report = Report3(
+        #     created_by=request.data['config']['created_by'],
+        #     document_id=document.id,
+        #     state=True
+        # )
+        # report.save()
         return Response("document", status=status.HTTP_201_CREATED)

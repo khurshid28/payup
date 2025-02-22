@@ -262,7 +262,7 @@ const app = Vue.createApp({
         createContract: function (doc) {
             const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            axios.post('http://127.0.0.1:8000/contract/create_contract_doc/', doc, {
+            axios.post('http://127.0.0.1:1661/contract/create_contract_doc/', doc, {
                 headers: {
                     'X-CSRFToken': csrftoken
                 }

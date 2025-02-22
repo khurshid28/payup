@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h3 class="mt-2">Direktor sahifasi</h3>
+    <div class="card mt-2">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Shartnomalar
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Shartnoma</th>
+                    <th>Mijoz</th>
+                    <th>Passport</th>
+                    <th>Kredit summasi</th>
+                    <th>Kredit turi</th>
+                    <th>Garov</th>
+                    <th>Hujjatlar</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for obj in applications %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <a href="#">
+                                {{ obj.meta.contract.contract_date }} yildagi
+                                №{{ obj.meta.contract.contract_number }}-son
+                            </a>
+                        </td>
+                        <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
+                        <td>{{ obj.meta.customer.customer_document }}</td>
+                        <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
+                        <td><span class="text text-uppercase"
+                                  style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
+                        <td>{{ obj.meta.pledge.pledge_modelName }}</td>
+                        <td>
+                            {% if obj.direktor_signature == False %}
+                                <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                            {% elif obj.direktor_signature == True %}
+
+                                {% for doc in generated_documents %}
+                                    {% if doc.application_id == obj.id %}
+                                        1. <a href="{{ doc.pdf_shartnoma.url }}" target="_blank">Shartnoma</a> <br>
+                                        2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
+                                        3. <a href="{{ doc.pdf_dalolatnoma.url }}" target="_blank">Dalolatnoma</a> <br>
+                                        4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
+                                    {% endif %}
+
+                                {% endfor %}
+
+
+
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
+{% endblock %}
+

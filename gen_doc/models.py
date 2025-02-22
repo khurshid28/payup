@@ -27,10 +27,10 @@ class GeneratedDocPdfModel(models.Model):
 
 class DocxTemplate(models.Model):
     id = models.AutoField(primary_key=True)
-    shartnoma =  models.FileField(upload_to='uploads/doc_templates')
-    buyruq = models.FileField(upload_to='uploads/doc_templates')
-    dalolatnoma =  models.FileField(upload_to='uploads/doc_templates')
-    grafik = models.FileField(upload_to='uploads/doc_templates')
+    shartnoma =  models.FileField(upload_to='uploads/docx_org_templates')
+    buyruq = models.FileField(upload_to='uploads/docx_org_templates')
+    dalolatnoma =  models.FileField(upload_to='uploads/docx_org_templates')
+    grafik = models.FileField(upload_to='uploads/docx_org_templates')
     product_type = models.CharField(max_length=1024)
 
     class Meta:

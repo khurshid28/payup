@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Static Navigation</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">Static Navigation</li>
+    </ol>
+    <div id="app">
+        <div class="alert alert-warning">STEP {{ step }}</div>
+        <h3>{{ step_contract_data }}</h3>
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="card mt-2">
+                <div class="card-header">Mijoz ma'lumotlari</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="form-label">Pasport</label>
+                            <input type="text" class="form-control" v-model="customer.customer_document"
+                                   id="customer_document" required value="AD" name="customer_document">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputPassword4" class="form-label">JSSHIR</label>
+                            <input type="text" class="form-control" v-model="customer.customer_passport_pinfl"
+                                   id="customer_passport_pinfl" required name="customer_passport_pinfl">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputPassword4" class="form-label">Tug'ilgan sana</label>
+                            <input type="text" class="form-control" v-model="customer.customer_birthDate"
+                                   id="customer_birthDate" required name="customer_birthDate">
+                        </div>
+                        <div class="col-md-3 ">
+                            <label for="">Tugmani bosing</label> <br>
+                            <button type="button" class="btn w-50 btn-info mt-2" @click="get_person">Izlash</button>
+                        </div>
+                        <br>
+                        <hr class="mt-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">FIO</label>
+                                <input type="text" class="form-control" v-model="customer.customer_fullname"
+                                       name="customer_fullname">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Manzili</label>
+                                <input type="text" class="form-control" v-model="customer.customer_address"
+                                name="customer_address">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Initsial</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_fullname_initials"
+                                name="customer_fullname_initials"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Kim tomonidan berilgan</label>
+                                <input type="text" class="form-control" v-model="customer.customer_issuedBy"
+                                name="customer_issuedBy"
+                                >
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Berilgan sana</label>
+                                <input type="text" class="form-control" v-model="customer.customer_startDate"
+                                name="customer_startDate"
+                                >
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Telefon 1</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_phone1" id="customer_phone1"
+                                       name="customer_phone1"                                >
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Telefon 2</label>
+                                <input type="text" class="form-control" v-model="customer.customer_phone2"
+                                       id="customer_phone2" name="customer_phone2">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Keyingi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        // Vue JS script
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: "Vue3 is working!",
+                    isValidated: false,
+                    created_by: null,
+                    customer: {
+                        "customer_passport_series": "AD",
+                        "customer_passport_number": "5173509",
+                        "customer_passport_pinfl": "32102881060027",
+                        "customer_birthDate": "21.02.1988",
+                        "customer_fullname": "",
+                        "customer_fullname_initials": "",
+                        "customer_document": "AD5173509",
+                        "customer_issuedBy": "",
+                        "customer_startDate": "",
+                        "customer_address": "",
+                        "customer_phone1": "+998 (93) 840-29-81",
+                        "customer_phone2": "+995 (93) 840-29-81"
+                    }
+                }
+            },
+            methods: {
+                validateForm() {
+                    let form = this.$refs.myForm; // Formani olish
+                    if (form.checkValidity()) {
+                        alert("Forma to‘g‘ri to‘ldirildi ✅");
+                        // Shu yerda formani jo‘natish yoki boshqa harakat qilish mumkin
+                        this.createContract(this.doc)
+                    } else {
+                        this.isValidated = true; // Xatolarni ko‘rsatish uchun Bootstrap klassini qo‘shish
+                    }
+                },
+
+                <!-- START GET PERSON V2-->
+                get_person: function () {
+                    const validatebirthDate = this.customer.customer_birthDate.split(".").reverse().join("-");
+                    const person_data = {
+                        "transactionId": Math.floor(Math.random() * 1000000),
+                        "isConsent": "Y",
+                        "senderPinfl": this.customer.customer_passport_pinfl,
+                        "document": this.customer.customer_document.toUpperCase(),
+                        "birthDate": validatebirthDate
+                    }
+                    console.log(person_data)
+                    const vp2 = this;
+                    const config = {
+                        headers: {Authorization: `Token 9ddf6eb7106bb6227171d914200148acc8e21675`}
+                    };
+                    axios.post('http://195.158.9.252:1441/passport_birth_date_v2/', person_data, config)
+                        .then(function (response) {
+                            if (response.data.result) {
+                                data = response.data.result;
+                                console.log(data);
+                                vp2.customer.customer_passport_pinfl = data.pinfl;
+                                vp2.customer.customer_fullname = data.lastNameLatin + ' ' + data.firstNameLatin + ' ' + data.middleNameLatin;
+                                vp2.customer.customer_address = data.address;
+                                vp2.customer.customer_issuedBy = data.issuedBy;
+                                vp2.customer.customer_startDate = data.startDate.split("-").reverse().join(".");
+                                vp2.customer.customer_fullname_initials = data.firstNameLatin[0] + '.' + data.middleNameLatin[0] + '.' + data.lastNameLatin;
+
+                            } else {
+                                console.log("No data")
+                            }
+                        })
+                        .catch(function (error) {
+                            alert('V2 Passport malumotlari serverida xatolik');
+                            console.log(error);
+                        });
+                },
+                <!-- END GET PERSON -->
+
+
+            },
+            mounted() {
+                // Telefon raqami maskasi
+                Inputmask("+998 (99) 999-99-99").mask("#customer_phone1");
+
+                // Telefon raqami maskasi
+                Inputmask("+998 (99) 999-99-99").mask("#customer_phone2");
+            }
+        })
+
+
+        // Delimiters changed to ES6 template string style
+        app.config.compilerOptions.delimiters = ['[[', ']]']
+
+        app.mount('#app')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.js"></script>
+{% endblock %}

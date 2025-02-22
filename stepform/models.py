@@ -1,0 +1,189 @@
+from django.contrib.auth.models import User
+from django.db import models
+
+
+class ContractStep(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    contract_number = models.CharField(max_length=500, unique=True, blank=True, null=True)
+    contract_date = models.DateField(blank=True, null=True)
+    credit_start_date = models.DateField(blank=True, null=True)
+    credit_end_date = models.DateField(blank=True, null=True)
+    credit_loan_total = models.IntegerField(blank=True, null=True)
+    credit_loan_total_word_uz = models.CharField(max_length=1024, blank=True, null=True)
+    credit_percent = models.IntegerField(blank=True, null=True)
+    credit_percent_word_uz = models.CharField(max_length=1024, blank=True, null=True)
+    credit_term = models.PositiveIntegerField(help_text="Muddat oyda", blank=True, null=True)
+    credit_term_word_uz = models.CharField(max_length=1024, blank=True, null=True)
+    credit_type = models.CharField(max_length=512)
+    credit_graphic_type = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.contract_number
+
+    class Meta:
+        db_table = 'contract'
+        managed = False
+
+
+class Customer(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    customer_passport_series = models.CharField(max_length=5, blank=True, null=True)  # Pasport seriyasi (AA, AB, AC...)
+    customer_passport_number = models.CharField(max_length=10, blank=True, null=True)  # Pasport raqami
+    customer_passport_pinfl = models.CharField(max_length=14, blank=True, null=True)  # PINFL (14 xonali)
+    customer_birthDate = models.DateField()  # Tug‘ilgan sana
+    customer_document = models.CharField(max_length=255, blank=True, null=True)  # Hujjat fayli
+    customer_fullname = models.CharField(max_length=512, blank=True, null=True)  # To‘liq ism
+    customer_fullname_initials = models.CharField(max_length=512, blank=True, null=True)  # Ism-sharif initsiallari
+    customer_issuedBy = models.CharField(max_length=1024, blank=True, null=True)  # Kim tomonidan berilgan
+    customer_startDate = models.DateField()  # Pasport berilgan sana
+    customer_address = models.TextField()  # Mijozning manzili
+    customer_phone1 = models.CharField(max_length=255, blank=True, null=True)  # Asosiy telefon raqami
+    customer_phone2 = models.CharField(max_length=255, blank=True, null=True)  # Qo‘shimcha telefon
+
+    def __str__(self):
+        return self.customer_fullname
+
+    class Meta:
+        db_table = 'customer'
+        managed = False
+
+
+class Pledge(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    pledge_is_owner = models.CharField(max_length=255, blank=True, null=True)  # Garovga qo‘ygan shaxs egami yoki yo‘q
+    pledge_vehicle_TP_series = models.CharField(max_length=255, blank=True, null=True)  # Texnik pasport seriyasi
+    pledge_vehicle_TP_number = models.CharField(max_length=255, blank=True, null=True)  # Texnik pasport raqami
+    pledge_vehicle_techPassportIssueDate = models.DateField(blank=True, null=True)  # Texnik pasport berilgan sana
+    pledge_vehicleColor = models.CharField(max_length=255, blank=True, null=True)  # Avtomobil rangi
+    pledge_issueYear = models.PositiveIntegerField(blank=True, null=True)  # Ishlab chiqarilgan yil
+    pledge_engineNumber = models.CharField(max_length=255, blank=True, null=True)  # Dvigatel raqami
+    pledge_shassi = models.CharField(max_length=255, blank=True, null=True)  # Shassi raqami
+    pledge_vehicleTypeStr = models.CharField(max_length=255, blank=True, null=True)  # Avtomobil turi
+    pledge_bodyNumber = models.CharField(max_length=255, blank=True, null=True)  # Kuzov raqami
+    pledge_govNumber = models.CharField(max_length=255, blank=True, null=True)  # Davlat raqami (YTH 01)
+    pledge_modelName = models.CharField(max_length=255, blank=True, null=True)  # Avtomobil modeli
+    pledge_owner = models.CharField(max_length=1024, blank=True, null=True)  # Avtomobil egasi
+
+    pledge_loan_total = models.IntegerField(blank=True, null=True)  # Garov qiymati
+    pledge_loan_total_word_uz = models.CharField(max_length=1024)  # Garov summasi so‘z bilan
+
+    def __str__(self):
+        return f"{self.pledge_modelName} - {self.pledge_govNumber} ({self.pledge_loan_total} UZS)"
+
+    class Meta:
+        db_table = 'pledge'
+        managed = False
+
+
+class Organization(models.Model):
+    id = models.AutoField(primary_key=True)
+
+    title = models.CharField(max_length=255, blank=True, null=True)  # Tashkilot nomi
+    address = models.CharField(max_length=255, blank=True, null=True)  # Tashkilot manzili
+    account_number = models.CharField(max_length=50, blank=True, null=True)  # Hisob raqami
+    mfo = models.CharField(max_length=10, blank=True, null=True)  # Bank MFO kodi
+    stir = models.CharField(max_length=15, blank=True, null=True)  # Soliq identifikatsiya raqami (STIR)
+
+    phone1 = models.CharField(max_length=20, blank=True, null=True)  # 1-telefon raqami
+    phone2 = models.CharField(max_length=20, blank=True, null=True)  # 2-telefon raqami
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'organization'  # Jadval nomini PostgreSQLda 'organization' qilib saqlaydi
+        managed = False
+
+
+class Branch(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=1024, blank=True, null=True)
+    head_initials_uz = models.CharField(max_length=1024, blank=True, null=True)
+    state = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"Application {self.head_initials_uz} "
+
+    class Meta:
+        db_table = 'branch'
+        managed = False
+
+
+class Application(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    contract_id = models.IntegerField(blank=True, null=True)
+    customer_id = models.IntegerField(blank=True, null=True)
+    owner_id = models.IntegerField(blank=True, null=True)
+    pledge_id = models.IntegerField(blank=True, null=True)
+    branch_id = models.IntegerField(blank=True, null=True)
+    organization_id = models.IntegerField(blank=True, null=True)
+    state = models.BooleanField(default=True)
+    meta = models.JSONField(blank=True, null=True, default=dict)
+    operator_signature = models.BooleanField(default=False)
+    moderator_signature = models.BooleanField(default=False)
+    direktor_signature = models.BooleanField(default=False)
+    xlsx = models.FileField(blank=True, null=True, upload_to='uploads/xlsx/')
+
+    def __str__(self):
+        return f"Application {self.id} - {self.state}"
+
+    class Meta:
+        db_table = 'application'
+        managed = False
+
+
+class DocxTemplate(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    product_type = models.CharField(max_length=500, blank=True, null=True)
+    shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    buyruq = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    grafik = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+
+    def __str__(self):
+        return f"DocxTemplate {self.id} - {self.product_type}"
+
+    class Meta:
+        db_table = 'docx_template'
+        managed = False
+
+
+class GeneratedDocument(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    docx_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    pdf_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    state = models.BooleanField(default=True)
+    application_id = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f"GeneratedDocument {self.id}"
+
+    class Meta:
+        db_table = 'generated_document'
+        managed = False

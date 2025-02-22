@@ -1,0 +1,451 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Static Navigation</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+        <li class="breadcrumb-item active">Static Navigation</li>
+    </ol>
+    <div id="app">
+        <div class="alert alert-warning">STEP {{ step }}</div>
+
+        <form action="." method="post">
+            {% csrf_token %}
+            <!-- GAROV egasi -->
+            <div class="row g-0 border rounded p-2">
+                <h4>Garov egasini tanlang</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="yes" v-model="pledge.pledge_is_owner"
+                           checked name="pledge_is_owner">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        O'zi
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="no" v-model="pledge.pledge_is_owner" name="pledge_is_owner">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Boshqa shaxs
+                    </label>
+                </div>
+                <hr class="mt-2">
+
+                <div v-if="pledge.pledge_is_owner === 'yes'">
+
+                </div>
+                <div v-else-if="pledge.pledge_is_owner === 'no'">
+                    <div class="card mt-2">
+                        <div class="card-header bg-info bg-gradient">Garov egasining ma'lumotlarini kiritish</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Pasport</label>
+                                    <input type="text" class="form-control" v-model="owner_data.owner_document"
+                                           id="customer_document" name="owner_document">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="inputPassword4" class="form-label">JSSHIR</label>
+                                    <input type="text" class="form-control"
+                                           v-model="owner_data.owner_passport_pinfl"
+                                           id="customer_passport_pinfl" required name="owner_passport_pinfl">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="inputPassword4" class="form-label">Tug'ilgan sana</label>
+                                    <input type="text" class="form-control"
+                                           v-model="owner_data.owner_birthDate"
+                                           id="customer_birthDate" required name="owner_birthDate">
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label for="">Tugmani bosing</label> <br>
+                                    <button type="button" class="btn w-50 btn-warning mt-2" @click="get_owner">
+                                        Izlash
+                                    </button>
+                                </div>
+                                <br>
+                                <hr class="mt-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">FIO</label>
+                                        <input type="text" class="form-control"
+                                               v-model="owner_data.owner_fullname" required
+                                               name="owner_fullname">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Manzili</label>
+                                        <input type="text" class="form-control"
+                                               v-model="owner_data.owner_address" required name="owner_address">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Initsial</label>
+                                        <input type="text" class="form-control"
+                                               v-model="owner_data.owner_fullname_initials" required
+                                               name="owner_fullname_initials">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Kim tomonidan berilgan</label>
+                                        <input type="text" class="form-control"
+                                               v-model="owner_data.owner_issuedBy" required name="owner_issuedBy">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Berilgan sana</label>
+                                        <input type="text" class="form-control"
+                                               v-model="owner_data.owner_startDate" required name="owner_startDate">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- GAROV MA'LUMOTLARI -->
+            <div class="mt-2">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                data-bs-target="#home-tab-pane" type="button" role="tab"
+                                aria-controls="home-tab-pane" aria-selected="true">
+                            AVTOMOBIL
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                aria-controls="profile-tab-pane" aria-selected="false">KO'CHMAS MULK
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                aria-controls="contact-tab-pane" aria-selected="false">TILLA BUYUM
+                        </button>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                         aria-labelledby="home-tab" tabindex="0">
+                        <div class="card card-body border-top-0 mt-1">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="form-label">Tex.pasport seria</label>
+                                    <input type="text" class="form-control text-uppercase"
+                                           v-model="pledge.pledge_vehicle_TP_series"
+                                           id="pledge_vehicle_TP_series" required name="pledge_vehicle_TP_series">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Tex.pasport raqam</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_vehicle_TP_number"
+                                           id="pledge_vehicle_TP_number" required name="pledge_vehicle_TP_number">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Davlat raqami</label>
+                                    <input type="text" class="form-control text-uppercase"
+                                           v-model="pledge.pledge_govNumber" required name="pledge_govNumber">
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label for="">Tugmani bosing</label> <br>
+                                    <button type="button" class="btn w-50 btn-info mt-2" @click="get_vehicle">
+                                        Izlash
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-2">
+                                    <label class="form-label">Nomi</label>
+                                    <input type="text" class="form-control" v-model="pledge.pledge_modelName"
+                                           required name="pledge_modelName">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Yili</label>
+                                    <input type="text" class="form-control" v-model="pledge.pledge_issueYear"
+                                           required name="pledge_issueYear">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Rangi</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_vehicleColor" required name="pledge_vehicleColor">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Shassi</label>
+                                    <input type="text" class="form-control" v-model="pledge.pledge_shassi"
+                                           required name="pledge_shassi">
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Kuzov turi</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_vehicleTypeStr" required name="pledge_vehicleTypeStr">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                 <div class="col-md-3">
+                                    <label class="form-label">TP sanasi</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_vehicle_techPassportIssueDate" required name="pledge_vehicle_techPassportIssueDate">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Dvigatel raqami</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_engineNumber" required name="pledge_engineNumber">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Kuzov raqami</label>
+                                    <input type="text" class="form-control" v-model="pledge.pledge_bodyNumber"
+                                           required name="pledge_bodyNumber">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Egasi</label>
+                                    <input type="text" class="form-control" v-model="pledge.pledge_owner"
+                                           required name="pledge_owner">
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Garov summasi</label>
+                                    <input type="text" class="form-control "
+                                           v-model="pledge.pledge_loan_total"
+                                           id="pledge_loan_total" required name="pledge_loan_total"
+                                           @change="handleNum2Word">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Garov summasi so'zda</label>
+                                    <input type="text" class="form-control "
+                                           v-model="pledge.pledge_loan_total_word_uz" name="pledge_loan_total_word_uz">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                         tabindex="0">
+                        Ko'chmas mulk
+                    </div>
+                    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                         tabindex="0">Tilla
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Saqlash</button>
+        </form>
+
+
+    </div>
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        //  START NUM TO WORDS
+        function numberToWords(num) {
+            if (num === 0) return "nol";
+
+            const birliklar = ["", "bir", "ikki", "uch", "to'rt", "besh", "olti", "yetti", "sakkiz", "to'qqiz"];
+            const onliklar = ["", "o'n", "yigirma", "o'ttiz", "qirq", "ellik", "oltmish", "yetmish", "sakson", "to'qson"];
+
+            function convertLessThanThousand(n) {
+                let result = "";
+
+                if (n >= 100) {
+                    result += birliklar[Math.floor(n / 100)] + " yuz ";
+                    n %= 100;
+                }
+
+                if (n >= 10) {
+                    result += onliklar[Math.floor(n / 10)] + " " + birliklar[n % 10] + " ";
+                } else {
+                    result += birliklar[n] + " ";
+                }
+
+                return result.trim();
+            }
+
+            let result = "";
+
+            if (num >= 1000000) {
+                result += convertLessThanThousand(Math.floor(num / 1000000)) + " million ";
+                num %= 1000000;
+            }
+
+            if (num >= 1000) {
+                result += convertLessThanThousand(Math.floor(num / 1000)) + " ming ";
+                num %= 1000;
+            }
+
+            result += convertLessThanThousand(num);
+
+            return result.trim();
+        }
+
+        // END NUM TO WORDS
+
+        // Vue JS script
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: "Vue3 is working!",
+                    isValidated: false,
+                    created_by: null,
+                    pledge: {
+                        "pledge_is_owner": "yes",
+                        "pledge_vehicle_TP_series": "AAF",
+                        "pledge_vehicle_TP_number": "4345420",
+                        "pledge_vehicle_techPassportIssueDate": "",
+                        "pledge_vehicleColor": "",
+                        "pledge_issueYear": "",
+                        "pledge_engineNumber": "",
+                        "pledge_shassi": "Raqamsiz",
+                        "pledge_vehicleTypeStr": "SEDAN",
+                        "pledge_bodyNumber": "",
+                        "pledge_govNumber": "01R888QA ",
+                        "pledge_modelName": "",
+                        "pledge_owner": "",
+                        "pledge_loan_total": "",
+                        "pledge_loan_total_word_uz": ""
+                    },
+                    owner_data: {
+                        "owner_passport_series": "AD",
+                        "owner_passport_number": "0014687",
+                        "owner_passport_pinfl": "40506963420023",
+                        "owner_birthDate": "05.06.1996",
+                        "owner_fullname": "",
+                        "owner_fullname_initials": "",
+                        "owner_document": "AD0014687",
+                        "owner_issuedBy": "",
+                        "owner_startDate": "",
+                        "owner_address": ""
+                    },
+                }
+            },
+            methods: {
+                validateForm() {
+                    let form = this.$refs.myForm; // Formani olish
+                    if (form.checkValidity()) {
+                        alert("Forma to‘g‘ri to‘ldirildi ✅");
+                        // Shu yerda formani jo‘natish yoki boshqa harakat qilish mumkin
+                        this.createContract(this.doc)
+                    } else {
+                        this.isValidated = true; // Xatolarni ko‘rsatish uchun Bootstrap klassini qo‘shish
+                    }
+                },
+
+                handleNum2Word() {
+                    const pledge_loan_total = Number(this.pledge.pledge_loan_total.trim().replace(/\s+/g, ""));
+                    this.pledge.pledge_loan_total_word_uz = numberToWords(pledge_loan_total);
+                },
+
+                <!-- START GET OWNER V2-->
+                get_owner: function () {
+                    const validatebirthDate = this.owner_data.owner_birthDate.split(".").reverse().join("-");
+                    const owner_data = {
+                        "transactionId": Math.floor(Math.random() * 1000000),
+                        "isConsent": "Y",
+                        "senderPinfl": this.owner_data.owner_passport_pinfl,
+                        "document": this.owner_data.owner_document.toUpperCase(),
+                        "birthDate": validatebirthDate
+                    }
+                    console.log(owner_data)
+                    const ow = this;
+                    const config = {
+                        headers: {Authorization: `Token 9ddf6eb7106bb6227171d914200148acc8e21675`}
+                    };
+                    axios.post('http://195.158.9.252:1441/passport_birth_date_v2/', owner_data, config)
+                        .then(function (response) {
+                            if (response.data.result) {
+                                data = response.data.result;
+                                console.log(data);
+                                ow.owner_data.owner_passport_pinfl = data.pinfl;
+                                ow.owner_data.owner_fullname = data.lastNameLatin + ' ' + data.firstNameLatin + ' ' + data.middleNameLatin;
+                                ow.owner_data.owner_address = data.address;
+                                ow.owner_data.owner_issuedBy = data.issuedBy;
+                                ow.owner_data.owner_startDate = data.startDate.split("-").reverse().join(".");
+                                ow.owner_data.owner_fullname_initials = data.firstNameLatin[0] + '.' + data.middleNameLatin[0] + '.' + data.lastNameLatin;
+
+                            } else {
+                                console.log("No data")
+                            }
+                        })
+                        .catch(function (error) {
+                            alert('V2 Passport malumotlari serverida xatolik');
+                            console.log(error);
+                        });
+                },
+                <!-- END GET OWNER -->
+
+                <!-- START GET PERSON V2-->
+                get_vehicle: function () {
+                    const vehicle_data =
+                        {
+                            "techPassportSeria": this.pledge.pledge_vehicle_TP_series.toUpperCase(),
+                            "techPassportNumber": this.pledge.pledge_vehicle_TP_number,
+                            "govNumber": this.pledge.pledge_govNumber
+                        }
+
+                    console.log(vehicle_data)
+                    const vp3 = this;
+                    const config = {
+                        headers: {Authorization: `Token 9ddf6eb7106bb6227171d914200148acc8e21675`}
+                    };
+                    axios.post('http://195.158.9.252:1441/vehicle/', vehicle_data, config)
+                        .then(function (response) {
+                            if (response.data.result) {
+                                data = response.data.result;
+                                console.log(data);
+                                vp3.pledge.pledge_modelName = data.modelName;
+                                vp3.pledge.pledge_bodyNumber = data.bodyNumber;
+                                vp3.pledge.pledge_engineNumber = data.engineNumber;
+                                vp3.pledge.pledge_issueYear = data.issueYear;
+                                vp3.pledge.pledge_owner = data.owner;
+                                vp3.pledge.pledge_vehicleColor = data.vehicleColor;
+                                vp3.pledge.pledge_vehicle_techPassportIssueDate = data.techPassportIssueDate.slice(0, 10).split("-").reverse().join(".");
+                            } else {
+                                console.log("No data")
+                            }
+                        })
+                        .catch(function (error) {
+                            alert('Transport malumotlari topilmadi');
+                            console.log(error);
+                        });
+                },
+                <!-- END GET VEHICLE -->
+
+
+            },
+            mounted() {
+                // pledge_vehicle_TP_series maskasi
+                Inputmask("AAA", {placeholder: "AAG"}).mask("#pledge_vehicle_TP_series");
+
+                // pledge_vehicle_TP_number maskasi
+                Inputmask("9999999", {placeholder: "1234567"}).mask("#pledge_vehicle_TP_number");
+
+                // pledge_vehicle_TP_number maskasi
+                Inputmask("9999999", {placeholder: "AAG"}).mask("#pledge_vehicle_TP_number");
+
+                // pledge_loan_total (pul miqdori) maskasi
+                Inputmask({
+                    alias: "numeric",
+                    groupSeparator: " ",
+                    autoGroup: true,
+                    digits: 2,
+                    radixPoint: ".",
+                    rightAlign: false
+                }).mask("#pledge_loan_total");
+            }
+        })
+
+
+        // Delimiters changed to ES6 template string style
+        app.config.compilerOptions.delimiters = ['[[', ']]']
+
+        app.mount('#app')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.js"></script>
+{% endblock %}

@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Kredit turi</label>
-                                <input type="text" class="form-control text-warning" v-model="doc.contract.credit_type"
+                                <input type="text" class="form-control text-warning" 
                                        readonly>
                             </div>
                         </div>
@@ -484,8 +484,9 @@
             }
         });
     </script>
-    {#    <script src="{% static 'vueapp/mikroqarz_form_app.js' %}"></script>#}
     <script src="{% static 'vueapp/mikroqarz_doc_form_app.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.js"></script>
+
+
 
 {% endblock %}

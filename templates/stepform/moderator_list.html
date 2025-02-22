@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h3 class="mt-2">Moderator sahifasi</h3>
+    <div class="card mt-2">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Shartnomalar
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Shartnoma</th>
+                    <th>Mijoz</th>
+                    <th>Passport</th>
+                    <th>Kredit summasi</th>
+                    <th>Kredit turi</th>
+                    <th>Garov</th>
+                    <th>Hujjatlar</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for obj in applications %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <a href="#">
+                                {{ obj.meta.contract.contract_date }}
+                                yil №{{ obj.meta.contract.contract_number }}
+                            </a>
+                        </td>
+                        <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
+                        <td>{{ obj.meta.customer.customer_document }}</td>
+                        <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
+                        <td><span class="text text-uppercase" style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
+                        <td>{{ obj.meta.pledge.pledge_modelName }}</td>
+                        <td>
+                            {% if obj.moderator_signature == False %}
+                                <a href="{% url 'moderator_form' obj.pk %}"
+                                   class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                            {% elif obj.moderator_signature == True and obj.direktor_signature == False %}
+                                <span class="btn btn-warning">DIREKTORDA</span>
+                            {% elif obj.direktor_signature == True %}
+                                1. <a href="{{ obj.shartnoma_pdf.url }}" target="_blank">Shartnoma</a> <br>
+                                2. <a href="{{ obj.buyruq_pdf.url }}" target="_blank">Buyruq</a> <br>
+                                3. <a href="{{ obj.dalolatnoma_pdf.url }}" target="_blank">Dalolatnoma</a> <br>
+                                4. <a href="{{ obj.grafik_pdf.url }}" target="_blank">Grafik</a> <br>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2 class="mt-2">Moderator formasi</h2>
+    <div class="alert alert-info col-6" role="alert">
+        <span>Shartnoma ID: {{ obj }}</span> <br>
+        <span>Shartnoma sanasi va raqami: {{ obj.meta.contract.contract_date }} yildagi {{ obj.meta.contract.contract_number }}-son</span> <br>
+        <span>Mijoz: {{ obj.meta.customer.customer_fullname }}</span> <br>
+        <span>Garov: {{ obj.meta.pledge.pledge_modelName }}, {{ obj.meta.pledge.pledge_govNumber }}</span> <br>
+        <span>Garov summasi: {{ obj.meta.pledge.pledge_loan_total }} ({{ obj.meta.pledge.pledge_loan_total_word_uz }}) so'm</span> <br>
+    </div>
+    <div class="card col-6">
+        <div class="card-header">Excel faylni yuklash va hujjatni imzolash</div>
+        <div class="card-body">
+            <form enctype="multipart/form-data" method="post" action=".">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_xlsx" class="form-label">Excel faylini yuklang</label>
+                    <input class="form-control" type="file" name="xlsx" id="id_xlsx">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="moderator_signature"
+                           id="id_moderator_signature" required>
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Roziman
+                    </label>
+                </div>
+                <!-- Yuborish tugmasi -->
+                <button type="submit" class="btn btn-primary mt-2">Yuborish</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

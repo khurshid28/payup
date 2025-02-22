@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mt-4">Static Navigation</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active">Static Navigation</li>
+    </ol>
+    <div id="app">
+        <h4>[[ message ]]</h4>
+
+        <div class="alert alert-warning">STEP {{ step }}</div>
+
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="card mt-2">
+                <div class="card-header">Shartnoma ma'lumotlari</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="inputContractNumber" class="form-label">Shartnoma raqami</label>
+                            <input type="text" class="form-control"
+                                   id="inputContractNumber" required v-model="contract.contract_number"
+                                   name="contract_number">
+                            <div class="invalid-feedback">
+                                Shartnoma raqamini kiriting.
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Shartnoma sanasi</label>
+                            <input type="text" class="form-control" id="contract_date"
+                                   required value="12.02.2023"
+                                   name="contract_date">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Kredit turi</label>
+                            <input type="text" class="form-control text-danger text-uppercase"
+                                   readonly value="{{ credit_type }}"
+                                   required name="credit_type">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            <label class="form-label">Kredit summasi</label>
+                            <input type="text" class="form-control" v-model="contract.credit_loan_total" required
+                                   @change="handleNum2Word" id="credit_loan_total" name="credit_loan_total">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Kredit summasi so'zda</label> <br>
+                            <input type="text" class="form-control text-success text-uppercase readonly"
+                                   v-model="contract.credit_loan_total_word_uz" name="credit_loan_total_word_uz"
+                                   readonly>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Foiz stavkasi (%)</label>
+                            <input type="number" class="form-control" v-model="contract.credit_percent" required
+                                   @change="handleNum2Word" required name="credit_percent">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Foiz stavkasi so'zda</label>
+                            <input type="text" class="form-control text-success text-uppercase readonly"
+                                   v-model="contract.credit_percent_word_uz" name="credit_percent_word_uz"
+                                   readonly>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label class="form-label">Mikroqarz muddati (oy)</label>
+                            <input type="number" class="form-control" v-model="contract.credit_term" required
+                                   @change="handleNum2Word" required name="credit_term">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Mikroqarz muddati so'zda</label>
+                            <input type="text" class="form-control text-success text-uppercase readonly"
+                                   v-model="contract.credit_term_word_uz" name="credit_term_word_uz"
+                                   readonly>
+                        </div>
+
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Kredit boshlanishi</label>
+                            <input type="text" class="form-control"
+                                   id="credit_start_date" required name="credit_start_date" value="11.09.2023">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Kredit tugashi</label>
+                            <input type="text" class="form-control"
+                                   id="credit_end_date" required name="credit_end_date" value="12.09.2024">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Grafik turi</label>
+                            <select class="form-select" name="credit_graphic_type">
+                                <option value="annuitet">Annuitet</option>
+                                <option value="differensial">Differensial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Keyingi</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        //  START NUM TO WORDS
+        function numberToWords(num) {
+            if (num === 0) return "nol";
+
+            const birliklar = ["", "bir", "ikki", "uch", "to'rt", "besh", "olti", "yetti", "sakkiz", "to'qqiz"];
+            const onliklar = ["", "o'n", "yigirma", "o'ttiz", "qirq", "ellik", "oltmish", "yetmish", "sakson", "to'qson"];
+
+            function convertLessThanThousand(n) {
+                let result = "";
+
+                if (n >= 100) {
+                    result += birliklar[Math.floor(n / 100)] + " yuz ";
+                    n %= 100;
+                }
+
+                if (n >= 10) {
+                    result += onliklar[Math.floor(n / 10)] + " " + birliklar[n % 10] + " ";
+                } else {
+                    result += birliklar[n] + " ";
+                }
+
+                return result.trim();
+            }
+
+            let result = "";
+
+            if (num >= 1000000) {
+                result += convertLessThanThousand(Math.floor(num / 1000000)) + " million ";
+                num %= 1000000;
+            }
+
+            if (num >= 1000) {
+                result += convertLessThanThousand(Math.floor(num / 1000)) + " ming ";
+                num %= 1000;
+            }
+
+            result += convertLessThanThousand(num);
+
+            return result.trim();
+        }
+
+        // END NUM TO WORDS
+
+        // Vue JS script
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: "Vue3 is working!",
+                    isValidated: false,
+                    created_by: null,
+                    contract: {
+                        "contract_number": "87-TG",
+                        "contract_date": "09.02.2025",
+                        "credit_loan_total": null,
+                        "credit_loan_total_word_uz": "",
+                        "credit_start_date": "17.01.2027",
+                        "credit_end_date": "16.01.2028",
+                        "credit_percent": 60,
+                        "credit_percent_word_uz": "",
+                        "credit_term": 12,
+                        "credit_term_word_uz": "",
+                        "credit_graphic_type": "Annuitet",
+                        {#"credit_type": "mikroqarz",#}
+                    },
+                }
+            },
+            methods: {
+                handleNum2Word() {
+                    const credit_loan_total = Number(this.contract.credit_loan_total.trim().replace(/\s+/g, ""));
+                    this.contract.credit_loan_total_word_uz = numberToWords(credit_loan_total);
+                    this.contract.credit_percent_word_uz = numberToWords(Number(this.contract.credit_percent));
+                    this.contract.credit_term_word_uz = numberToWords(Number(this.contract.credit_term));
+
+                    {#const pledge_loan_total = Number(this.pledge.pledge_loan_total.trim().replace(/\s+/g, ""));#}
+
+                    {#this.pledge.pledge_loan_total_word_uz = numberToWords(pledge_loan_total);#}
+                },
+
+                validateForm() {
+                    let form = this.$refs.myForm; // Formani olish
+                    if (form.checkValidity()) {
+                        alert("Forma to‘g‘ri to‘ldirildi ✅");
+                        // Shu yerda formani jo‘natish yoki boshqa harakat qilish mumkin
+                        this.createContract(this.doc)
+                    } else {
+                        this.isValidated = true; // Xatolarni ko‘rsatish uchun Bootstrap klassini qo‘shish
+                    }
+
+                },
+
+
+            },
+            mounted() {
+                // Raqam (pul miqdori) maskasi
+                Inputmask({
+                    alias: "numeric",
+                    groupSeparator: " ",
+                    autoGroup: true,
+                    digits: 2,
+                    radixPoint: ".",
+                    rightAlign: false
+                }).mask("#credit_loan_total");
+
+                // Contract Sana (kun/oy/yil) maskasi
+                Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#contract_date");
+
+                // Contract Sana (kun/oy/yil) maskasi
+                Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#credit_start_date");
+
+                // Contract Sana (kun/oy/yil) maskasi
+                Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#credit_end_date");
+            }
+        })
+
+
+        // Delimiters changed to ES6 template string style
+        app.config.compilerOptions.delimiters = ['[[', ']]']
+
+        app.mount('#app')
+    </script>
+{% endblock %}

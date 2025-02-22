@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),  # allauth URL-larini qo'shish
     path('', include('pages.urls'), name='home'),
-    path('contract/', include('contract.urls'), name='home'),
+    # path('contract/', include('contract.urls'), name='home'),
+    path('stepform/', include('stepform.urls'), name='stepform'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

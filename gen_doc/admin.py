@@ -6,7 +6,4 @@ from gen_doc.models import DocxTemplate, GeneratedDocPdfModel
 class DocxTemplateAdmin(admin.ModelAdmin):
     list_display = ('id', 'shartnoma', 'buyruq', 'product_type')
 
-@admin.register(GeneratedDocPdfModel)
-class GeneratedDocPdfModelAdmin(admin.ModelAdmin):
-    list_display = ('id', )
 

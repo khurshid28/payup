@@ -10,11 +10,11 @@
       <jdbc-url>jdbc:sqlite:C:\Users\Admin\PycharmProjects\payup\db.sqlite3</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="payupdb@localhost" uuid="325fbd96-7d2a-4102-83bc-1cfafb2d7ed9">
+    <data-source source="LOCAL" name="payup-okt-db@83.221.176.88" uuid="da211e23-f03f-4d30-add0-66a99b802b99">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/payupdb</jdbc-url>
+      <jdbc-url>jdbc:postgresql://83.221.176.88:5435/payup-okt-db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
