@@ -174,7 +174,7 @@ def direktor_form(request, pk):
         gen_doc.gen_buyruq()
         gen_doc.gen_dalolatnoma()
         gen_doc.gen_grafik()
-        gen_doc.remove_temp_files()
+        # gen_doc.remove_temp_files()
 
         Application.objects.filter(pk=pk).update(direktor_signature=True)
 
