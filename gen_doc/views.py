@@ -229,18 +229,9 @@ class GenDocument:
         # Docxni pdfga aylantirish
         pdf_output_name = f"{pdf_filename}.pdf"
         pdf_output_path = os.path.join(settings.MEDIA_ROOT, pdf_output_name)
-        # convert(docx_output_path, pdf_output_path)
 
-        pythoncom.CoInitialize()  # COM obyektini ishga tushirish
-
-        try:
-            word = win32com.client.Dispatch("Word.Application")
-            doc = word.Documents.Open(os.path.abspath(docx_output_path))
-            doc.SaveAs(os.path.abspath(settings.MEDIA_ROOT / pdf_output_name), FileFormat=17)  # 17 = wdFormatPDF
-            doc.Close()
-            word.Quit()
-        finally:
-            pythoncom.CoUninitialize()  # COM obyektini yopish
+        pythoncom.CoInitialize()  # COM obyektlarini ishga tushirish
+        convert(docx_output_path, pdf_output_path)
 
         return pdf_output_path
 
