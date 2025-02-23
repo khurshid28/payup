@@ -233,6 +233,7 @@ class GenDocument:
 
     def remove_temp_files(self):
         # Katalog yo'li
+        time.sleep(2)
         directory = settings.MEDIA_ROOT
         for filename in os.listdir(directory):
             # Faylning to'liq yo'li

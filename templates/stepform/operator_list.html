@@ -49,10 +49,16 @@
                             {% elif obj.moderator_signature == True and obj.direktor_signature == False %}
                                 <span class="btn btn-warning">DIREKTORDA</span>
                             {% elif obj.direktor_signature == True %}
-                                1. <a href="#" target="_blank">Shartnoma</a> <br>
-                                2. <a href="#" target="_blank">Buyruq</a> <br>
-                                3. <a href="#" target="_blank">Dalolatnoma</a> <br>
-                                4. <a href="#" target="_blank">Grafik</a> <br>
+
+                                 {% for doc in generated_documents %}
+                                    {% if doc.application_id == obj.id %}
+                                        1. <a href="{{ doc.pdf_shartnoma.url }}" target="_blank">Shartnoma</a> <br>
+                                        2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
+                                        3. <a href="{{ doc.pdf_dalolatnoma.url }}" target="_blank">Dalolatnoma</a> <br>
+                                        4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
+                                    {% endif %}
+                                {% endfor %}
+
                             {% endif %}
                         </td>
                     </tr>

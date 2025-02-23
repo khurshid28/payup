@@ -66,10 +66,12 @@ def done(request):
 def operator_list(request, pk=None):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    applications = Application.objects.all().order_by('-id')
+    applications = Application.objects.all().order_by('-id').filter(state=True)
+    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
     context = {
         'user_groups': user_groups,
         'applications': applications,
+        'generated_documents': generated_documents,
     }
     return render(request, 'stepform/operator_list.html', context)
 
@@ -79,9 +81,12 @@ def moderator_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
     applications = Application.objects.all().order_by('-id').filter(state=True)
+    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+
     context = {
         'user_groups': user_groups,
         'applications': applications,
+        'generated_documents': generated_documents,
     }
     return render(request, 'stepform/moderator_list.html', context)
 
