@@ -4,7 +4,7 @@ from docx2pdf import convert
 pythoncom.CoInitialize()  # COM obyektlarini ishga tushirish
 # DOCX fayl yo‘li
 docx_file = r"C:\Users\Admin\PycharmProjects\payup\media\docx_org_templates\mikrokredit\mikrokredit_buyruq.docx"
-pdf_file = r"C:\Users\Admin\PycharmProjects\payup\media"
+pdf_file = r"C:\Users\Admin\PycharmProjects\payup\media\output.pdf"
 
 # DOCXni PDFga aylantirish
 convert(docx_file, pdf_file)
