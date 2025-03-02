@@ -17,12 +17,16 @@ def step_mikroqarz(request, pk):
 
 
 def step_contract(request, credit_type):
+    user = request.user
+    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
+
     if request.method == "POST":
         request.session["step_contract_data"] = request.POST
         return redirect("step_customer")
     context = {
         "step": 1,
         "credit_type": credit_type,
+        "user_groups": user_groups
     }
     return render(request, "stepform/step_contract_form.html", context)
 
@@ -33,7 +37,7 @@ def step_customer(request):
         return redirect("step_pledge")
     context = {
         "step": 2,
-        # "step_contract_data": request.session["step_contract_data"]
+        "credit_type": request.session["step_contract_data"]["credit_type"],
     }
     return render(request, "stepform/step_customer_form.html", context)
 
@@ -44,7 +48,7 @@ def step_pledge(request):
         return redirect("done")
     context = {
         "step": 3,
-        # "step_pledge_data": request.session["step_pledge_data"]
+        "credit_type": request.session["step_contract_data"]["credit_type"],
     }
     return render(request, "stepform/step_pledge_form.html", context)
 

@@ -91,6 +91,31 @@ python manage.py collectstatic --noinput
 ```
 
 # 4. Apache o‘rnatish va Django-ni unga sozlash
+# MUHIM
+## Apache24 docx fayllarini yarata olmaydi. 
+```
+2️⃣ Apache'ga MS Word-dan foydalanish huquqini berish (Muhim!)
+Windows Server-da Apache 24 xizmat sifatida ishlayotgani uchun unga GUI dasturlariga ruxsat berish kerak.
+
+1️⃣ Apache xizmatining ishlayotgan hisobini tekshirish:
+Windows Task Manager → Services → Apache24 → Properties ga kiring.
+Log On bo‘limiga o‘ting.
+This Account tanlang va Administrator huquqiga ega foydalanuvchi ma'lumotlarini kiriting.
+Apache xizmatini Restart qiling.
+🔥 3️⃣ Apache xizmatiga MS Word GUI dasturlariga kirish huquqini berish
+Windows-da DCOMCNFG orqali MS Word'ni xizmatlar orqali ishlashga ruxsat berish:
+
+Run (Win + R) → dcomcnfg → Enter ni bosing.
+Component Services → Computers → My Computer ga kiring.
+DCOM Config bo‘limini toping.
+Microsoft Word 97 - 2003 Document (yoki Word Application) toping.
+Properties tugmachasini bosing.
+Identity bo‘limiga o‘ting va This User ni tanlang.
+Administrator huquqiga ega hisob ma'lumotlarini kiriting.
+OK ni bosib, barcha o‘zgarishlarni saqlang.
+Apache xizmatini qayta ishga tushuring!
+```
+
 ## 4.1. Apache HTTP Server o‘rnatish
 Apache yuklab oling va o‘rnating:
 👉 https://www.apachelounge.com/download/

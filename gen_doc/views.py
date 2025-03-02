@@ -233,7 +233,7 @@ class GenDocument:
         pythoncom.CoInitialize()  # COM obyektlarini ishga tushirish
         word = win32com.client.Dispatch("Word.Application")
         word.Visible = False  # GUI'da ko'rinmasligi uchun
-        
+
         convert(docx_output_path, pdf_output_path)
 
         return pdf_output_path

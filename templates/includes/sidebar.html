@@ -27,17 +27,23 @@
                 </a>
 
                 <!-- OPERATOR Shartnomalar ro'yxati-->
-                <div class="sb-sidenav-menu-heading">OPERATOR</div>
-                <a class="nav-link  {% if request.path == '/stepform/operator_list/' %} active {% endif %}"
-                   href="{% url 'operator_list' %}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
-                    Barcha shartnomalar
-                </a>
+                {% for group in user_groups %}
+                    {% if group.name == 'operator' %}
+                        <div class="sb-sidenav-menu-heading">OPERATOR</div>
+                        <a class="nav-link  {% if request.path == '/stepform/operator_list/' %} active {% endif %}"
+                           href="{% url 'operator_list' %}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
+                            Barcha shartnomalar
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
 
                 <!-- MODERATOR-->
-                <div class="sb-sidenav-menu-heading">Moderator</div>
+
                 {% for group in user_groups %}
                     {% if group.name == 'moderator' or group.name == 'admin' %}
+                        <div class="sb-sidenav-menu-heading">Moderator</div>
                         <a class="nav-link {% if request.path == '/stepform/moderator_list/' %} active {% endif %} "
                            href="{% url 'moderator_list' %}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
@@ -47,9 +53,10 @@
                 {% endfor %}
 
                 <!-- DIREKTOR-->
-                <div class="sb-sidenav-menu-heading">Direktor</div>
+
                 {% for group in user_groups %}
                     {% if group.name == 'direktor' or group.name == 'admin' %}
+                        <div class="sb-sidenav-menu-heading">Direktor</div>
                         <a class="nav-link {% if request.path == '/stepform/direktor_list/' %} active {% endif %}  "
                            href="{% url 'direktor_list' %}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
@@ -58,62 +65,6 @@
                     {% endif %}
                 {% endfor %}
 
-
-{#                <!-- ESKI MIKROQARZ-->#}
-{#                <div class="sb-sidenav-menu-heading">Mikroqarz</div>#}
-{#                <a class="nav-link {% if request.path == '/contract/mikroqarz_form/' %} active {% endif %}"#}
-{#                   href="{% url 'mikroqarz_form' %}">#}
-{#                    <div class="sb-nav-link-icon"><i class="fa-solid fa-file-circle-plus"></i></div>#}
-{#                    Shartnoma kiritish#}
-{#                </a>#}
-{##}
-{#                <!-- MIKROKREDIT-->#}
-{#                <div class="sb-sidenav-menu-heading">Mikrokredit</div>#}
-{#                <a class="nav-link {% if request.path == '/contract/mikrokredit_form/' %} active {% endif %}"#}
-{#                   href="{% url 'mikrokredit_form' %}">#}
-{#                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>#}
-{#                    Shartnoma kiritish#}
-{#                </a>#}
-{##}
-{#                <!-- SUGURTA-->#}
-{#                <div class="sb-sidenav-menu-heading">Sugurta polisi asosida</div>#}
-{#                <a class="nav-link "#}
-{#                   href="#">#}
-{#                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>#}
-{#                    Shartnoma kiritish#}
-{#                </a>#}
-{##}
-{#                <!-- Shartnomalar ro'yxati-->#}
-{#                <div class="sb-sidenav-menu-heading">Shartnomalar ro'yxati</div>#}
-{#                <a class="nav-link  {% if request.path == '/contract/document_list/' %} active {% endif %}"#}
-{#                   href="{% url 'document_list' %}">#}
-{#                    <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>#}
-{#                    Barcha shartnomalar#}
-{#                </a>#}
-{##}
-{#                <!-- Moderator-->#}
-{#                <div class="sb-sidenav-menu-heading">Moderator</div>#}
-{#                {% for group in user_groups %}#}
-{#                    {% if group.name == 'moderator' or group.name == 'admin' %}#}
-{#                        <a class="nav-link {% if request.path == '/contract/moderator_list/' %} active {% endif %}"#}
-{#                           href="{% url 'moderator_list' %}">#}
-{#                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>#}
-{#                            Shartnomalar#}
-{#                        </a>#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-{##}
-{#                <!-- Direktor-->#}
-{#                <div class="sb-sidenav-menu-heading">Direktor</div>#}
-{#                {% for group in user_groups %}#}
-{#                    {% if group.name == 'direktor' or group.name == 'admin' %}#}
-{#                        <a class="nav-link {% if request.path == '/contract/direktor_list/' %} active {% endif %}  "#}
-{#                           href="{% url 'direktor_list' %}">#}
-{#                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>#}
-{#                            Shartnomalar#}
-{#                        </a>#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
             </div>
 
         </div>

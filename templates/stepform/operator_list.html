@@ -18,6 +18,8 @@
                     <th>Kredit summasi</th>
                     <th>Kredit turi</th>
                     <th>Garov</th>
+                    <th>Moderator</th>
+                    <th>Direktor</th>
                     <th>Hujjatlar</th>
                 </tr>
                 </thead>
@@ -27,10 +29,8 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>
-                            <a href="#">
-                                {{ obj.meta.contract.contract_date }}
-                                yil №{{ obj.meta.contract.contract_number }}
-                            </a>
+                            <span class="fw-bold"> {{ obj.meta.contract.contract_number }}</span> <br>
+                            <span class="text text-muted">sana: {{ obj.meta.contract.contract_date }} yil</span>
                         </td>
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
@@ -42,15 +42,34 @@
                             <p>{{ obj.meta.pledge.pledge_vehicleColor }}</p>
                             <p>{{ obj.meta.pledge.pledge_govNumber }}</p>
                         </td>
-                        <td>
-                            {% if obj.moderator_signature == False %}
-                                <a href="#"
-                                   class="btn btn-outline-danger btn-sm disab">MODERATORDA</a>
-                            {% elif obj.moderator_signature == True and obj.direktor_signature == False %}
-                                <span class="btn btn-warning">DIREKTORDA</span>
-                            {% elif obj.direktor_signature == True %}
 
-                                 {% for doc in generated_documents %}
+                        <td>
+                            {% if obj.moderator_signature == True %}
+                                <div class="text text-center">
+                                    <i class="fa-solid fa-square-check" style="color: green"></i>
+                                </div>
+                            {% else %}
+                                <div class="text text-center">
+                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if obj.direktor_signature == True %}
+                                <div class="text text-center">
+                                    <i class="fa-solid fa-square-check" style="color: green"></i>
+                                </div>
+                            {% else %}
+                                <div class="text text-center">
+                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if obj.moderator_signature == True and obj.direktor_signature == False %}
+                                <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                            {% elif obj.direktor_signature == True %}
+                                {% for doc in generated_documents %}
                                     {% if doc.application_id == obj.id %}
                                         1. <a href="{{ doc.pdf_shartnoma.url }}" target="_blank">Shartnoma</a> <br>
                                         2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
@@ -58,7 +77,6 @@
                                         4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
                                     {% endif %}
                                 {% endfor %}
-
                             {% endif %}
                         </td>
                     </tr>

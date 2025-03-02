@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="mt-4">Static Navigation</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item active">Static Navigation</li>
-    </ol>
+
+    {% if credit_type == 'mikroqarz' %}
+        <h1>Mikroqarz shartnomasini kiritish</h1>
+    {% elif credit_type == 'mikrokredit' %}
+        <h1>Mikrokredit shartnomasini kiritish</h1>
+    {% elif credit_type == 'sugurta' %}
+        <h1>Sugurta polisi garovi asosida shartnomani kiritish</h1>
+    {% endif %}
+
+
+
     <div id="app">
         <h4>[[ message ]]</h4>
 
-        <div class="alert alert-warning">STEP {{ step }}</div>
+        <div class="alert alert-warning">{{ step }} - Shartnoma bosqichi</div>
 
         <form action="." method="post">
             {% csrf_token %}

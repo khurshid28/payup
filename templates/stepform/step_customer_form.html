@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="mt-4">Static Navigation</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-        <li class="breadcrumb-item active">Static Navigation</li>
-    </ol>
+    {% if credit_type == 'mikroqarz' %}
+        <h1>Mikroqarz shartnomasini kiritish</h1>
+    {% elif credit_type == 'mikrokredit' %}
+        <h1>Mikrokredit shartnomasini kiritish</h1>
+    {% elif credit_type == 'sugurta' %}
+        <h1>Sugurta polisi garovi asosida shartnomani kiritish</h1>
+    {% endif %}
     <div id="app">
         <div class="alert alert-warning">STEP {{ step }}</div>
         <h3>{{ step_contract_data }}</h3>
@@ -46,13 +48,13 @@
                             <div class="col-md-4">
                                 <label class="form-label">Manzili</label>
                                 <input type="text" class="form-control" v-model="customer.customer_address"
-                                name="customer_address">
+                                       name="customer_address">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Initsial</label>
                                 <input type="text" class="form-control"
                                        v-model="customer.customer_fullname_initials"
-                                name="customer_fullname_initials"
+                                       name="customer_fullname_initials"
                                 >
                             </div>
                         </div>
@@ -61,13 +63,13 @@
                             <div class="col-md-4">
                                 <label class="form-label">Kim tomonidan berilgan</label>
                                 <input type="text" class="form-control" v-model="customer.customer_issuedBy"
-                                name="customer_issuedBy"
+                                       name="customer_issuedBy"
                                 >
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Berilgan sana</label>
                                 <input type="text" class="form-control" v-model="customer.customer_startDate"
-                                name="customer_startDate"
+                                       name="customer_startDate"
                                 >
                             </div>
 
@@ -78,7 +80,7 @@
                                 <label class="form-label">Telefon 1</label>
                                 <input type="text" class="form-control"
                                        v-model="customer.customer_phone1" id="customer_phone1"
-                                       name="customer_phone1"                                >
+                                       name="customer_phone1">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Telefon 2</label>
