@@ -201,7 +201,7 @@ class GenDocument:
             box_size=10,
             border=4,
         )
-        qr.add_data(f"{GLOBAL_IP}/media/uploads/generated/pdf/{pdf_filename}.pdf/")
+        qr.add_data(f"http://{GLOBAL_IP}/media/uploads/generated/pdf/{pdf_filename}.pdf")
         qr.make(fit=True)
 
         # QR kodni tasvirga aylantirish va saqlash
