@@ -178,6 +178,15 @@
 
             },
             mounted() {
+                // Customer document maskasi
+                Inputmask("AA9999999", {placeholder: "AD1177889"}).mask("#customer_document");
+
+                 // Customer document maskasi
+                Inputmask("99999999999999", {placeholder: "31102873680011"}).mask("#customer_passport_pinfl");
+
+                // Customer Sana (kun/oy/yil) maskasi
+                Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#customer_birthDate");
+
                 // Telefon raqami maskasi
                 Inputmask("+998 (99) 999-99-99").mask("#customer_phone1");
 
