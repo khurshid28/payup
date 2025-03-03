@@ -299,32 +299,33 @@
                     created_by: null,
                     pledge: {
                         "pledge_is_owner": "yes",
-                        "pledge_vehicle_TP_series": "AAF",
-                        "pledge_vehicle_TP_number": "4345420",
-                        "pledge_vehicle_techPassportIssueDate": "",
-                        "pledge_vehicleColor": "",
-                        "pledge_issueYear": "",
-                        "pledge_engineNumber": "",
-                        "pledge_shassi": "Raqamsiz",
-                        "pledge_vehicleTypeStr": "SEDAN",
-                        "pledge_bodyNumber": "",
-                        "pledge_govNumber": "01R888QA ",
-                        "pledge_modelName": "",
-                        "pledge_owner": "",
-                        "pledge_loan_total": "",
-                        "pledge_loan_total_word_uz": ""
+                        "pledge_vehicle_TP_series": null,
+                        "pledge_vehicle_TP_number": null,
+                        "pledge_vehicle_techPassportIssueDate": null,
+                        "pledge_vehicleColor": null,
+                        "pledge_issueYear": null,
+                        "pledge_engineNumber": null,
+                        "pledge_shassi": null,
+                        "pledge_vehicleTypeStr": null,
+                        "pledge_bodyNumber": null,
+                        "pledge_govNumber": null,
+                        "pledge_modelName": null,
+                        "pledge_owner": null,
+                        "pledge_division": null,
+                        "pledge_loan_total": null,
+                        "pledge_loan_total_word_uz": null
                     },
                     owner_data: {
-                        "owner_passport_series": "AD",
-                        "owner_passport_number": "0014687",
-                        "owner_passport_pinfl": "40506963420023",
-                        "owner_birthDate": "05.06.1996",
-                        "owner_fullname": "",
-                        "owner_fullname_initials": "",
-                        "owner_document": "AD0014687",
-                        "owner_issuedBy": "",
-                        "owner_startDate": "",
-                        "owner_address": ""
+                        "owner_passport_series": null,
+                        "owner_passport_number": null,
+                        "owner_passport_pinfl": null,
+                        "owner_birthDate": null,
+                        "owner_fullname": null,
+                        "owner_fullname_initials": null,
+                        "owner_document": null,
+                        "owner_issuedBy": null,
+                        "owner_startDate": null,
+                        "owner_address": null
                     },
                 }
             },
@@ -409,6 +410,7 @@
                                 vp3.pledge.pledge_owner = data.owner;
                                 vp3.pledge.pledge_vehicleColor = data.vehicleColor;
                                 vp3.pledge.pledge_vehicle_techPassportIssueDate = data.techPassportIssueDate.slice(0, 10).split("-").reverse().join(".");
+                                vp3.pledge_division = data.division;
                             } else {
                                 console.log("No data")
                             }
