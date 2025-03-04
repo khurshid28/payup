@@ -53,7 +53,8 @@ def form_save(request, contract_dict, customer_dict, pledge_dict):
         pledge_bodyNumber=pledge_dict.get('pledge_bodyNumber'),
         pledge_owner=pledge_dict.get('pledge_owner'),
         pledge_loan_total=int(pledge_dict.get('pledge_loan_total').replace(" ", "")),
-        pledge_loan_total_word_uz=pledge_dict.get('pledge_loan_total_word_uz')
+        pledge_loan_total_word_uz=pledge_dict.get('pledge_loan_total_word_uz'),
+        pledge_division=pledge_dict.get('pledge_division')
     )
     pledge.save()
 

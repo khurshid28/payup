@@ -61,7 +61,7 @@ def done(request):
     del customer_dict["csrfmiddlewaretoken"]
     pledge_dict = request.session["step_pledge_data"]
     del pledge_dict["csrfmiddlewaretoken"]
-
+    print(pledge_dict)
     application = form_save(request, contract_dict, customer_dict, pledge_dict)
     return redirect("operator_list")
 

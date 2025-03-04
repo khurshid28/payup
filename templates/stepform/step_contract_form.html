@@ -36,7 +36,7 @@
                         <div class="col-md-3">
                             <label class="form-label">Shartnoma sanasi</label>
                             <input type="text" class="form-control" id="contract_date"
-                                   required
+                                   required v-model="contract.contract_date"
                                    name="contract_date">
                         </div>
                         <div class="col-md-3">
@@ -87,12 +87,12 @@
                         <div class="col-md-3">
                             <label class="form-label">Kredit boshlanishi</label>
                             <input type="text" class="form-control"
-                                   id="credit_start_date" required name="credit_start_date">
+                                   id="credit_start_date" required v-model="contract.credit_start_date" name="credit_start_date">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Kredit tugashi</label>
                             <input type="text" class="form-control"
-                                   id="credit_end_date" required name="credit_end_date" >
+                                   id="credit_end_date" required v-model="contract.credit_end_date"  name="credit_end_date" >
 
                         </div>
                         <div class="col-md-3">
@@ -166,12 +166,12 @@
                     isValidated: false,
                     created_by: null,
                     contract: {
-                        "contract_number": null,
-                        "contract_date": null,
+                        "contract_number":  Math.floor(Math.random() * 100) + "-MZ",
+                        "contract_date": "04.03.2025",
                         "credit_loan_total": null,
                         "credit_loan_total_word_uz": "",
-                        "credit_start_date": null,
-                        "credit_end_date": null,
+                        "credit_start_date": "04.03.2025",
+                        "credit_end_date": "03.03.2026",
                         "credit_percent": 60,
                         "credit_percent_word_uz": "",
                         "credit_term": 12,

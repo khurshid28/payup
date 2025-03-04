@@ -189,10 +189,15 @@
                             </div>
 
                             <div class="row mt-2">
-                                 <div class="col-md-3">
+                                 <div class="col-md-2">
                                     <label class="form-label">TP sanasi</label>
                                     <input type="text" class="form-control"
                                            v-model="pledge.pledge_vehicle_techPassportIssueDate" required name="pledge_vehicle_techPassportIssueDate">
+                                </div>
+                                 <div class="col-md-2">
+                                    <label class="form-label">Division</label>
+                                    <input type="text" class="form-control"
+                                           v-model="pledge.pledge_division" required name="pledge_division">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Dvigatel raqami</label>
@@ -204,7 +209,7 @@
                                     <input type="text" class="form-control" v-model="pledge.pledge_bodyNumber"
                                            required name="pledge_bodyNumber">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label class="form-label">Egasi</label>
                                     <input type="text" class="form-control" v-model="pledge.pledge_owner"
                                            required name="pledge_owner">
@@ -239,7 +244,6 @@
 
             <button class="btn btn-primary" type="submit">Saqlash</button>
         </form>
-
 
     </div>
 {% endblock %}
@@ -299,8 +303,8 @@
                     created_by: null,
                     pledge: {
                         "pledge_is_owner": "yes",
-                        "pledge_vehicle_TP_series": null,
-                        "pledge_vehicle_TP_number": null,
+                        "pledge_vehicle_TP_series": "AAG",
+                        "pledge_vehicle_TP_number": "4592489",
                         "pledge_vehicle_techPassportIssueDate": null,
                         "pledge_vehicleColor": null,
                         "pledge_issueYear": null,
@@ -308,12 +312,12 @@
                         "pledge_shassi": null,
                         "pledge_vehicleTypeStr": null,
                         "pledge_bodyNumber": null,
-                        "pledge_govNumber": null,
+                        "pledge_govNumber": "01X622PB",
                         "pledge_modelName": null,
                         "pledge_owner": null,
-                        "pledge_division": null,
                         "pledge_loan_total": null,
-                        "pledge_loan_total_word_uz": null
+                        "pledge_loan_total_word_uz": null,
+                        "pledge_division": null,
                     },
                     owner_data: {
                         "owner_passport_series": null,

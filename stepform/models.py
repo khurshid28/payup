@@ -74,6 +74,7 @@ class Pledge(models.Model):
 
     pledge_loan_total = models.IntegerField(blank=True, null=True)  # Garov qiymati
     pledge_loan_total_word_uz = models.CharField(max_length=1024)  # Garov summasi so‘z bilan
+    pledge_division = models.CharField(max_length=1024)
 
     def __str__(self):
         return f"{self.pledge_modelName} - {self.pledge_govNumber} ({self.pledge_loan_total} UZS)"

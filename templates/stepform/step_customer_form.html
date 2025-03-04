@@ -112,11 +112,11 @@
                     customer: {
                         "customer_passport_series": null,
                         "customer_passport_number": null,
-                        "customer_passport_pinfl": null,
-                        "customer_birthDate": null,
+                        "customer_passport_pinfl": "31002873680015",
+                        "customer_birthDate": "10.02.1987",
                         "customer_fullname": "",
                         "customer_fullname_initials": null,
-                        "customer_document": null,
+                        "customer_document": "AD1074617",
                         "customer_issuedBy": null,
                         "customer_startDate": null,
                         "customer_address": null,
@@ -179,10 +179,10 @@
             },
             mounted() {
                 // Customer document maskasi
-                Inputmask("AA9999999", {placeholder: "AD1177889"}).mask("#customer_document");
+                Inputmask("AA9999999", {placeholder: ""}).mask("#customer_document");
 
                  // Customer document maskasi
-                Inputmask("99999999999999", {placeholder: "31102873680011"}).mask("#customer_passport_pinfl");
+                Inputmask("99999999999999", {placeholder: ""}).mask("#customer_passport_pinfl");
 
                 // Customer Sana (kun/oy/yil) maskasi
                 Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#customer_birthDate");
