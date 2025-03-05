@@ -17,7 +17,9 @@ def form_save(request, contract_dict, customer_dict, pledge_dict):
         credit_percent_word_uz=contract_dict.get('credit_percent_word_uz'),
         credit_term_word_uz=contract_dict.get('credit_term_word_uz'),
         credit_graphic_type=contract_dict.get('credit_graphic_type'),
-        credit_type=contract_dict.get('credit_type')
+        credit_type=contract_dict.get('credit_type'),
+        insurance_premium=int(contract_dict.get('insurance_premium').replace(" ", "")),
+        insurance_premium_word_uz=contract_dict.get('insurance_premium_word_uz')
     )
     contract.save()
 

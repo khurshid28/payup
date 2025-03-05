@@ -18,6 +18,8 @@ class ContractStep(models.Model):
     credit_term_word_uz = models.CharField(max_length=1024, blank=True, null=True)
     credit_type = models.CharField(max_length=512)
     credit_graphic_type = models.CharField(max_length=512)
+    insurance_premium = models.IntegerField(blank=True, null=True)
+    insurance_premium_word_uz = models.CharField(max_length=512)
 
     def __str__(self):
         return self.contract_number

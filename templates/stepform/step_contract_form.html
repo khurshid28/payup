@@ -42,8 +42,30 @@
                         <div class="col-md-3">
                             <label class="form-label">Kredit turi</label>
                             <input type="text" class="form-control text-danger text-uppercase"
-                                   readonly value="{{ credit_type }}"
+                                   id="credit_type" data-type="{{ credit_type }}" value="{{ credit_type }}"
                                    required name="credit_type">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Kredit boshlanishi</label>
+                            <input type="text" class="form-control"
+                                   id="credit_start_date" required v-model="contract.credit_start_date"
+                                   name="credit_start_date">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Kredit tugashi</label>
+                            <input type="text" class="form-control"
+                                   id="credit_end_date" required v-model="contract.credit_end_date"
+                                   name="credit_end_date">
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Grafik turi</label>
+                            <select class="form-select" name="credit_graphic_type">
+                                <option value="annuitet">Annuitet</option>
+                                <option value="differensial">Differensial</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -81,28 +103,27 @@
                                    v-model="contract.credit_term_word_uz" name="credit_term_word_uz"
                                    readonly>
                         </div>
-
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-md-3">
-                            <label class="form-label">Kredit boshlanishi</label>
-                            <input type="text" class="form-control"
-                                   id="credit_start_date" required v-model="contract.credit_start_date" name="credit_start_date">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Kredit tugashi</label>
-                            <input type="text" class="form-control"
-                                   id="credit_end_date" required v-model="contract.credit_end_date"  name="credit_end_date" >
 
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Grafik turi</label>
-                            <select class="form-select" name="credit_graphic_type">
-                                <option value="annuitet">Annuitet</option>
-                                <option value="differensial">Differensial</option>
-                            </select>
+                    <div v-show="contract.credit_type == 'sugurta' ">
+                        <div class="row mt-3">
+                            <div class="col-md-2">
+                                <label class="form-label">Sugurta mukofoti</label>
+                                <input type="text" class="form-control" v-model="contract.insurance_premium" required
+                                       @change="handleNum2Insurance" id="insurance_premium" name="insurance_premium">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Sugurta mukofoti so'zda</label> <br>
+                                <input type="text" class="form-control text-success text-uppercase readonly"
+                                       v-model="contract.insurance_premium_word_uz" name="insurance_premium_word_uz"
+                                       readonly>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- SUGURTA -->
+
+
                     <button type="submit" class="btn btn-primary mt-4">Keyingi</button>
                 </div>
             </div>
@@ -165,32 +186,37 @@
                     message: "Vue3 is working!",
                     isValidated: false,
                     created_by: null,
+                    type: null,
                     contract: {
-                        "contract_number":  Math.floor(Math.random() * 100) + "-MZ",
+                        "contract_number": Math.floor(Math.random() * 100) + "-MZ",
                         "contract_date": "04.03.2025",
                         "credit_loan_total": null,
-                        "credit_loan_total_word_uz": "",
+                        "credit_loan_total_word_uz": null,
                         "credit_start_date": "04.03.2025",
                         "credit_end_date": "03.03.2026",
                         "credit_percent": 60,
-                        "credit_percent_word_uz": "",
+                        "credit_percent_word_uz": null,
                         "credit_term": 12,
-                        "credit_term_word_uz": "",
+                        "credit_term_word_uz": null,
                         "credit_graphic_type": "Annuitet",
-                        {#"credit_type": "mikroqarz",#}
+                        "insurance_premium": null,
+                        "insurance_premium_word_uz": null,
+                        "credit_type": null,
                     },
                 }
             },
             methods: {
+
                 handleNum2Word() {
                     const credit_loan_total = Number(this.contract.credit_loan_total.trim().replace(/\s+/g, ""));
                     this.contract.credit_loan_total_word_uz = numberToWords(credit_loan_total);
                     this.contract.credit_percent_word_uz = numberToWords(Number(this.contract.credit_percent));
                     this.contract.credit_term_word_uz = numberToWords(Number(this.contract.credit_term));
+                },
 
-                    {#const pledge_loan_total = Number(this.pledge.pledge_loan_total.trim().replace(/\s+/g, ""));#}
-
-                    {#this.pledge.pledge_loan_total_word_uz = numberToWords(pledge_loan_total);#}
+                handleNum2Insurance() {
+                    const insurance_premium = Number(this.contract.insurance_premium.trim().replace(/\s+/g, ""));
+                    this.contract.insurance_premium_word_uz = numberToWords(insurance_premium);
                 },
 
                 validateForm() {
@@ -208,6 +234,7 @@
 
             },
             mounted() {
+                this.contract.credit_type = document.getElementById("credit_type").dataset.type;
                 // Raqam (pul miqdori) maskasi
                 Inputmask({
                     alias: "numeric",
@@ -217,6 +244,16 @@
                     radixPoint: ".",
                     rightAlign: false
                 }).mask("#credit_loan_total");
+
+                // Raqam (pul miqdori) maskasi
+                Inputmask({
+                    alias: "numeric",
+                    groupSeparator: " ",
+                    autoGroup: true,
+                    digits: 2,
+                    radixPoint: ".",
+                    rightAlign: false
+                }).mask("#insurance_premium");
 
                 // Contract Sana (kun/oy/yil) maskasi
                 Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#contract_date");
