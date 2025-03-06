@@ -4,6 +4,16 @@ from stepform.models import ContractStep, Customer, Pledge, Organization, Branch
 
 
 def form_save(request, contract_dict, customer_dict, pledge_dict):
+    print("contract_dict.get('insurance_premium')", contract_dict.get('insurance_premium'))
+    insurance_premium = 0
+    if contract_dict.get('insurance_premium') and contract_dict.get('insurance_premium') != '0':
+        insurance_premium = contract_dict.get('insurance_premium').replace(' ', '')
+        insurance_premium_word_uz = contract_dict.get('insurance_premium_word_uz')
+    else:
+        print("Mavjud emas")
+        insurance_premium = None
+        insurance_premium_word_uz = None
+
     contract = ContractStep(
         created_by=request.user.id,
         contract_number=contract_dict.get('contract_number'),
@@ -18,8 +28,8 @@ def form_save(request, contract_dict, customer_dict, pledge_dict):
         credit_term_word_uz=contract_dict.get('credit_term_word_uz'),
         credit_graphic_type=contract_dict.get('credit_graphic_type'),
         credit_type=contract_dict.get('credit_type'),
-        insurance_premium=int(contract_dict.get('insurance_premium').replace(" ", "")),
-        insurance_premium_word_uz=contract_dict.get('insurance_premium_word_uz')
+        insurance_premium=insurance_premium,
+        insurance_premium_word_uz=insurance_premium_word_uz
     )
     contract.save()
 
