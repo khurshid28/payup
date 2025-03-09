@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Branch, DocxTemplate, GeneratedDocument, Application
+from .models import Branch, DocxTemplate, GeneratedDocument, Application, Organization
 
 
 @admin.register(Application)
@@ -8,6 +8,17 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_filter = ("state", "created_at", "direktor_signature")
     search_fields = ("id", "contract_id", "customer_id", "owner_id")
     readonly_fields = ("created_at",)
+
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = (
+        'title', 'address', 'account_number', 'mfo', 'stir',
+        'phone1', 'phone2', 'direktor_fullname', 'loan_head_fullname', 'monitoring_head_fullname'
+    )
+    search_fields = ('title', 'stir', 'direktor_fullname', 'loan_head_fullname', 'monitoring_head_fullname')
+    list_filter = ('mfo',)
+
+
 
 @admin.register(Branch)
 class BranchAdmin(admin.ModelAdmin):
@@ -18,7 +29,7 @@ class BranchAdmin(admin.ModelAdmin):
 
 @admin.register(DocxTemplate)
 class DocxTemplateAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_type', 'shartnoma', 'buyruq', 'dalolatnoma')
+    list_display = ('id', 'product_type', 'shartnoma', 'buyruq', 'dalolatnoma', 'bayonnoma', 'xulosa')
     search_fields = ('product_type', 'buyruq', 'dalolatnoma')
     list_filter = ('product_type',)
     ordering = ('id',)

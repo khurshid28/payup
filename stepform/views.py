@@ -62,7 +62,7 @@ def done(request):
     pledge_dict = request.session["step_pledge_data"]
     del pledge_dict["csrfmiddlewaretoken"]
     print(pledge_dict)
-    application = form_save(request, contract_dict, customer_dict, pledge_dict)
+    application = form_save(request, contract_dict, customer_dict, pledge_dict)  # Application jadvaliga yozish
     return redirect("operator_list")
 
 
@@ -137,6 +137,65 @@ def moderator_form(request, pk):
     return render(request, 'stepform/moderator_form.html', context)
 
 
+# KREDITLASH bo'limi
+def loan_head_list(request):
+    user = request.user
+    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
+    applications = Application.objects.all().order_by('-id').filter(state=True)
+    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+
+    context = {
+        'user_groups': user_groups,
+        'applications': applications,
+        'generated_documents': generated_documents,
+    }
+    return render(request, 'stepform/loan_head_list.html', context)
+
+
+def loan_head_form(request, pk):
+    user = request.user
+    user_groups = user.groups.all()
+    application = get_object_or_404(Application, pk=pk)
+    if request.method == "POST":
+        application.loan_head_signature = True
+        application.save()
+        return redirect('loan_head_list')
+    context = {
+        'user_groups': user_groups,
+        'application': application
+    }
+    return render(request, 'stepform/loan_head_form.html', context)
+
+# MONITORING bo'limi
+def monitoring_head_list(request):
+    user = request.user
+    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
+    applications = Application.objects.all().order_by('-id').filter(state=True)
+    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+
+    context = {
+        'user_groups': user_groups,
+        'applications': applications,
+        'generated_documents': generated_documents,
+    }
+    return render(request, 'stepform/monitoring_head_list.html', context)
+
+
+def monitoring_head_form(request, pk):
+    user = request.user
+    user_groups = user.groups.all()
+    application = get_object_or_404(Application, pk=pk)
+    if request.method == "POST":
+        application.monitoring_head_signature = True
+        application.save()
+        return redirect('monitoring_head_list')
+    context = {
+        'user_groups': user_groups,
+        'application': application
+    }
+    return render(request, 'stepform/monitoring_head_form.html', context)
+
+
 def direktor_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
@@ -153,34 +212,64 @@ def direktor_list(request):
     return render(request, 'stepform/direktor_list.html', context)
 
 
+# Direktor form
 def direktor_form(request, pk):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
     application = get_object_or_404(Application, pk=pk)
     credit_type = application.meta['contract']['credit_type']
+    pledge_is_owner = application.meta['pledge']['pledge_is_owner']
     docx_template = DocxTemplate.objects.filter(product_type=credit_type).first()
     generated_document = GeneratedDocument()
     filename = f"{credit_type}_{application.id}"
 
     if request.method == "POST":
-        gen_doc = GenDocument(
-            generated_document=generated_document,
-            filename=filename,
-            shartnoma=docx_template.shartnoma,
-            buyruq=docx_template.buyruq,
-            dalolatnoma=docx_template.dalolatnoma,
-            grafik=docx_template.grafik,
-            context=application.meta,
-            application=application
-        )
-        # gen_doc.display_info()
-        gen_doc.gen_shartnoma()
-        gen_doc.gen_buyruq()
-        gen_doc.gen_dalolatnoma()
-        gen_doc.gen_grafik()
-        # gen_doc.remove_temp_files()
+        if pledge_is_owner == 'yes': # Garov egasi o'zi
+            gen_doc = GenDocument(
+                generated_document=generated_document,
+                filename=filename,
+                shartnoma=docx_template.shartnoma,
+                buyruq=docx_template.buyruq,
+                dalolatnoma=docx_template.dalolatnoma,
+                grafik=docx_template.grafik,
+                bayonnoma=docx_template.bayonnoma,
+                xulosa=docx_template.xulosa,
+                context=application.meta,
+                application=application
+            )
+            # gen_doc.display_info()
+            gen_doc.gen_shartnoma()
+            gen_doc.gen_buyruq()
+            gen_doc.gen_dalolatnoma()
+            gen_doc.gen_grafik()
+            gen_doc.gen_bayonnoma()
+            gen_doc.gen_xulosa()
+            gen_doc.remove_temp_files()
 
-        Application.objects.filter(pk=pk).update(direktor_signature=True)
+            Application.objects.filter(pk=pk).update(direktor_signature=True)
+        elif pledge_is_owner == 'no': # Garov egasi boshqa
+            gen_doc = GenDocument(
+                generated_document=generated_document,
+                filename=filename,
+                shartnoma=docx_template.shartnoma_ishonchnoma,
+                buyruq=docx_template.buyruq_ishonchnoma,
+                dalolatnoma=docx_template.dalolatnoma_ishonchnoma,
+                grafik=docx_template.grafik_ishonchnoma,
+                bayonnoma=docx_template.bayonnoma_ishonchnoma,
+                xulosa=docx_template.xulosa_ishonchnoma,
+                context=application.meta,
+                application=application
+            )
+            # gen_doc.display_info()
+            gen_doc.gen_shartnoma()
+            gen_doc.gen_buyruq()
+            gen_doc.gen_dalolatnoma()
+            gen_doc.gen_grafik()
+            gen_doc.gen_bayonnoma()
+            gen_doc.gen_xulosa()
+            gen_doc.remove_temp_files()
+
+            Application.objects.filter(pk=pk).update(direktor_signature=True)
 
         return redirect('direktor_list')
     context = {

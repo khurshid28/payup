@@ -72,27 +72,97 @@
                                        name="customer_startDate"
                                 >
                             </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Amal qilish muddati</label>
+                                <input type="text" class="form-control" v-model="customer.customer_endDate"
+                                       name="customer_endDate"
+                                >
+                            </div>
 
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-4">
-                                <label class="form-label">Telefon 1</label>
-                                <input type="text" class="form-control"
-                                       v-model="customer.customer_phone1" id="customer_phone1"
-                                       name="customer_phone1">
+                                <label class="form-label">Ish joyi va lavozimi</label>
+                                <input type="text" class="form-control" v-model="customer.customer_position"
+                                       id="customer_position" name="customer_position">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
+                                <label class="form-label">Telefon 1</label>
+                                <input type="text" class="form-control" v-model="customer.customer_phone1"
+                                       id="customer_phone" name="customer_phone1">
+                            </div>
+                            <div class="col-md-2">
                                 <label class="form-label">Telefon 2</label>
                                 <input type="text" class="form-control" v-model="customer.customer_phone2"
-                                       id="customer_phone2" name="customer_phone2">
+                                       id="customer_phone" name="customer_phone2">
                             </div>
+                            <div class="col-md-2">
+                                <label class="form-label">Telefon 3</label>
+                                <input type="text" class="form-control" v-model="customer.customer_phone3"
+                                       id="customer_phone" name="customer_phone3">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-2">
+                                <label class="form-label">Mijozning o‘rtacha oylik daromadi</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_average_monthly_income"
+                                       id="average_monthly" name="customer_average_monthly_income"
+                                       @change="handleNum2Monthly_income"
+                                >
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">So'z bilan</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_average_monthly_income_word" readonly
+                                       id="customer_average_monthly_income_word"
+                                       name="customer_average_monthly_income_word">
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">O‘rtacha oylik xarajatlari</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_average_monthly_expenses"
+                                       id="average_monthly" name="customer_average_monthly_expenses"
+                                       @change="handleNum2Monthly_expenses"
+                                >
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">So'z bilan</label>
+                                <input type="text" class="form-control"
+                                       v-model="customer.customer_average_monthly_expenses_word" readonly
+                                       id="customer_average_monthly_expenses_word"
+                                       name="customer_average_monthly_expenses_word">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            <label class="form-label">Birinchi oy uchun toʻlov </label>
+                            <input type="text" class="form-control"
+                                   v-model="customer.customer_first_principal_payment"
+                                   id="average_monthly"
+                                   name="customer_first_principal_payment"
+                                   @change="handleNum2handleNum2PrincipalPayment"
+                            >
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">So'z bilan</label>
+                            <input type="text" class="form-control"
+                                   v-model="customer.customer_first_principal_payment_word" readonly
+                                   id="customer_first_principal_payment_word"
+                                   name="customer_first_principal_payment_word">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mt-4">Keyingi</button>
                 </div>
             </div>
+            <hr>
+            <textarea cols="55" rows="25" class="alert alert-info">[[ customer ]]</textarea>
+
         </form>
+
     </div>
 
 
@@ -102,6 +172,49 @@
 {% block JavaScript %}
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
+        //  START NUM TO WORDS
+        function numberToWords(num) {
+            if (num === 0) return "nol";
+
+            const birliklar = ["", "bir", "ikki", "uch", "to'rt", "besh", "olti", "yetti", "sakkiz", "to'qqiz"];
+            const onliklar = ["", "o'n", "yigirma", "o'ttiz", "qirq", "ellik", "oltmish", "yetmish", "sakson", "to'qson"];
+
+            function convertLessThanThousand(n) {
+                let result = "";
+
+                if (n >= 100) {
+                    result += birliklar[Math.floor(n / 100)] + " yuz ";
+                    n %= 100;
+                }
+
+                if (n >= 10) {
+                    result += onliklar[Math.floor(n / 10)] + " " + birliklar[n % 10] + " ";
+                } else {
+                    result += birliklar[n] + " ";
+                }
+
+                return result.trim();
+            }
+
+            let result = "";
+
+            if (num >= 1000000) {
+                result += convertLessThanThousand(Math.floor(num / 1000000)) + " million ";
+                num %= 1000000;
+            }
+
+            if (num >= 1000) {
+                result += convertLessThanThousand(Math.floor(num / 1000)) + " ming ";
+                num %= 1000;
+            }
+
+            result += convertLessThanThousand(num);
+
+            return result.trim();
+        }
+
+        // END NUM TO WORDS
+
         // Vue JS script
         const app = Vue.createApp({
             data() {
@@ -112,16 +225,25 @@
                     customer: {
                         "customer_passport_series": null,
                         "customer_passport_number": null,
-                        "customer_passport_pinfl": "31002873680015",
-                        "customer_birthDate": "10.02.1987",
+                        "customer_passport_pinfl": "30101862380132",
+                        "customer_birthDate": "01.01.1986",
                         "customer_fullname": "",
                         "customer_fullname_initials": null,
-                        "customer_document": "AD1074617",
+                        "customer_document": "AD7009838",
                         "customer_issuedBy": null,
                         "customer_startDate": null,
+                        "customer_endDate": null,
                         "customer_address": null,
-                        "customer_phone1": null,
-                        "customer_phone2": null
+                        "customer_phone1": Math.floor(Math.random() * 1000000000000), // Math.floor(Math.random() * 1000000000000)
+                        "customer_phone2": Math.floor(Math.random() * 1000000000000), // Math.floor(Math.random() * 1000000000000)
+                        "customer_phone3": Math.floor(Math.random() * 1000000000000), // Math.floor(Math.random() * 1000000000000)
+                        "customer_average_monthly_income": null,
+                        "customer_average_monthly_income_word": null,
+                        "customer_average_monthly_expenses": null,
+                        "customer_average_monthly_expenses_word": null,
+                        "customer_position": "Yakka tartibdagi tadbirkorda Yakka tartibdagi tadbirkor",
+                        "customer_first_principal_payment": null,
+                        "customer_first_principal_payment_word": null,
                     }
                 }
             },
@@ -135,6 +257,22 @@
                     } else {
                         this.isValidated = true; // Xatolarni ko‘rsatish uchun Bootstrap klassini qo‘shish
                     }
+                },
+
+                <!-- START customer_average_monthly_income  -->
+                handleNum2Monthly_income() {
+                    const monthly_income = Number(this.customer.customer_average_monthly_income.trim().replace(/\s+/g, ""));
+                    this.customer.customer_average_monthly_income_word = numberToWords(monthly_income);
+                },
+
+                handleNum2Monthly_expenses() {
+                    const monthly_expenses = Number(this.customer.customer_average_monthly_expenses.trim().replace(/\s+/g, ""));
+                    this.customer.customer_average_monthly_expenses_word = numberToWords(monthly_expenses);
+                },
+
+                 handleNum2handleNum2PrincipalPayment() {
+                    const principal_payment = Number(this.customer.customer_first_principal_payment.trim().replace(/\s+/g, ""));
+                    this.customer.customer_first_principal_payment_word = numberToWords(principal_payment);
                 },
 
                 <!-- START GET PERSON V2-->
@@ -162,6 +300,7 @@
                                 vp2.customer.customer_address = data.address;
                                 vp2.customer.customer_issuedBy = data.issuedBy;
                                 vp2.customer.customer_startDate = data.startDate.split("-").reverse().join(".");
+                                vp2.customer.customer_endDate = data.endDate.split("-").reverse().join(".");
                                 vp2.customer.customer_fullname_initials = data.firstNameLatin[0] + '.' + data.middleNameLatin[0] + '.' + data.lastNameLatin;
 
                             } else {
@@ -181,17 +320,24 @@
                 // Customer document maskasi
                 Inputmask("AA9999999", {placeholder: ""}).mask("#customer_document");
 
-                 // Customer document maskasi
+                // Customer document maskasi
                 Inputmask("99999999999999", {placeholder: ""}).mask("#customer_passport_pinfl");
 
                 // Customer Sana (kun/oy/yil) maskasi
                 Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#customer_birthDate");
 
                 // Telefon raqami maskasi
-                Inputmask("+998 (99) 999-99-99").mask("#customer_phone1");
+                Inputmask("+998 (99) 999-99-99").mask("#customer_phone");
 
-                // Telefon raqami maskasi
-                Inputmask("+998 (99) 999-99-99").mask("#customer_phone2");
+                // average_monthly (pul miqdori) maskasi
+                Inputmask({
+                    alias: "numeric",
+                    groupSeparator: " ",
+                    autoGroup: true,
+                    digits: 2,
+                    radixPoint: ".",
+                    rightAlign: false
+                }).mask("#average_monthly");
             }
         })
 

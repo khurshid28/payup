@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from openpyxl.styles.builtins import percent
 
 
 class ContractStep(models.Model):
@@ -42,10 +43,19 @@ class Customer(models.Model):
     customer_fullname = models.CharField(max_length=512, blank=True, null=True)  # To‘liq ism
     customer_fullname_initials = models.CharField(max_length=512, blank=True, null=True)  # Ism-sharif initsiallari
     customer_issuedBy = models.CharField(max_length=1024, blank=True, null=True)  # Kim tomonidan berilgan
-    customer_startDate = models.DateField()  # Pasport berilgan sana
-    customer_address = models.TextField()  # Mijozning manzili
+    customer_startDate = models.DateField(blank=True, null=True)  # Pasport berilgan sana
+    customer_endDate = models.DateField(blank=True, null=True)  # Pasport amal qilish muddati sana
+    customer_address = models.TextField(blank=True, null=True)  # Mijozning manzili
     customer_phone1 = models.CharField(max_length=255, blank=True, null=True)  # Asosiy telefon raqami
     customer_phone2 = models.CharField(max_length=255, blank=True, null=True)  # Qo‘shimcha telefon
+    customer_phone3 = models.CharField(max_length=255, blank=True, null=True)  # Qo‘shimcha telefon
+    customer_average_monthly_income =  models.IntegerField(blank=True, null=True)  # Mijozning o‘rtacha oylik daromadi
+    customer_average_monthly_income_word =  models.CharField(max_length=1024, blank=True, null=True)  # Mijozning o‘rtacha oylik daromadi
+    customer_average_monthly_expenses =  models.IntegerField(blank=True, null=True)  # O‘rtacha oylik xarajatlari
+    customer_average_monthly_expenses_word =  models.CharField(max_length=1024, blank=True, null=True)  # O‘rtacha oylik xarajatlari
+    customer_position =  models.CharField(max_length=1024, blank=True, null=True)  # O‘rtacha oylik xarajatlari
+    customer_first_principal_payment = models.IntegerField(blank=True, null=True)  # Birinchi oy uchun toʻlov
+    customer_first_principal_payment_word = models.CharField(max_length=1024, blank=True, null=True)  # Birinchi oy uchun toʻlov
 
     def __str__(self):
         return self.customer_fullname
@@ -97,6 +107,12 @@ class Organization(models.Model):
 
     phone1 = models.CharField(max_length=20, blank=True, null=True)  # 1-telefon raqami
     phone2 = models.CharField(max_length=20, blank=True, null=True)  # 2-telefon raqami
+    direktor_fullname = models.CharField(max_length=512, blank=True, null=True)  # Direktor FIO
+    direktor_initials = models.CharField(max_length=512, blank=True, null=True)  # Direktor  initials
+    loan_head_fullname = models.CharField(max_length=512, blank=True, null=True)  # Kreditlash FIO
+    loan_head_initials = models.CharField(max_length=512, blank=True, null=True)  # Kreditlash  initials
+    monitoring_head_fullname = models.CharField(max_length=512, blank=True, null=True)  # Monitoring FIO
+    monitoring_head_initials = models.CharField(max_length=512, blank=True, null=True)  # Monitoring initials
 
     def __str__(self):
         return self.title
@@ -113,8 +129,10 @@ class Branch(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1024, blank=True, null=True)
-    head_initials_uz = models.CharField(max_length=1024, blank=True, null=True)
+    head_fullname = models.CharField(max_length=1024, blank=True, null=True) # Markaz rahbari FIO
+    head_initials_uz = models.CharField(max_length=1024, blank=True, null=True) # Markaz rahbari initials
     state = models.BooleanField(default=True)
+    position = models.CharField(max_length=1024, blank=True, null=True) # Lavozimi
 
     def __str__(self):
         return f"Application {self.head_initials_uz} "
@@ -140,10 +158,25 @@ class Application(models.Model):
     operator_signature = models.BooleanField(default=False)
     moderator_signature = models.BooleanField(default=False)
     direktor_signature = models.BooleanField(default=False)
+    loan_head_signature = models.BooleanField(default=False)
+    monitoring_head_signature = models.BooleanField(default=False)
     xlsx = models.FileField(blank=True, null=True, upload_to='uploads/xlsx/')
 
     def __str__(self):
         return f"Application {self.id} - {self.state}"
+
+    def sum_signatures(self):
+        percent = 0
+        if self.moderator_signature:
+            percent = percent + 25
+        if self.loan_head_signature:
+            percent = percent + 25
+        if self.monitoring_head_signature:
+            percent = percent + 25
+        if self.direktor_signature:
+            percent = percent + 25
+        return percent
+
 
     class Meta:
         db_table = 'application'
@@ -160,6 +193,15 @@ class DocxTemplate(models.Model):
     buyruq = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     grafik = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    xulosa = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+
+    shartnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    buyruq_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    dalolatnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    grafik_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    bayonnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    xulosa_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
 
     def __str__(self):
         return f"DocxTemplate {self.id} - {self.product_type}"
@@ -183,6 +225,10 @@ class GeneratedDocument(models.Model):
     pdf_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
     state = models.BooleanField(default=True)
     application_id = models.IntegerField(blank=True, null=True)
+    docx_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    pdf_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
 
     def __str__(self):
         return f"GeneratedDocument {self.id}"

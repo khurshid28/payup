@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h3 class="mt-2">Moderator sahifasi</h3>
+    <h3 class="mt-2">Monitoring bo'limi sahifasi</h3>
     <div class="card mt-2">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
@@ -13,7 +13,6 @@
                 <tr>
                     <th>#</th>
                     <th>Shartnoma</th>
-                    <th>Shartnoma turi</th>
                     <th>Mijoz</th>
                     <th>Passport</th>
                     <th>Kredit summasi</th>
@@ -32,13 +31,6 @@
                         <td>
                             <span class="fw-bold"> {{ obj.meta.contract.contract_number }}</span> <br>
                             <span class="text text-muted">sana: {{ obj.meta.contract.contract_date }} yil</span>
-                        </td>
-                        <td>
-                            {% if obj.meta.pledge.pledge_is_owner == 'yes' %}
-                                STANDART
-                            {% elif obj.meta.pledge.pledge_is_owner == 'no' %}
-                                ISHONCHNOMA
-                            {% endif %}
                         </td>
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
@@ -65,7 +57,7 @@
                             </div>
                         </td>
                         <td>
-                            {% if obj.moderator_signature == False %}
+                             {% if obj.moderator_signature == False %}
                                 <span class="text text-danger text-uppercase">Moderatorda</span> <br>
                             {% endif %}
                             {% if obj.loan_head_signature == False %}
@@ -83,8 +75,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if obj.moderator_signature == False %}
-                                <a href="{% url 'moderator_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                            {% if obj.monitoring_head_signature == False %}
+                                <a href="{% url 'monitoring_head_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
                             {% elif obj.sum_signatures == 100 %}
                                 {% for doc in generated_documents %}
                                     {% if doc.application_id == obj.id %}
@@ -92,8 +84,6 @@
                                         2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
                                         3. <a href="{{ doc.pdf_dalolatnoma.url }}" target="_blank">Dalolatnoma</a> <br>
                                         4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
-                                        5. <a href="{{ doc.pdf_bayonnoma.url }}" target="_blank">Bayonnoma</a> <br>
-                                        6. <a href="{{ doc.pdf_xulosa.url }}" target="_blank">Xulosa</a> <br>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}

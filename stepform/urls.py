@@ -20,4 +20,12 @@ urlpatterns = [
     # DIREKTOR
     path('direktor_list/', views.direktor_list, name='direktor_list'),
     path('direktor_form/<int:pk>/', views.direktor_form, name='direktor_form'),
+
+    # KREDITLASH LOAN
+    path('loan_head_list/', views.loan_head_list, name='loan_head_list'),
+    path('loan_head_form/<int:pk>/', views.loan_head_form, name='loan_head_form'),
+
+    # MONITORING LOAN
+    path('monitoring_head_list/', views.monitoring_head_list, name='monitoring_head_list'),
+    path('monitoring_head_form/<int:pk>/', views.monitoring_head_form, name='monitoring_head_form'),
 ]

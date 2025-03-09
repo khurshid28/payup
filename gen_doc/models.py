@@ -25,17 +25,3 @@ class GeneratedDocPdfModel(models.Model):
     def __str__(self):
         return str(self.id)
 
-class DocxTemplate(models.Model):
-    id = models.AutoField(primary_key=True)
-    shartnoma =  models.FileField(upload_to='uploads/docx_org_templates')
-    buyruq = models.FileField(upload_to='uploads/docx_org_templates')
-    dalolatnoma =  models.FileField(upload_to='uploads/docx_org_templates')
-    grafik = models.FileField(upload_to='uploads/docx_org_templates')
-    product_type = models.CharField(max_length=1024)
-
-    class Meta:
-        managed = False
-        db_table = 'docx_template'
-
-    def __str__(self):
-        return str(self.id)

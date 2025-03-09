@@ -42,7 +42,7 @@
                 <!-- MODERATOR-->
 
                 {% for group in user_groups %}
-                    {% if group.name == 'moderator' or group.name == 'admin' %}
+                    {% if group.name == 'moderator' %}
                         <div class="sb-sidenav-menu-heading">Moderator</div>
                         <a class="nav-link {% if request.path == '/stepform/moderator_list/' %} active {% endif %} "
                            href="{% url 'moderator_list' %}">
@@ -55,10 +55,36 @@
                 <!-- DIREKTOR-->
 
                 {% for group in user_groups %}
-                    {% if group.name == 'direktor' or group.name == 'admin' %}
+                    {% if group.name == 'direktor' %}
                         <div class="sb-sidenav-menu-heading">Direktor</div>
                         <a class="nav-link {% if request.path == '/stepform/direktor_list/' %} active {% endif %}  "
                            href="{% url 'direktor_list' %}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            Shartnomalar
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- KREDITLASH-->
+
+                {% for group in user_groups %}
+                    {% if group.name == 'kredit' %}
+                        <div class="sb-sidenav-menu-heading">Kreditlash bo'limi</div>
+                        <a class="nav-link {% if request.path == '/stepform/loan_head_list/' %} active {% endif %}  "
+                           href="{% url 'loan_head_list' %}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            Shartnomalar
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- KREDITLASH-->
+
+                {% for group in user_groups %}
+                    {% if group.name == 'monitoring' %}
+                        <div class="sb-sidenav-menu-heading">Monitoring bo'limi</div>
+                        <a class="nav-link {% if request.path == '/stepform/monitoring_head_list/' %} active {% endif %}  "
+                           href="{% url 'monitoring_head_list' %}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-file-signature"></i></div>
                             Shartnomalar
                         </a>

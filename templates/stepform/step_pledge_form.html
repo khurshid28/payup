@@ -32,10 +32,10 @@
                 </div>
                 <hr class="mt-2">
 
-                <div v-if="pledge.pledge_is_owner === 'yes'">
+                <div v-show="pledge.pledge_is_owner === 'yes'">
 
                 </div>
-                <div v-else-if="pledge.pledge_is_owner === 'no'">
+                <div v-show="pledge.pledge_is_owner === 'no'">
                     <div class="card mt-2">
                         <div class="card-header bg-info bg-gradient">Garov egasining ma'lumotlarini kiritish</div>
                         <div class="card-body">
@@ -43,19 +43,19 @@
                                 <div class="col-md-3">
                                     <label class="form-label">Pasport</label>
                                     <input type="text" class="form-control" v-model="owner_data.owner_document"
-                                           id="customer_document" name="owner_document">
+                                           id="owner_document" name="owner_document">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputPassword4" class="form-label">JSSHIR</label>
                                     <input type="text" class="form-control"
                                            v-model="owner_data.owner_passport_pinfl"
-                                           id="customer_passport_pinfl" required name="owner_passport_pinfl">
+                                           id="owner_passport_pinfl" required name="owner_passport_pinfl">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputPassword4" class="form-label">Tug'ilgan sana</label>
                                     <input type="text" class="form-control"
                                            v-model="owner_data.owner_birthDate"
-                                           id="customer_birthDate" required name="owner_birthDate">
+                                           id="owner_birthDate" required name="owner_birthDate">
                                 </div>
                                 <div class="col-md-3 ">
                                     <label for="">Tugmani bosing</label> <br>
@@ -130,7 +130,7 @@
                     </li>
 
                 </ul>
-                <div class="tab-content" id="myTabContent">
+                <div class="tab-content mt-2 mb-2" id="myTabContent">
                     <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
                          aria-labelledby="home-tab" tabindex="0">
                         <div class="card card-body border-top-0 mt-1">
@@ -304,7 +304,7 @@
                     pledge: {
                         "pledge_is_owner": "yes",
                         "pledge_vehicle_TP_series": "AAG",
-                        "pledge_vehicle_TP_number": "4592489",
+                        "pledge_vehicle_TP_number": "2398913",
                         "pledge_vehicle_techPassportIssueDate": null,
                         "pledge_vehicleColor": null,
                         "pledge_issueYear": null,
@@ -312,7 +312,7 @@
                         "pledge_shassi": null,
                         "pledge_vehicleTypeStr": null,
                         "pledge_bodyNumber": null,
-                        "pledge_govNumber": "01X622PB",
+                        "pledge_govNumber": "60Q081BB",
                         "pledge_modelName": null,
                         "pledge_owner": null,
                         "pledge_loan_total": null,
@@ -322,11 +322,11 @@
                     owner_data: {
                         "owner_passport_series": null,
                         "owner_passport_number": null,
-                        "owner_passport_pinfl": null,
-                        "owner_birthDate": null,
+                        "owner_passport_pinfl": "30708933970249",
+                        "owner_birthDate": "07.08.1993",
                         "owner_fullname": null,
                         "owner_fullname_initials": null,
-                        "owner_document": null,
+                        "owner_document": "AD5616282",
                         "owner_issuedBy": null,
                         "owner_startDate": null,
                         "owner_address": null
@@ -429,6 +429,15 @@
 
             },
             mounted() {
+                // Owner document maskasi
+                Inputmask("AA9999999", {placeholder: ""}).mask("#owner_document");
+
+                // Owner document maskasi
+                Inputmask("99999999999999", {placeholder: ""}).mask("#owner_passport_pinfl");
+
+                // Owner Sana (kun/oy/yil) maskasi
+                Inputmask("99.99.9999", {placeholder: "DD.MM.YYYY"}).mask("#owner_birthDate");
+
                 // pledge_vehicle_TP_series maskasi
                 Inputmask("AAA", {placeholder: "AAG"}).mask("#pledge_vehicle_TP_series");
 

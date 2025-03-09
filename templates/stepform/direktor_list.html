@@ -18,8 +18,8 @@
                     <th>Kredit summasi</th>
                     <th>Kredit turi</th>
                     <th>Garov</th>
-                    <th>Moderator</th>
-                    <th>Direktor</th>
+                    <th>Progress</th>
+                    <th>Imzolash holati</th>
                     <th>Hujjatlar</th>
                 </tr>
                 </thead>
@@ -40,37 +40,52 @@
                         <td>{{ obj.meta.pledge.pledge_modelName }}</td>
 
                         <td>
-                            {% if obj.moderator_signature == True %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-check" style="color: green"></i>
+                            <div class="progress">
+                                <div class="progress-bar
+                                    {% if obj.sum_signatures < 50 %}
+                                        bg-danger
+                                    {% elif obj.sum_signatures >= 50 and obj.sum_signatures < 75 %}
+                                        bg-warning
+                                    {% elif obj.sum_signatures > 75 %}
+                                        bg-success
+                                    {% endif %}
+                                " role="progressbar"
+                                     style="width: {{ obj.sum_signatures }}%;" aria-valuenow="{{ obj.sum_signatures }}"
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    {{ obj.sum_signatures }}%
                                 </div>
-                            {% else %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
-                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if obj.moderator_signature == False %}
+                                <span class="text text-danger text-uppercase">Moderatorda</span> <br>
+                            {% endif %}
+                            {% if obj.loan_head_signature == False %}
+                                <span class="text text-danger text-uppercase">Kreditlash bo’limida</span> <br>
+                            {% endif %}
+                            {% if obj.monitoring_head_signature == False %}
+                                <span class="text text-danger text-uppercase">Monitoring bo’limida</span> <br>
+                            {% endif %}
+                            {% if obj.direktor_signature == False %}
+                                <span class="text text-danger text-uppercase">Direktorda</span> <br>
+                            {% endif %}
+
+                            {% if obj.sum_signatures == 100 %}
+                                Hujjatlar imzolangan
                             {% endif %}
                         </td>
                         <td>
-                            {% if obj.direktor_signature == True %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-check" style="color: green"></i>
-                                </div>
-                            {% else %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
-                                </div>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if obj.moderator_signature == True and obj.direktor_signature == False %}
+                            {% if obj.direktor_signature == False and obj.sum_signatures >= 75 %}
                                 <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
-                            {% elif obj.direktor_signature == True %}
+                            {% elif obj.sum_signatures == 100 %}
                                 {% for doc in generated_documents %}
                                     {% if doc.application_id == obj.id %}
                                         1. <a href="{{ doc.pdf_shartnoma.url }}" target="_blank">Shartnoma</a> <br>
                                         2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
                                         3. <a href="{{ doc.pdf_dalolatnoma.url }}" target="_blank">Dalolatnoma</a> <br>
                                         4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
+                                        5. <a href="{{ doc.pdf_bayonnoma.url }}" target="_blank">Bayonnoma</a> <br>
+                                        6. <a href="{{ doc.pdf_xulosa.url }}" target="_blank">Xulosa</a> <br>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}

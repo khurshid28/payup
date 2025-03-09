@@ -1,3 +1,5 @@
+# gitga push qilganda MEDIA katologisa uploads ichidagi katologlar ichidagi fayllarni tozolash kerak
+
 ## ChatGPT PROMT matni 
 ``` 
 Windows server 2022 quyidagi ishlarni bajarish kerak:

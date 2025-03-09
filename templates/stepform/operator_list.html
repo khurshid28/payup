@@ -8,7 +8,7 @@
             Shartnomalar
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table id="datatablesSimple" class="table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -18,8 +18,8 @@
                     <th>Kredit summasi</th>
                     <th>Kredit turi</th>
                     <th>Garov</th>
-                    <th>Moderator</th>
-                    <th>Direktor</th>
+                    <th>Progress</th>
+                    <th>Imzolanish holati</th>
                     <th>Hujjatlar</th>
                 </tr>
                 </thead>
@@ -35,8 +35,10 @@
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
                         <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
-                        <td><span class="text text-uppercase"
-                                  style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
+                        <td>
+                            <span class="text text-uppercase"
+                                  style="color: darkred">{{ obj.meta.contract.credit_type }}</span>
+                        </td>
                         <td>
                             <p>{{ obj.meta.pledge.pledge_modelName }}</p>
                             <p>{{ obj.meta.pledge.pledge_vehicleColor }}</p>
@@ -44,26 +46,40 @@
                         </td>
 
                         <td>
-                            {% if obj.moderator_signature == True %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-check" style="color: green"></i>
+                            <div class="progress">
+                                <div class="progress-bar
+                                    {% if obj.sum_signatures < 50 %}
+                                        bg-danger
+                                    {% elif obj.sum_signatures >= 50 and obj.sum_signatures < 75 %}
+                                        bg-warning
+                                    {% elif obj.sum_signatures > 75 %}
+                                        bg-success
+                                    {% endif %}
+                                " role="progressbar"
+                                     style="width: {{ obj.sum_signatures }}%;" aria-valuenow="{{ obj.sum_signatures }}"
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    {{ obj.sum_signatures }}%
                                 </div>
-                            {% else %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
-                                </div>
-                            {% endif %}
+                            </div>
                         </td>
                         <td>
-                            {% if obj.direktor_signature == True %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-check" style="color: green"></i>
-                                </div>
-                            {% else %}
-                                <div class="text text-center">
-                                    <i class="fa-solid fa-square-xmark" style="color: #a52834"></i>
-                                </div>
+                            {% if obj.moderator_signature == False %}
+                                <span class="text text-danger text-uppercase">Moderatorda</span> <br>
                             {% endif %}
+                            {% if obj.loan_head_signature == False %}
+                                <span class="text text-danger text-uppercase">Kreditlash bo’limida</span> <br>
+                            {% endif %}
+                            {% if obj.monitoring_head_signature == False %}
+                                <span class="text text-danger text-uppercase">Monitoring bo’limida</span> <br>
+                            {% endif %}
+                            {% if obj.direktor_signature == False %}
+                                <span class="text text-danger text-uppercase">Direktorda</span> <br>
+                            {% endif %}
+
+                            {% if obj.sum_signatures == 100 %}
+                                Hujjatlar imzolangan
+                            {% endif %}
+
                         </td>
                         <td>
                             {% if obj.moderator_signature == True and obj.direktor_signature == False %}

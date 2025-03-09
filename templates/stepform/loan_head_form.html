@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2 class="mt-2">Kreditlash bo’limi formasi</h2>
+    <div class="alert alert-info" role="alert">
+        "Roziman" belgilanganda keyin: <b>Shartnoma, Buyruq, Dalolatnoma, Grafik</b> fayllari PDF ko'rinishida shakllanadi!
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">Hujjatlarni imzolash</div>
+                <div class="card-body">
+
+                    <form method="post" action=".">
+                        {% csrf_token %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="loan_head_signature"
+                                   id="id_loan_head_signature" required>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Roziman
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Yuborish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -19,13 +19,15 @@ from payup.settings import BASE_DIR, MEDIA_ROOT, GLOBAL_IP
 
 class GenDocument:
     def __init__(self, generated_document=None, filename=None, shartnoma=None, buyruq=None, dalolatnoma=None,
-                 grafik=None, context=None, application=None):
+                 grafik=None, bayonnoma=None, xulosa=None, context=None, application=None):
         self.generated_document = generated_document
         self.filename = filename
         self.shartnoma = shartnoma  # docx shaklidagi shartnoma template
         self.buyruq = buyruq  # docx shaklidagi buyruq template
         self.dalolatnoma = dalolatnoma  # docx shaklidagi dalolatnoma template
         self.grafik = grafik  # docx shaklidagi grafik template
+        self.bayonnoma = bayonnoma  # docx shaklidagi grafik template
+        self.xulosa = xulosa  # docx shaklidagi grafik template
         self.context = context  # application meta json
         self.application = application
 
@@ -127,6 +129,60 @@ class GenDocument:
         self.generated_document.pdf_dalolatnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
         return self.generated_document
 
+    # Bayonnoma yaratish
+    def gen_bayonnoma(self):
+        # 1. Shablonni ochish
+        docx = DocxTemplate(self.bayonnoma)
+
+        # 2. Shablonni to'ldirish va saqlash
+        self.context['qr_code'] = "{{qr_code}}"
+        docx.render(self.context)
+
+        # 3. Faylni xotirada saqlash
+        buffer = BytesIO()
+        docx.save(buffer)
+        buffer.seek(0)  # Faylni boshidan o‘qish uchun
+
+        # 4. Modelga saqlash
+        self.generated_document.docx_bayonnoma.save(f"{self.filename}_bayonnoma.docx",
+                                                    ContentFile(buffer.getvalue()), save=True)
+
+        # DOCXga QR-CODE joylashtirish va pdfga convert qilish
+        pdf_filename = f"{self.filename}_bayonnoma"
+        pdf_url = self.generate_qr_pdf(self.generated_document.docx_bayonnoma, pdf_filename)
+        # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
+        relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
+        # Faylni modelga saqlash
+        self.generated_document.pdf_bayonnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        return self.generated_document
+
+    # Xulosa yaratish
+    def gen_xulosa(self):
+        # 1. Shablonni ochish
+        docx = DocxTemplate(self.xulosa)
+
+        # 2. Shablonni to'ldirish va saqlash
+        self.context['qr_code'] = "{{qr_code}}"
+        docx.render(self.context)
+
+        # 3. Faylni xotirada saqlash
+        buffer = BytesIO()
+        docx.save(buffer)
+        buffer.seek(0)  # Faylni boshidan o‘qish uchun
+
+        # 4. Modelga saqlash
+        self.generated_document.docx_xulosa.save(f"{self.filename}_xulosa.docx",
+                                                    ContentFile(buffer.getvalue()), save=True)
+
+        # DOCXga QR-CODE joylashtirish va pdfga convert qilish
+        pdf_filename = f"{self.filename}_xulosa"
+        pdf_url = self.generate_qr_pdf(self.generated_document.docx_xulosa, pdf_filename)
+        # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
+        relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
+        # Faylni modelga saqlash
+        self.generated_document.pdf_xulosa.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        return self.generated_document
+
     # Gfafik yaratish
     def gen_grafik(self):
         # 1. Shablonni ochish
@@ -165,16 +221,27 @@ class GenDocument:
         data = []
 
         for row in ws.iter_rows(min_row=9, max_row=100, min_col=1, max_col=6, values_only=True):
+            # obj = {
+            #     "id": row[0],
+            #     "date": row[1].strftime('%d.%m.%Y') if type(row[1]) is datetime else row[1],
+            #     "total_payment": '{:,.2f}'.format(row[2]) if type(row[2]) is float else row[2],
+            #     "principal_balance": '{:,.2f}'.format(row[3]) if isinstance(row[3], float) else '{:,.0f}'.format(
+            #         row[3]),
+            #     "interest_payment": '{:,.2f}'.format(row[4]) if isinstance(row[4], float) else '{:,.0f}'.format(row[4]),
+            #     "principal_payment": '{:,.2f}'.format(row[5]) if isinstance(row[5], float) else '{:,.0f}'.format(
+            #         row[5]),
+            # }
+
+            # AI taxriri
             obj = {
                 "id": row[0],
-                "date": row[1].strftime('%d.%m.%Y') if type(row[1]) is datetime else row[1],
-                "total_payment": '{:,.2f}'.format(row[2]) if type(row[2]) is float else row[2],
-                "principal_balance": '{:,.2f}'.format(row[3]) if isinstance(row[3], float) else '{:,.0f}'.format(
-                    row[3]),
-                "interest_payment": '{:,.2f}'.format(row[4]) if isinstance(row[4], float) else '{:,.0f}'.format(row[4]),
-                "principal_payment": '{:,.2f}'.format(row[5]) if isinstance(row[5], float) else '{:,.0f}'.format(
-                    row[5]),
+                "date": row[1].strftime('%d.%m.%Y') if isinstance(row[1], datetime) else row[1],
+                "total_payment": f"{row[2]:,.2f}" if isinstance(row[2], (int, float)) else row[2],
+                "principal_balance": f"{row[3]:,.2f}" if isinstance(row[3], (int, float)) else row[3],
+                "interest_payment": f"{row[4]:,.2f}" if isinstance(row[4], (int, float)) else row[4],
+                "principal_payment": f"{row[5]:,.2f}" if isinstance(row[5], (int, float)) else row[5],
             }
+
             if obj['date'] != None and obj['id'] != None:
                 data.append(obj)
             if obj["date"] == 'JAMI':
@@ -213,7 +280,7 @@ class GenDocument:
         docx = DocxTemplate(docx)
         # 2. Tasvirni yuklash va o'lchamini belgilash
         image_path = qr_file_path
-        image = InlineImage(docx, image_path, width=Mm(30), height=Mm(30))  # 50mm x 50mm
+        image = InlineImage(docx, image_path, width=Mm(20), height=Mm(20))  # 50mm x 50mm
         self.context['qr_code'] = image
         docx.render(self.context)
         # Saqlash joyi

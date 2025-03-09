@@ -43,8 +43,17 @@ def form_save(request, contract_dict, customer_dict, pledge_dict):
         customer_fullname_initials=customer_dict.get('customer_fullname_initials'),
         customer_issuedBy=customer_dict.get('customer_issuedBy'),
         customer_startDate=datetime.strptime(customer_dict.get('customer_startDate'), '%d.%m.%Y'),
+        customer_endDate=datetime.strptime(customer_dict.get('customer_endDate'), '%d.%m.%Y'),
         customer_phone1=customer_dict.get('customer_phone1'),
-        customer_phone2=customer_dict.get('customer_phone2')
+        customer_phone2=customer_dict.get('customer_phone2'),
+        customer_phone3=customer_dict.get('customer_phone3'),
+        customer_average_monthly_income=int(customer_dict.get('customer_average_monthly_income').replace(" ", "")),
+        customer_average_monthly_income_word=customer_dict.get('customer_average_monthly_income_word'),
+        customer_average_monthly_expenses=int(customer_dict.get('customer_average_monthly_expenses').replace(" ", "")),
+        customer_average_monthly_expenses_word=customer_dict.get('customer_average_monthly_expenses_word'),
+        customer_position=customer_dict.get('customer_position'),
+        customer_first_principal_payment=int(customer_dict.get('customer_first_principal_payment').replace(" ", "")),
+        customer_first_principal_payment_word=customer_dict.get('customer_first_principal_payment_word'),
     )
     customer.save()
 
