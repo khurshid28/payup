@@ -14,9 +14,7 @@
                     <th>#</th>
                     <th>Shartnoma</th>
                     <th>Mijoz</th>
-                    <th>Passport</th>
-                    <th>Kredit summasi</th>
-                    <th>Kredit turi</th>
+                    <th>Kredit</th>
                     <th>Garov</th>
                     <th>Progress</th>
                     <th>Imzolanish holati</th>
@@ -29,20 +27,36 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>
-                            <span class="fw-bold"> {{ obj.meta.contract.contract_number }}</span> <br>
-                            <span class="text text-muted">sana: {{ obj.meta.contract.contract_date }} yil</span>
+                            <i class="fa-solid fa-file-lines"></i><span
+                                class="fw-bold"> {{ obj.meta.contract.contract_number }}</span> <br>
+                            <i class="fa-regular fa-calendar me-1"></i>{{ obj.meta.contract.contract_date }} yil <br>
+                            {% if obj.meta.pledge.pledge_is_owner == 'yes' %}
+                                <i class="fa-solid fa-file me-1"></i>STANDART
+                            {% elif obj.meta.pledge.pledge_is_owner == 'no' %}
+                                <i class="fa-solid fa-file me-1"></i>ISHONCHNOMA
+                            {% endif %}
                         </td>
-                        <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
-                        <td>{{ obj.meta.customer.customer_document }}</td>
-                        <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
                         <td>
-                            <span class="text text-uppercase"
-                                  style="color: darkred">{{ obj.meta.contract.credit_type }}</span>
+                            <i class="fa-solid fa-user me-1"></i> {{ obj.meta.customer.customer_fullname_initials }}
+                            <br>
+                            <i class="fa-solid fa-passport me-2"></i>{{ obj.meta.customer.customer_document }} <br>
+                            <i class="fa-solid fa-address-book me-2"></i>{{ obj.meta.customer.customer_passport_pinfl }}
+                            <br>
+                            <i class="fa-solid fa-child-reaching me-2"></i>{{ obj.meta.customer.customer_birthDate }} yil
+                            <br>
+                            <i class="fa-solid fa-phone me-1"></i>{{ obj.meta.customer.customer_phone1 }}
                         </td>
                         <td>
-                            <p>{{ obj.meta.pledge.pledge_modelName }}</p>
-                            <p>{{ obj.meta.pledge.pledge_vehicleColor }}</p>
-                            <p>{{ obj.meta.pledge.pledge_govNumber }}</p>
+                            <i class="fa-solid fa-file-invoice-dollar me-1"></i>{{ obj.meta.contract.credit_loan_total }}
+                            so'm <br>
+                            <i class="fa-solid fa-file-code me-1"></i><span class="text text-uppercase"
+                                                                            style="color: darkred">{{ obj.meta.contract.credit_type }}</span>
+                        </td>
+
+                        <td>
+                            <i class="fa-solid fa-car me-1"></i>{{ obj.meta.pledge.pledge_modelName }} <br>
+                            <i class="fa-solid fa-paint-roller me-1"></i>{{ obj.meta.pledge.pledge_vehicleColor }} <br>
+                            <i class="fa-solid fa-car-on me-1"></i>{{ obj.meta.pledge.pledge_govNumber }}
                         </td>
 
                         <td>
@@ -64,23 +78,27 @@
                         </td>
                         <td>
                             {% if obj.moderator_signature == False %}
+                                <i class="fa-solid fa-file-signature me-1"></i>
                                 <span class="text text-danger text-uppercase">Moderatorda</span> <br>
                             {% endif %}
                             {% if obj.loan_head_signature == False %}
+                                <i class="fa-solid fa-file-signature me-1"></i>
                                 <span class="text text-danger text-uppercase">Kreditlash bo’limida</span> <br>
                             {% endif %}
                             {% if obj.monitoring_head_signature == False %}
+                                <i class="fa-solid fa-file-signature me-1"></i>
                                 <span class="text text-danger text-uppercase">Monitoring bo’limida</span> <br>
                             {% endif %}
                             {% if obj.direktor_signature == False %}
+                                <i class="fa-solid fa-file-signature me-1"></i>
                                 <span class="text text-danger text-uppercase">Direktorda</span> <br>
                             {% endif %}
 
                             {% if obj.sum_signatures == 100 %}
-                                Hujjatlar imzolangan
+                                <i class="fa-solid fa-file-circle-check"></i> IMZOLANGAN
                             {% endif %}
-
                         </td>
+
                         <td>
                             {% if obj.moderator_signature == True and obj.direktor_signature == False %}
                                 <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
@@ -91,6 +109,8 @@
                                         2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
                                         3. <a href="{{ doc.pdf_dalolatnoma.url }}" target="_blank">Dalolatnoma</a> <br>
                                         4. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
+                                        5. <a href="{{ doc.pdf_bayonnoma.url }}" target="_blank">Bayonnoma</a> <br>
+                                        6. <a href="{{ doc.pdf_xulosa.url }}" target="_blank">Xulosa</a> <br>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}

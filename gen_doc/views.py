@@ -221,18 +221,6 @@ class GenDocument:
         data = []
 
         for row in ws.iter_rows(min_row=9, max_row=100, min_col=1, max_col=6, values_only=True):
-            # obj = {
-            #     "id": row[0],
-            #     "date": row[1].strftime('%d.%m.%Y') if type(row[1]) is datetime else row[1],
-            #     "total_payment": '{:,.2f}'.format(row[2]) if type(row[2]) is float else row[2],
-            #     "principal_balance": '{:,.2f}'.format(row[3]) if isinstance(row[3], float) else '{:,.0f}'.format(
-            #         row[3]),
-            #     "interest_payment": '{:,.2f}'.format(row[4]) if isinstance(row[4], float) else '{:,.0f}'.format(row[4]),
-            #     "principal_payment": '{:,.2f}'.format(row[5]) if isinstance(row[5], float) else '{:,.0f}'.format(
-            #         row[5]),
-            # }
-
-            # AI taxriri
             obj = {
                 "id": row[0],
                 "date": row[1].strftime('%d.%m.%Y') if isinstance(row[1], datetime) else row[1],

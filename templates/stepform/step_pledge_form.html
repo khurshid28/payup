@@ -32,10 +32,10 @@
                 </div>
                 <hr class="mt-2">
 
-                <div v-show="pledge.pledge_is_owner === 'yes'">
+                <div v-if="pledge.pledge_is_owner === 'yes'">
 
                 </div>
-                <div v-show="pledge.pledge_is_owner === 'no'">
+                <div v-if="pledge.pledge_is_owner === 'no'">
                     <div class="card mt-2">
                         <div class="card-header bg-info bg-gradient">Garov egasining ma'lumotlarini kiritish</div>
                         <div class="card-body">
