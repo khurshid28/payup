@@ -101,7 +101,7 @@
                         </td>
                         <td>
                             {% if obj.loan_head_signature == False %}
-                                <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                                <a href="{% url 'loan_head_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
                             {% elif obj.direktor_signature == True %}
                                 {% for doc in generated_documents %}
                                     {% if doc.application_id == obj.id %}
