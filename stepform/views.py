@@ -219,7 +219,7 @@ def direktor_form(request, pk):
     application = get_object_or_404(Application, pk=pk)
     credit_type = application.meta['contract']['credit_type']
     pledge_is_owner = application.meta['pledge']['pledge_is_owner']
-    docx_template = DocxTemplate.objects.filter(product_type=credit_type).first()
+    docx_template = DocxTemplate.objects.filter(product_type=credit_type, state=True).first()
     generated_document = GeneratedDocument()
     filename = f"{credit_type}_{application.id}"
 
@@ -237,13 +237,13 @@ def direktor_form(request, pk):
                 context=application.meta,
                 application=application
             )
-            # gen_doc.display_info()
+            gen_doc.display_info()
             gen_doc.gen_shartnoma()
             gen_doc.gen_buyruq()
             gen_doc.gen_dalolatnoma()
             gen_doc.gen_grafik()
             gen_doc.gen_bayonnoma()
-            gen_doc.gen_xulosa()
+            gen_doc.gen_excel_to_pdf() # bu yerda Xulosa exceldan asosida yaratiladi
             gen_doc.remove_temp_files()
 
             Application.objects.filter(pk=pk).update(direktor_signature=True)

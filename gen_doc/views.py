@@ -1,6 +1,8 @@
 import os
 import time
 import os
+
+import img2pdf
 import pythoncom
 import win32com.client
 from datetime import datetime
@@ -15,6 +17,7 @@ from openpyxl.reader.excel import load_workbook
 
 from payup import settings
 from payup.settings import BASE_DIR, MEDIA_ROOT, GLOBAL_IP
+from openpyxl.drawing.image import Image
 
 
 class GenDocument:
@@ -156,32 +159,6 @@ class GenDocument:
         self.generated_document.pdf_bayonnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
         return self.generated_document
 
-    # Xulosa yaratish
-    def gen_xulosa(self):
-        # 1. Shablonni ochish
-        docx = DocxTemplate(self.xulosa)
-
-        # 2. Shablonni to'ldirish va saqlash
-        self.context['qr_code'] = "{{qr_code}}"
-        docx.render(self.context)
-
-        # 3. Faylni xotirada saqlash
-        buffer = BytesIO()
-        docx.save(buffer)
-        buffer.seek(0)  # Faylni boshidan o‘qish uchun
-
-        # 4. Modelga saqlash
-        self.generated_document.docx_xulosa.save(f"{self.filename}_xulosa.docx",
-                                                    ContentFile(buffer.getvalue()), save=True)
-
-        # DOCXga QR-CODE joylashtirish va pdfga convert qilish
-        pdf_filename = f"{self.filename}_xulosa"
-        pdf_url = self.generate_qr_pdf(self.generated_document.docx_xulosa, pdf_filename)
-        # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
-        relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
-        # Faylni modelga saqlash
-        self.generated_document.pdf_xulosa.save(relative_path, File(open(pdf_url, "rb")), save=True)
-        return self.generated_document
 
     # Gfafik yaratish
     def gen_grafik(self):
@@ -306,3 +283,86 @@ class GenDocument:
                 os.remove(file_path)  # Faylni o'chiradi
                 print(f"{file_path} fayli o'chirildi.")
         return print('Barcha fayllar ochirildi.')
+
+    def gen_excel_to_pdf(self):
+        pdf_filename = f"{self.filename}_xulosa"
+        xlsx = self.application.xlsx
+        print(xlsx)
+        wb = load_workbook(filename=xlsx, read_only=False, data_only=True)
+        ws = wb['Заключение КК']
+        # QR-kodni A1 katagiga joylashtirish
+
+        # QRCODE yaratish
+        qr_file_name = f"{pdf_filename}.png"
+        qr_file_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/qrcode", qr_file_name)
+
+        # Papka mavjudligini tekshirish va yaratish
+        os.makedirs(os.path.dirname(qr_file_path), exist_ok=True)
+
+        # QR kod yaratish
+        qr = qrcode.QRCode(
+            version=4,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(f"http://{GLOBAL_IP}/media/uploads/generated/pdf/{pdf_filename}.pdf")
+        qr.make(fit=True)
+
+        # QR kodni tasvirga aylantirish va saqlash
+        img = qr.make_image(fill="black", back_color="white")
+        img.save(qr_file_path)
+        print(f"{qr_file_path}")
+
+        img = Image(qr_file_path)
+        # O'lchamlarni belgilash (rasmni o'lchamlari piksel bo'yicha)
+        img.width = 100  # Kenglik
+        img.height = 100  # Balandlik
+
+        ws.add_image(img, "A53")
+
+
+        # Excel faylni saqlash
+        excel_file_name = f"{pdf_filename}.xlsx"
+        excel_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/excel", excel_file_name)
+        wb.save(excel_path)
+
+        pythoncom.CoInitialize()  # COM obyektlarini ishga tushirish
+
+        # 1️⃣ Excel ilovasini ochish
+        excel = win32com.client.Dispatch("Excel.Application")
+        excel.Visible = False  # Excel oynasi ko‘rinmasin
+
+        # 2️⃣ Excel faylni ochish
+        wb = excel.Workbooks.Open(excel_path)
+        ws = wb.Sheets("Заключение КК")  # Faqat shu sheetni tanlash
+
+        # 3️⃣ A4 formatga moslash va portret rejim
+        ws.PageSetup.PaperSize = 9  # xlPaperA4
+        ws.PageSetup.Orientation = 1  # xlPortrait (Portret)
+        ws.PageSetup.Zoom = False  # Zoomni o‘chirib, Fit To ishlatish
+        ws.PageSetup.FitToPagesWide = 1  # Kenglik bo‘yicha sahifaga sig‘dirish
+        ws.PageSetup.FitToPagesTall = False  # Balans yo‘qotmaslik uchun
+
+        # 4️⃣ Sahifa chekkalarini moslash
+        ws.PageSetup.LeftMargin = excel.InchesToPoints(0.3)
+        ws.PageSetup.RightMargin = excel.InchesToPoints(0.3)
+        ws.PageSetup.TopMargin = excel.InchesToPoints(0.5)
+        ws.PageSetup.BottomMargin = excel.InchesToPoints(0.5)
+
+        # 5️⃣ Chop qilish chegaralarini belgilash
+        ws.PageSetup.PrintArea = ws.UsedRange.Address  # Faqat ishlatilgan qismni chop etish
+
+        gen_pdf_file = f"{pdf_filename}.pdf"
+        pdf_path =  os.path.join(settings.MEDIA_ROOT, gen_pdf_file)
+        ws.ExportAsFixedFormat(0, pdf_path)  # PDF formatiga saqlash (0 - xlTypePDF)
+
+        # Excel'ni yopish
+        wb.Close(SaveChanges=False)
+        excel.Quit()
+        # Faylni modelga saqlash
+        relative_path = os.path.relpath(pdf_path, settings.MEDIA_ROOT).replace("\\", "/")
+        self.generated_document.pdf_xulosa.save(relative_path, File(open(pdf_path, "rb")), save=True)
+
+        return pdf_path
+

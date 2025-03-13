@@ -201,8 +201,9 @@ class DocxTemplate(models.Model):
     dalolatnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     grafik_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     bayonnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
-    xulosa_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    # xulosa_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/') # Bu exceldan chiqadi
 
+    state = models.BooleanField(default=True)
     def __str__(self):
         return f"DocxTemplate {self.id} - {self.product_type}"
 
