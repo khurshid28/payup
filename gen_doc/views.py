@@ -1,11 +1,8 @@
-import time
-import os
-
+import os,  time
 import pythoncom
 import win32com.client
 from datetime import datetime
 from io import BytesIO
-
 import qrcode
 from django.core.files.base import ContentFile, File
 from docx.shared import Mm
