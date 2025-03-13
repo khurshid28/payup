@@ -233,7 +233,7 @@ def direktor_form(request, pk):
                 dalolatnoma=docx_template.dalolatnoma,
                 grafik=docx_template.grafik,
                 bayonnoma=docx_template.bayonnoma,
-                # xulosa=docx_template.xulosa, 
+                # xulosa=docx_template.xulosa,
                 context=application.meta,
                 application=application
             )
