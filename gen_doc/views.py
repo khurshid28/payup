@@ -1,8 +1,6 @@
-import os
 import time
 import os
 
-import img2pdf
 import pythoncom
 import win32com.client
 from datetime import datetime
