@@ -6,7 +6,7 @@ import win32com.client
 from datetime import datetime
 from io import BytesIO
 
-import qrcode, jinja2
+import qrcode
 from django.core.files.base import ContentFile, File
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage
