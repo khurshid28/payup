@@ -110,10 +110,10 @@ def moderator_form(request, pk):
 
         # Fayl kengaytmasini olish
         ext = uploaded_file.name.split('.')[-1]
-        new_filename = f"{credit_type}_{application.id}_excel.{ext}"  # Yangi UUID nom yaratish
+        new_filename = f"{credit_type}_{application.id}.{ext}"  # Yangi UUID nom yaratish
 
         # Faylni `media/uploads/` ichiga saqlash
-        save_path = os.path.join(settings.MEDIA_ROOT, 'uploads/xlsx/', new_filename)
+        save_path = os.path.join(settings.MEDIA_ROOT, 'uploads/xlsx_template/', new_filename)
         os.makedirs(os.path.dirname(save_path), exist_ok=True)  # Katalog yaratish
 
         with open(save_path, 'wb+') as destination:
@@ -121,7 +121,7 @@ def moderator_form(request, pk):
                 destination.write(chunk)
 
         # Faylga URL yaratish
-        file_url = f"uploads/xlsx/{new_filename}"
+        file_url = f"uploads/xlsx_template/{new_filename}"
         application.xlsx = file_url
 
         # Moderator imzo qo'yishi
@@ -237,12 +237,12 @@ def direktor_form(request, pk):
                 context=application.meta,
                 application=application
             )
-            gen_doc.display_info()
-            gen_doc.gen_shartnoma()
-            gen_doc.gen_buyruq()
-            gen_doc.gen_dalolatnoma()
-            gen_doc.gen_grafik()
-            gen_doc.gen_bayonnoma()
+            # gen_doc.display_info()
+            # gen_doc.gen_shartnoma()
+            # gen_doc.gen_buyruq()
+            # gen_doc.gen_dalolatnoma()
+            # gen_doc.gen_grafik()
+            # gen_doc.gen_bayonnoma()
             gen_doc.gen_excel_to_pdf() # bu yerda Xulosa exceldan asosida yaratiladi
             gen_doc.remove_temp_files()
 
@@ -256,7 +256,7 @@ def direktor_form(request, pk):
                 dalolatnoma=docx_template.dalolatnoma_ishonchnoma,
                 grafik=docx_template.grafik_ishonchnoma,
                 bayonnoma=docx_template.bayonnoma_ishonchnoma,
-                xulosa=docx_template.xulosa_ishonchnoma,
+                # xulosa=docx_template.xulosa_ishonchnoma,
                 context=application.meta,
                 application=application
             )
@@ -266,7 +266,7 @@ def direktor_form(request, pk):
             gen_doc.gen_dalolatnoma()
             gen_doc.gen_grafik()
             gen_doc.gen_bayonnoma()
-            gen_doc.gen_xulosa()
+            # gen_doc.gen_xulosa()
             gen_doc.remove_temp_files()
 
             Application.objects.filter(pk=pk).update(direktor_signature=True)

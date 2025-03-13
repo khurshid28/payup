@@ -160,7 +160,7 @@ class Application(models.Model):
     direktor_signature = models.BooleanField(default=False)
     loan_head_signature = models.BooleanField(default=False)
     monitoring_head_signature = models.BooleanField(default=False)
-    xlsx = models.FileField(blank=True, null=True, upload_to='uploads/xlsx/')
+    xlsx = models.FileField(blank=True, null=True, upload_to='uploads/xlsx_template/')
 
     def __str__(self):
         return f"Application {self.id} - {self.state}"
