@@ -25,7 +25,7 @@ class GenDocument:
         self.dalolatnoma = dalolatnoma  # docx shaklidagi dalolatnoma template
         self.grafik = grafik  # docx shaklidagi grafik template
         self.bayonnoma = bayonnoma  # docx shaklidagi grafik template
-        self.xulosa = xulosa  # docx shaklidagi grafik template
+        # self.xulosa = xulosa  # docx shaklidagi grafik template
         self.context = context  # application meta json
         self.application = application
 

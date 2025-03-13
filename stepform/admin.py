@@ -29,7 +29,7 @@ class BranchAdmin(admin.ModelAdmin):
 
 @admin.register(DocxTemplate)
 class DocxTemplateAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_type', 'shartnoma', 'buyruq', 'dalolatnoma', 'bayonnoma', 'xulosa')
+    list_display = ('id', 'product_type', 'shartnoma', 'buyruq', 'dalolatnoma', 'bayonnoma', )
     search_fields = ('product_type', 'buyruq', 'dalolatnoma')
     list_filter = ('product_type',)
     ordering = ('id',)

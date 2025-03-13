@@ -194,7 +194,7 @@ class DocxTemplate(models.Model):
     dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     grafik = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
-    xulosa = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
+    # xulosa = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/') # Bu exceldan chiqadi
 
     shartnoma_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
     buyruq_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/')
