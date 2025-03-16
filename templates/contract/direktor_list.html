@@ -35,17 +35,22 @@
                         <td>{{ obj.meta.customer.customer_fullname_initials }}</td>
                         <td>{{ obj.meta.customer.customer_document }}</td>
                         <td>{{ obj.meta.contract.credit_loan_total }} so'm</td>
-                        <td><span class="text text-uppercase"  style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
+                        <td><span class="text text-uppercase"
+                                  style="color: darkred">{{ obj.meta.contract.credit_type }}</span></td>
                         <td>{{ obj.meta.pledge.pledge_modelName }}</td>
                         <td>
                             {% if obj.direktor_signature == False %}
-                                <a href="{% url 'direktor_form' obj.document_id %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
+                                <a href="{% url 'direktor_form' obj.document_id %}"
+                                   class="btn btn-outline-success btn-sm">IMZOLASH</a>
                             {% elif obj.direktor_signature == True %}
                                 1. <a href="{{ obj.shartnoma_pdf.url }}" target="_blank">Shartnoma</a> <br>
                                 2. <a href="{{ obj.buyruq_pdf.url }}" target="_blank">Buyruq</a> <br>
                                 3. <a href="{{ obj.dalolatnoma_pdf.url }}" target="_blank">Dalolatnoma</a> <br>
                                 4. <a href="{{ obj.grafik_pdf.url }}" target="_blank">Grafik</a> <br>
-                                <h6 class="mt-2"><a href="{% url 'document_detail' obj.unique_identifier %}">Document DETAIL</a></h6>
+                                <h6 class="mt-2"><a href="{% url 'document_detail' obj.unique_identifier %}">Document
+                                    DETAIL</a></h6>
+
+                                <span id="timer">fff</span>
                             {% endif %}
 
                         </td>
@@ -62,6 +67,7 @@
 {% endblock %}
 
 {% block JavaScript %}
+
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
             crossorigin="anonymous"></script>
     <script src="{% static 'js/datatables-simple-demo.js' %} "></script>

@@ -1,9 +1,12 @@
 import os
+import threading
+import time
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
 
+from gen_doc.excel_pdf_converter import ExcelToPDFConverter
 from payup import settings
 from payup.asgi import application
 from stepform.models import ContractStep, Customer, Pledge, Application, Branch, Organization, DocxTemplate, \
@@ -217,61 +220,35 @@ def direktor_form(request, pk):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
     application = get_object_or_404(Application, pk=pk)
-    credit_type = application.meta['contract']['credit_type']
-    pledge_is_owner = application.meta['pledge']['pledge_is_owner']
-    docx_template = DocxTemplate.objects.filter(product_type=credit_type, state=True).first()
-    generated_document = GeneratedDocument()
-    filename = f"{credit_type}_{application.id}"
+    xlsx_full_path = application.xlsx.path
+    xlsx_filename_with_ext = os.path.basename(xlsx_full_path)
+    # Fayl nomidan kengaytmani olib tashlash
+    xlsx_filename = os.path.splitext(xlsx_filename_with_ext)[0]
 
     if request.method == "POST":
-        if pledge_is_owner == 'yes': # Garov egasi o'zi
-            gen_doc = GenDocument(
-                generated_document=generated_document,
-                filename=filename,
-                shartnoma=docx_template.shartnoma,
-                buyruq=docx_template.buyruq,
-                dalolatnoma=docx_template.dalolatnoma,
-                grafik=docx_template.grafik,
-                bayonnoma=docx_template.bayonnoma,
-                # xulosa=docx_template.xulosa,
-                context=application.meta,
-                application=application
-            )
-            # gen_doc.display_info()
-            # gen_doc.gen_shartnoma()
-            # gen_doc.gen_buyruq()
-            # gen_doc.gen_dalolatnoma()
-            # gen_doc.gen_grafik()
-            # gen_doc.gen_bayonnoma()
-            gen_doc.gen_excel_to_pdf() # bu yerda Xulosa exceldan asosida yaratiladi
-            gen_doc.remove_temp_files()
+        filename = xlsx_filename  # Excel fayl nomi
+        xlsx = application.xlsx  # Excel fayl nomi
+        global_ip = settings.GLOBAL_IP  # O'zingizning IP yoki domain
 
-            Application.objects.filter(pk=pk).update(direktor_signature=True)
-        elif pledge_is_owner == 'no': # Garov egasi boshqa
-            gen_doc = GenDocument(
-                generated_document=generated_document,
-                filename=filename,
-                shartnoma=docx_template.shartnoma_ishonchnoma,
-                buyruq=docx_template.buyruq_ishonchnoma,
-                dalolatnoma=docx_template.dalolatnoma_ishonchnoma,
-                grafik=docx_template.grafik_ishonchnoma,
-                bayonnoma=docx_template.bayonnoma_ishonchnoma,
-                # xulosa=docx_template.xulosa_ishonchnoma,
-                context=application.meta,
-                application=application
-            )
-            # gen_doc.display_info()
-            gen_doc.gen_shartnoma()
-            gen_doc.gen_buyruq()
-            gen_doc.gen_dalolatnoma()
-            gen_doc.gen_grafik()
-            gen_doc.gen_bayonnoma()
-            # gen_doc.gen_xulosa()
-            gen_doc.remove_temp_files()
+        converter = ExcelToPDFConverter(filename=filename, xlsx=xlsx, global_ip=global_ip)
+        # Fonda ishga tushiradigan funksiya
 
-            Application.objects.filter(pk=pk).update(direktor_signature=True)
+        # Generatsiya va tozalashni ketma-ket bajaradigan funksiya
+        def background_task():
+            converter.generate_multiple_pdfs_with_qr()
+            converter.save_to_generated_document(application_id=application.id, user_id=request.user.id)
+            converter.clear_generated_excel_files()
+        thread = threading.Thread(target=background_task)
+        thread.start()
 
-        return redirect('direktor_list')
+
+        pdf_paths = thread
+        converter.clear_generated_excel_files()
+
+
+        Application.objects.filter(pk=pk).update(direktor_signature=True)
+
+        return render(request, 'stepform/converting_pdf.html')
     context = {
         'user_groups': user_groups,
         'application': application

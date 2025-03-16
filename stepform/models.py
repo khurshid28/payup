@@ -216,20 +216,27 @@ class GeneratedDocument(models.Model):
     id = models.AutoField(primary_key=True)
     created_by = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
     docx_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
     docx_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
     docx_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
     docx_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+    docx_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
+
+    state = models.BooleanField(default=True)
+    application_id = models.IntegerField(blank=True, null=True)
+
     pdf_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
     pdf_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
     pdf_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
     pdf_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    state = models.BooleanField(default=True)
-    application_id = models.IntegerField(blank=True, null=True)
-    docx_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
     pdf_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
     pdf_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_ariza = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_muqova = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_mijoz_anketasi = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_majburiyatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
 
     def __str__(self):
         return f"GeneratedDocument {self.id}"

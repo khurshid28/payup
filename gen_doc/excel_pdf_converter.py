@@ -1,36 +1,4 @@
 import os
-
-from fpdf import FPDF
-import openpyxl
-import qrcode
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, FileResponse
-from django.shortcuts import render
-
-from payup import settings
-from stepform.models import Organization
-
-
-@login_required()
-def home(request):
-    user = request.user
-    user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    organization = Organization.objects.first()
-    if organization:
-        organization = organization
-    else:
-        organization = "Topilmadi"
-    context = {
-        'user_groups': user_groups,
-        'organization': organization,
-    }
-
-    return render(request, 'pages/index.html', context)
-
-
-# Excelni PDFga aylantirishni test qilish
-
-import os
 import pythoncom
 import qrcode
 import win32com.client
@@ -38,12 +6,14 @@ from openpyxl import load_workbook
 from openpyxl.drawing.image import Image
 from django.conf import settings
 
+from stepform.models import GeneratedDocument
+
 
 class ExcelToPDFConverter:
-    def __init__(self, filename, global_ip):
+    def __init__(self, filename, xlsx, global_ip):
         self.filename = filename
         self.global_ip = global_ip
-        self.xlsx = os.path.join(settings.MEDIA_ROOT, f"{filename}.xlsx")
+        self.xlsx = xlsx
         self.qr_file_path = ""
         self.pdf_paths = []
 
@@ -153,7 +123,7 @@ class ExcelToPDFConverter:
                 self.create_qr_code(pdf_filename)
                 excel_path = self.add_qr_to_excel(sheet, img_position=info["img_position"])
             else:
-                excel_path = self.xlsx   # To‘liq fayl yo‘lini aniq ko‘rsatish
+                excel_path = os.path.join(settings.MEDIA_ROOT, f"uploads/xlsx_template/{self.filename}.xlsx")
 
             pdf_path = self.convert_excel_to_pdf(
                 excel_path, pdf_filename, sheet, info["start_cell"], info["end_cell"]
@@ -162,6 +132,30 @@ class ExcelToPDFConverter:
             print(sheet)
         print(self.pdf_paths)
         return self.pdf_paths
+
+    def save_to_generated_document(self, application_id, user_id):
+        """ Yaratilgan PDF fayllarni GeneratedDocument modeliga saqlaydi """
+
+        def get_relative_path(full_path):
+            """ To'liq yo'ldan nisbiy yo‘lni ajratib olish """
+            return os.path.relpath(full_path, settings.MEDIA_ROOT)
+
+        document = GeneratedDocument(
+            created_by=user_id,
+            application_id=application_id,
+            pdf_shartnoma=get_relative_path(self.pdf_paths.get('shartnoma')),
+            pdf_buyruq=get_relative_path(self.pdf_paths.get('buyruq')),
+            pdf_bayonnoma=get_relative_path(self.pdf_paths.get('bayonnoma')),
+            pdf_xulosa=get_relative_path(self.pdf_paths.get('xulosa')),
+            pdf_dalolatnoma=get_relative_path(self.pdf_paths.get('dalolatnoma')),
+            pdf_grafik=get_relative_path(self.pdf_paths.get('grafik')),
+            pdf_ariza=get_relative_path(self.pdf_paths.get('ariza')),
+            pdf_muqova=get_relative_path(self.pdf_paths.get('muqova')),
+            pdf_mijoz_anketasi=get_relative_path(self.pdf_paths.get('mijoz_anketasi')),
+            pdf_majburiyatnoma=get_relative_path(self.pdf_paths.get('majburiyatnoma'))
+        )
+        document.save()
+
 
     def clear_generated_excel_files(self):
         """ media/uploads/generated/excel papkasidagi barcha fayllarni o'chiradi """
@@ -178,17 +172,3 @@ class ExcelToPDFConverter:
                     print(f"⚠️ Xatolik: {e}")
         else:
             print("📁 Papka topilmadi!")
-
-
-def generate_pdfs_view(request):
-    filename = "new_template"  # Excel fayl nomi
-    global_ip = settings.GLOBAL_IP  # O'zingizning IP yoki domain
-
-    converter = ExcelToPDFConverter(filename=filename, global_ip=global_ip)
-    pdf_paths = converter.generate_multiple_pdfs_with_qr()
-    converter.clear_generated_excel_files()
-    
-    if pdf_paths:
-        return HttpResponse("Barcha PDFlar yaratildi")
-
-    return HttpResponse("PDF yaratilmadi", status=500)

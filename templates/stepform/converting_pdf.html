@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="card mt-2">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Hujjatlar PDFga o'tkazilyapti...
+        </div>
+        <div class="card-body alert alert-warning">
+            <h2>⏳ Jarayon davom etmoqda...</h2>
+            <p id="timer">90 sekund qoldi</p>
+            <!-- Link dastlab ko‘rinmaydi -->
+            <a id="myLink" href="{% url 'direktor_list' %}" style="display: none; color: green; font-weight: bold;">
+                ✅ Hujjatlar tayyor!
+            </a>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block JavaScript %}
+    <script>
+        let timeLeft = 90;
+        const timerElement = document.getElementById("timer");
+        const linkElement = document.getElementById("myLink");
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                linkElement.style.display = "block"; // Linkni ko‘rsatish
+            } else {
+                timerElement.innerHTML = `${timeLeft} sekund qoldi`;
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+
+        // Timer ishga tushadi sahifa yuklanganda
+        window.onload = updateTimer;
+    </script>
+
+
+{% endblock %}
+

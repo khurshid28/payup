@@ -42,7 +42,8 @@
                             <i class="fa-solid fa-passport me-2"></i>{{ obj.meta.customer.customer_document }} <br>
                             <i class="fa-solid fa-address-book me-2"></i>{{ obj.meta.customer.customer_passport_pinfl }}
                             <br>
-                            <i class="fa-solid fa-child-reaching me-2"></i>{{ obj.meta.customer.customer_birthDate }} yil
+                            <i class="fa-solid fa-child-reaching me-2"></i>{{ obj.meta.customer.customer_birthDate }}
+                            yil
                             <br>
                             <i class="fa-solid fa-phone me-1"></i>{{ obj.meta.customer.customer_phone1 }}
                         </td>
@@ -115,6 +116,7 @@
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
+
                         </td>
 
                     </tr>
@@ -130,6 +132,9 @@
 {% endblock %}
 
 {% block JavaScript %}
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
             crossorigin="anonymous"></script>
     <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
