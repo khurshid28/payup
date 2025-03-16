@@ -5,4 +5,5 @@ from pages import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('test_error', views.test_error, name='test_error'),
 ]

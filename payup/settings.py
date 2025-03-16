@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'payup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'payup-okt-db',
+        'NAME': 'payupdb',
         'USER': 'postgres',
         'PASSWORD': 'Nc778119!@',
         'HOST': '83.221.176.88',
@@ -139,7 +139,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 
-
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # Statik fayllar shu papkaga yig‘iladi
 STATICFILES_DIRS = [
@@ -178,21 +177,22 @@ GLOBAL_IP = '83.221.176.88:1661'
 #     "http://192.168.3.214:1661",
 # ]
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'DEBUG',
-#             'class': 'logging.FileHandler',
-#             'filename': 'django_debug.log',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'C:/Users/Admin/PycharmProjects/payup/logs/error.log',
+            'encoding': 'utf-8',  # UTF-8 kodlash qo‘shildi!
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
