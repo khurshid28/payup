@@ -36,4 +36,4 @@ class DocxTemplateAdmin(admin.ModelAdmin):
 
 @admin.register(GeneratedDocument)
 class GeneratedDocumentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'docx_shartnoma', 'pdf_shartnoma')
+    list_display = ('id', )

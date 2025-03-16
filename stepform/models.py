@@ -217,13 +217,6 @@ class GeneratedDocument(models.Model):
     created_by = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
-    docx_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-    docx_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/docx/')
-
     state = models.BooleanField(default=True)
     application_id = models.IntegerField(blank=True, null=True)
 
