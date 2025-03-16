@@ -177,22 +177,22 @@ GLOBAL_IP = '83.221.176.88:1661'
 #     "http://192.168.3.214:1661",
 # ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': 'C:/Users/Admin/PycharmProjects/payup/logs/error.log',
-            'encoding': 'utf-8',  # UTF-8 kodlash qo‘shildi!
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'ERROR',
+#             'class': 'logging.FileHandler',
+#             'filename': 'C:/Users/Admin/PycharmProjects/payup/logs/error.log',
+#             'encoding': 'utf-8',  # UTF-8 kodlash qo‘shildi!
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#     },
+# }
