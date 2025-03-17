@@ -170,32 +170,55 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ## 2. Apache httpd.conf faylida quyidagilarni qo‘shing:
 ```` 
+
 # Python DLL yuklash
-LoadFile "C:/Users/Администратор/AppData/Local/Programs/Python/Python312/python312.dll"
+LoadFile "C:/Users/user/AppData/Local/Programs/Python/Python312/python312.dll"
 
 # mod_wsgi yuklash
-LoadModule wsgi_module "C:/DjangoApp/venv/Lib/site-packages/mod_wsgi/server/mod_wsgi.cp312-win_amd64.pyd"
+LoadModule wsgi_module "C:/payup/venv/Lib/site-packages/mod_wsgi/server/mod_wsgi.cp312-win_amd64.pyd"
 
 # WSGI muhitini o‘rnatish
-WSGIPythonHome "C:/DjangoApp/venv"
-WSGIPythonPath "C:/DjangoApp/myproject"
+WSGIPythonHome "C:/payup/venv"
+WSGIPythonPath "C:/payup/payup"
 
 # Django loyihasi uchun WSGI sozlamalari
-WSGIScriptAlias / "C:/DjangoApp/myproject/myproject/wsgi.py"
-WSGIPythonHome "C:/DjangoApp/venv"
-WSGIPythonPath "C:/DjangoApp/myproject"
+WSGIScriptAlias / "C:/payup/payup/wsgi.py"
+WSGIPythonHome "C:/payup/venv"
+WSGIPythonPath "C:/payup/"
 
-<Directory "C:/DjangoApp/myproject/myproject">
+
+
+<Directory "C:/payup/payup">
     <Files wsgi.py>
         Require all granted
     </Files>
 </Directory>
 
 # Django static fayllar
-Alias /static "C:/DjangoApp/myproject/staticfiles/"
-<Directory "C:/DjangoApp/myproject/staticfiles">
+Alias /static "C:/payup/staticfiles/"
+<Directory "C:/payup/staticfiles">
     Require all granted
 </Directory>
+# Django media fayllar
+Alias /media/ "C:/payup/media/"
+<Directory "C:/payup/media/">
+    Require all granted
+</Directory>
+
+<IfModule mod_headers.c>
+    Header always unset Cross-Origin-Opener-Policy
+</IfModule>
+
+
+<IfModule mod_mime.c>
+    AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .xlsx
+    AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document .docx
+</IfModule>
+
+<Directory "C:/payup">
+    LimitRequestBody 0
+</Directory>
+
 ````
 ## 3. Django statik fayllarni yig‘ish:
 ``` 
