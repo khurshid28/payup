@@ -109,7 +109,7 @@ class ExcelToPDFConverter:
             "xulosa": {"img_position": "A53", "start_cell": "A1", "end_cell": "E58"},
             "dalolatnoma": {"img_position": "C51", "start_cell": "A1", "end_cell": "E60"},
             "grafik": {"img_position": "A59", "start_cell": "A1", "end_cell": "F63"},
-            "ariza": {"start_cell": "A1", "end_cell": "D17"},
+            "ariza": {"img_position": "C20", "start_cell": "A1", "end_cell": "D25"},
             "muqova": {"start_cell": "A1", "end_cell": "G41"},
             "mijoz_anketasi": {"start_cell": "A1", "end_cell": "F36"},
             "majburiyatnoma": {"start_cell": "A1", "end_cell": "B11"}
