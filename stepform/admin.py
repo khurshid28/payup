@@ -4,7 +4,7 @@ from .models import Branch, DocxTemplate, GeneratedDocument, Application, Organi
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ("id", "contract_id", "customer_id", "state", "direktor_signature")
+    list_display = ("id", "contract_id", "customer_id", "state", "direktor_signature", 'meta', 'xlsx')
     list_filter = ("state", "created_at", "direktor_signature")
     search_fields = ("id", "contract_id", "customer_id", "owner_id")
     readonly_fields = ("created_at",)

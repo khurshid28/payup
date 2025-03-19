@@ -237,3 +237,4 @@ class GeneratedDocument(models.Model):
     class Meta:
         db_table = 'generated_document'
         managed = False
+
