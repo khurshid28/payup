@@ -10,3 +10,6 @@ pdf_file = r"C:\Users\Admin\PycharmProjects\payup\media\output.pdf"
 convert(docx_file, pdf_file)
 
 print("PDF yaratildi:", pdf_file)
+
+
+
