@@ -74,8 +74,8 @@ class ExcelToPDFConverter:
 
         ws.PageSetup.LeftMargin = excel.InchesToPoints(0.3)
         ws.PageSetup.RightMargin = excel.InchesToPoints(0.3)
-        ws.PageSetup.TopMargin = excel.InchesToPoints(0.5)
-        ws.PageSetup.BottomMargin = excel.InchesToPoints(0.5)
+        ws.PageSetup.TopMargin = excel.InchesToPoints(0.3)
+        ws.PageSetup.BottomMargin = excel.InchesToPoints(0.3)
 
         # ✅ Chop etish maydonini aniq belgilash (xatolik oldini olish)
         try:
@@ -108,7 +108,7 @@ class ExcelToPDFConverter:
             "bayonnoma": {"img_position": "A37", "start_cell": "A1", "end_cell": "E41"},
             "xulosa": {"img_position": "A53", "start_cell": "A1", "end_cell": "E58"},
             "dalolatnoma": {"img_position": "C51", "start_cell": "A1", "end_cell": "E65"},
-            "grafik": {"img_position": "A59", "start_cell": "A1", "end_cell": "F63"},
+            "grafik": {"img_position": "A59", "start_cell": "A1", "end_cell": "G63"},
             "ariza": {"img_position": "C19", "start_cell": "A1", "end_cell": "D25"},
             "muqova": {"start_cell": "A1", "end_cell": "G41"},
             "mijoz_anketasi": {"start_cell": "A1", "end_cell": "F36"},

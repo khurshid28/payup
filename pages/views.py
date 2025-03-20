@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from stepform.models import Organization
+from stepform.models import Organization, XlsxTemplate
 import logging
 
 logger = logging.getLogger('django')
@@ -16,6 +16,7 @@ def home(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
     organization = Organization.objects.first()
+    excel_templates = XlsxTemplate.objects.all().order_by('-id')
     if organization:
         organization = organization
     else:
@@ -23,6 +24,7 @@ def home(request):
     context = {
         'user_groups': user_groups,
         'organization': organization,
+        'excel_templates': excel_templates
     }
 
     return render(request, 'pages/index.html', context)

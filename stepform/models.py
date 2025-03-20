@@ -49,13 +49,16 @@ class Customer(models.Model):
     customer_phone1 = models.CharField(max_length=255, blank=True, null=True)  # Asosiy telefon raqami
     customer_phone2 = models.CharField(max_length=255, blank=True, null=True)  # Qo‘shimcha telefon
     customer_phone3 = models.CharField(max_length=255, blank=True, null=True)  # Qo‘shimcha telefon
-    customer_average_monthly_income =  models.IntegerField(blank=True, null=True)  # Mijozning o‘rtacha oylik daromadi
-    customer_average_monthly_income_word =  models.CharField(max_length=1024, blank=True, null=True)  # Mijozning o‘rtacha oylik daromadi
-    customer_average_monthly_expenses =  models.IntegerField(blank=True, null=True)  # O‘rtacha oylik xarajatlari
-    customer_average_monthly_expenses_word =  models.CharField(max_length=1024, blank=True, null=True)  # O‘rtacha oylik xarajatlari
-    customer_position =  models.CharField(max_length=1024, blank=True, null=True)  # O‘rtacha oylik xarajatlari
+    customer_average_monthly_income = models.IntegerField(blank=True, null=True)  # Mijozning o‘rtacha oylik daromadi
+    customer_average_monthly_income_word = models.CharField(max_length=1024, blank=True,
+                                                            null=True)  # Mijozning o‘rtacha oylik daromadi
+    customer_average_monthly_expenses = models.IntegerField(blank=True, null=True)  # O‘rtacha oylik xarajatlari
+    customer_average_monthly_expenses_word = models.CharField(max_length=1024, blank=True,
+                                                              null=True)  # O‘rtacha oylik xarajatlari
+    customer_position = models.CharField(max_length=1024, blank=True, null=True)  # O‘rtacha oylik xarajatlari
     customer_first_principal_payment = models.IntegerField(blank=True, null=True)  # Birinchi oy uchun toʻlov
-    customer_first_principal_payment_word = models.CharField(max_length=1024, blank=True, null=True)  # Birinchi oy uchun toʻlov
+    customer_first_principal_payment_word = models.CharField(max_length=1024, blank=True,
+                                                             null=True)  # Birinchi oy uchun toʻlov
 
     def __str__(self):
         return self.customer_fullname
@@ -129,10 +132,10 @@ class Branch(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1024, blank=True, null=True)
-    head_fullname = models.CharField(max_length=1024, blank=True, null=True) # Markaz rahbari FIO
-    head_initials_uz = models.CharField(max_length=1024, blank=True, null=True) # Markaz rahbari initials
+    head_fullname = models.CharField(max_length=1024, blank=True, null=True)  # Markaz rahbari FIO
+    head_initials_uz = models.CharField(max_length=1024, blank=True, null=True)  # Markaz rahbari initials
     state = models.BooleanField(default=True)
-    position = models.CharField(max_length=1024, blank=True, null=True) # Lavozimi
+    position = models.CharField(max_length=1024, blank=True, null=True)  # Lavozimi
 
     def __str__(self):
         return f"Application {self.head_initials_uz} "
@@ -177,7 +180,6 @@ class Application(models.Model):
             percent = percent + 25
         return percent
 
-
     class Meta:
         db_table = 'application'
         managed = False
@@ -204,6 +206,7 @@ class DocxTemplate(models.Model):
     # xulosa_ishonchnoma = models.FileField(blank=True, null=True, upload_to='uploads/docx_templates/') # Bu exceldan chiqadi
 
     state = models.BooleanField(default=True)
+
     def __str__(self):
         return f"DocxTemplate {self.id} - {self.product_type}"
 
@@ -238,3 +241,22 @@ class GeneratedDocument(models.Model):
         db_table = 'generated_document'
         managed = False
 
+
+class XlsxTemplate(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_by = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    title = models.CharField(max_length=500, blank=True, null=True)
+    type = models.CharField(max_length=500, blank=True, null=True)
+    file = models.FileField(blank=True, null=True, upload_to='uploads/docx_org_templates/excel_template/')
+    description = models.CharField(max_length=1024, blank=True, null=True)
+    status = models.BooleanField(default=True)
+
+
+    def __str__(self):
+        return f"XlsxTemplate {self.id}"
+
+    class Meta:
+        db_table = 'xlsx_template'
+        managed = False

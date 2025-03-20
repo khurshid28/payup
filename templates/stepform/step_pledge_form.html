@@ -25,7 +25,8 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" value="no" v-model="pledge.pledge_is_owner" name="pledge_is_owner">
+                    <input class="form-check-input" type="radio" value="no" v-model="pledge.pledge_is_owner"
+                           name="pledge_is_owner">
                     <label class="form-check-label" for="flexRadioDefault2">
                         Boshqa shaxs
                     </label>
@@ -189,12 +190,13 @@
                             </div>
 
                             <div class="row mt-2">
-                                 <div class="col-md-2">
+                                <div class="col-md-2">
                                     <label class="form-label">TP sanasi</label>
                                     <input type="text" class="form-control"
-                                           v-model="pledge.pledge_vehicle_techPassportIssueDate" required name="pledge_vehicle_techPassportIssueDate">
+                                           v-model="pledge.pledge_vehicle_techPassportIssueDate" required
+                                           name="pledge_vehicle_techPassportIssueDate">
                                 </div>
-                                 <div class="col-md-2">
+                                <div class="col-md-2">
                                     <label class="form-label">Division</label>
                                     <input type="text" class="form-control"
                                            v-model="pledge.pledge_division" required name="pledge_division">
@@ -234,7 +236,85 @@
                     </div>
                     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                          tabindex="0">
-                        Ko'chmas mulk
+                        <!--KO'CHMAS MULK -->
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label">Kadastr</label>
+                                <input type="text" class="form-control text-uppercase"
+                                       v-model="pledge.pledge_re_cadasterNumber"
+                                       id="pledge_re_cadasterNumber" name="pledge_re_cadasterNumber">
+                            </div>
+                            <div class="col-md-3 ">
+                                <label for="">Tugmani bosing</label> <br>
+                                <button type="button" class="btn w-50 btn-info mt-2">
+                                    Izlash
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Nomi</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_title"
+                                       id="pledge_re_title" name="pledge_re_title">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Qurilish osti maydoni</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_constructionArea"
+                                       id="pledge_re_constructionArea"  name="pledge_re_constructionArea">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Yashash maydoni</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_objectAreaL"
+                                       id="pledge_re_objectAreaL"  name="pledge_re_objectAreaL">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Umumiy maydon</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_objectArea"
+                                       id="pledge_re_objectArea"  name="pledge_re_objectArea">
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Egasi</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_owner"
+                                       id="pledge_re_owner"  name="pledge_re_owner">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Reestr raqami</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_reestrNumber"
+                                       id="pledge_re_reestrNumber" required name="pledge_re_reestrNumber">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Manzili</label>
+                                <input type="text" class="form-control"
+                                       v-model="pledge.pledge_re_address"
+                                       id="pledge_re_address"  name="pledge_re_address">
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Garov summasi</label>
+                                <input type="text" class="form-control "
+                                       v-model="pledge.pledge_loan_total"
+                                       id="pledge_loan_total"  name="pledge_loan_total"
+                                       @change="handleNum2Word">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Garov summasi so'zda</label>
+                                <input type="text" class="form-control "
+                                       v-model="pledge.pledge_loan_total_word_uz" name="pledge_loan_total_word_uz">
+                            </div>
+                        </div>
+
                     </div>
                     <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
                          tabindex="0">Tilla
@@ -315,9 +395,20 @@
                         "pledge_govNumber": "60Q081BB",
                         "pledge_modelName": null,
                         "pledge_owner": null,
-                        "pledge_loan_total": null,
-                        "pledge_loan_total_word_uz": null,
                         "pledge_division": null,
+
+                        "pledge_re_cadasterNumber": '10:07:06:03:02:5064:0001:055   26.12.2013y 153-159', // kadastr
+                        "pledge_re_title": '2-xonali kop qavatli uydagi xonadon', // nomi
+                        "pledge_re_constructionArea": 1.4, // qurilish osti maydoni
+                        "pledge_re_objectAreaL": 28.19, // yashash maydoni
+                        "pledge_re_objectArea": 60.52, // umumiy maydoni
+                        "pledge_re_owner": 'XOLMATOV NURSULTON ORTIQBOY OGLI', // egasi
+                        "pledge_re_reestrNumber": '1726266/R-A5646685, 20.02.2025 yildai №202523958000886 04.02.2025 oldi-sotdi shartnomasiga asosan', // Reestr raqami
+                        "pledge_re_address": 'TOSHKENT SHAHRI YUNUSOBOD TUMANI SOBIROBOD MFY 9-MAVZE 5a-UY 55-XONADON', // Manzili
+
+                        "pledge_loan_total": null, // Garov summasi
+                        "pledge_loan_total_word_uz": null, // Garov summasi so'zda
+
                     },
                     owner_data: {
                         "owner_passport_series": null,

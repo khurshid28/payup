@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Branch, DocxTemplate, GeneratedDocument, Application, Organization
+from .models import Branch, DocxTemplate, GeneratedDocument, Application, Organization, XlsxTemplate
 
 
 @admin.register(Application)
@@ -37,3 +37,10 @@ class DocxTemplateAdmin(admin.ModelAdmin):
 @admin.register(GeneratedDocument)
 class GeneratedDocumentAdmin(admin.ModelAdmin):
     list_display = ('id', )
+
+@admin.register(XlsxTemplate)
+class XlsxTemplateAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'type', 'status', 'created_by', 'created_at')
+    list_filter = ('type', 'status')
+    search_fields = ('title', 'type', 'status')
+    ordering = ('-created_at',)
