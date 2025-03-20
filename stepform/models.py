@@ -158,11 +158,11 @@ class Application(models.Model):
     organization_id = models.IntegerField(blank=True, null=True)
     state = models.BooleanField(default=True)
     meta = models.JSONField(blank=True, null=True, default=dict)
-    operator_signature = models.BooleanField(default=False)
-    moderator_signature = models.BooleanField(default=False)
-    direktor_signature = models.BooleanField(default=False)
-    loan_head_signature = models.BooleanField(default=False)
-    monitoring_head_signature = models.BooleanField(default=False)
+    operator_signature = models.BooleanField(default=False, verbose_name="operator")
+    moderator_signature = models.BooleanField(default=False, verbose_name="moderator")
+    direktor_signature = models.BooleanField(default=False, verbose_name="direktor")
+    loan_head_signature = models.BooleanField(default=False, verbose_name="kredit")
+    monitoring_head_signature = models.BooleanField(default=False, verbose_name="monitoring")
     xlsx = models.FileField(blank=True, null=True, upload_to='uploads/xlsx_template/')
 
     def __str__(self):

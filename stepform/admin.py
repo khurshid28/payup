@@ -15,7 +15,7 @@ class ApplicationAdmin(admin.ModelAdmin):
                     "direktor_signature",
                     'xlsx',
                     "state",
-                    )
+                    "created_at")
     list_display_links = ("id", "contract")
     search_fields = ("id",)
     list_editable = (
@@ -40,6 +40,8 @@ class ApplicationAdmin(admin.ModelAdmin):
     # Sarlavhalarni chiroyli qilish
     contract.short_description = "meta: contract"
     customer.short_description = "meta: customer"
+
+
 
 
 @admin.register(Organization)
@@ -70,7 +72,7 @@ class DocxTemplateAdmin(admin.ModelAdmin):
 
 @admin.register(GeneratedDocument)
 class GeneratedDocumentAdmin(admin.ModelAdmin):
-    list_display = ("id", "created_at", "application_id", "state", "has_all_files")
+    list_display = ("id", "application_id",  "contract", "customer", "has_all_files", "state", "created_at")
     list_filter = ("state", "created_at")
     search_fields = ("id", "application_id")
     readonly_fields = ("created_at",)
@@ -94,7 +96,27 @@ class GeneratedDocumentAdmin(admin.ModelAdmin):
             return "✅ Barchasi bor"
         return "❌ Hujjat yetishmaydi"
 
+        # Meta ichidagi alohida key'larni chiqarish
+
+    def contract(self, obj):
+        """Meta ichidagi 'key1' ni chiqarish"""
+        application_id = obj.application_id
+
+        contract_number = Application.objects.filter(id=application_id).first().meta.get('contract')['contract_number']
+        contract_date = Application.objects.filter(id=application_id).first().meta.get('contract')['contract_date']
+        contract = f"{contract_date} yildagi {contract_number}-sonli shartnoma"
+        return contract
+
+    def customer(self, obj):
+        """Meta ichidagi 'key1' ni chiqarish"""
+        application_id = obj.application_id
+        customer_fullname_initials = Application.objects.filter(id=application_id).first().meta.get('customer')['customer_fullname_initials']
+        return customer_fullname_initials
+
+
+    # Sarlavhalarni chiroyli qilish
     has_all_files.short_description = "Hujjatlar holati"
+    contract.short_description = "contract"
 
 
 @admin.register(XlsxTemplate)
