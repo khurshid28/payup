@@ -59,6 +59,7 @@ class BranchAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'title', 'head_initials_uz', 'state', 'created_by', 'created_at')
     list_filter = ('state', 'created_at')
     search_fields = ('title', 'head_initials_uz')
+    list_editable = ('state',)
     ordering = ('-created_at',)
 
 

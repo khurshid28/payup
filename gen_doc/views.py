@@ -13,7 +13,7 @@ from openpyxl.reader.excel import load_workbook
 from payup import settings
 from payup.settings import BASE_DIR, MEDIA_ROOT, GLOBAL_IP
 from openpyxl.drawing.image import Image
-
+from django.contrib.auth.decorators import login_required
 
 class GenDocument:
     def __init__(self, generated_document=None, filename=None, shartnoma=None, buyruq=None, dalolatnoma=None,

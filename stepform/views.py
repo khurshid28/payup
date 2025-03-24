@@ -13,12 +13,13 @@ from stepform.models import ContractStep, Customer, Pledge, Application, Branch,
     GeneratedDocument
 from stepform.utils import form_save
 from gen_doc.views import GenDocument
+from django.contrib.auth.decorators import login_required
 
-
+@login_required()
 def step_mikroqarz(request, pk):
     return redirect('step_contract')
 
-
+@login_required()
 def step_contract(request, credit_type):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
@@ -33,7 +34,7 @@ def step_contract(request, credit_type):
     }
     return render(request, "stepform/step_contract_form.html", context)
 
-
+@login_required()
 def step_customer(request):
     if request.method == "POST":
         request.session["step_customer_data"] = request.POST
@@ -44,7 +45,7 @@ def step_customer(request):
     }
     return render(request, "stepform/step_customer_form.html", context)
 
-
+@login_required()
 def step_pledge(request):
     if request.method == "POST":
         request.session["step_pledge_data"] = request.POST
@@ -55,7 +56,7 @@ def step_pledge(request):
     }
     return render(request, "stepform/step_pledge_form.html", context)
 
-
+@login_required()
 def done(request):
     # Forma ma'lumotlarini dictga o'tkazish
     contract_dict = request.session["step_contract_data"]
