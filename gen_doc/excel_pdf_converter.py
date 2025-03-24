@@ -97,6 +97,8 @@ class ExcelToPDFConverter:
 
         wb.Close(SaveChanges=False)
         excel.Quit()
+        del excel
+        pythoncom.CoUninitialize()
 
         return pdf_path
 
@@ -172,3 +174,11 @@ class ExcelToPDFConverter:
                     print(f"⚠️ Xatolik: {e}")
         else:
             print("📁 Papka topilmadi!")
+
+    def force_kill_excel(self):
+        """ Osilib qolgan EXCEL jarayonlarini majburan o'chiradi """
+        try:
+            os.system("taskkill /f /im excel.exe")
+            print("✅ Barcha osilib qolgan Excel jarayonlari tozalandi.")
+        except Exception as e:
+            print(f"⚠️ Excel jarayonlarini tozalashda xatolik: {e}")

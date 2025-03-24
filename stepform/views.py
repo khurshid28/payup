@@ -239,12 +239,12 @@ def direktor_form(request, pk):
             converter.generate_multiple_pdfs_with_qr()
             converter.save_to_generated_document(application_id=application.id, user_id=request.user.id)
             converter.clear_generated_excel_files()
+            converter.clear_generated_excel_files()
+            converter.force_kill_excel()
         thread = threading.Thread(target=background_task)
         thread.start()
 
-
         pdf_paths = thread
-        converter.clear_generated_excel_files()
 
 
         Application.objects.filter(pk=pk).update(direktor_signature=True)
