@@ -232,9 +232,11 @@ def direktor_form(request, pk):
         global_ip = settings.GLOBAL_IP  # O'zingizning IP yoki domain
 
         converter = ExcelToPDFConverter(filename=filename, xlsx=xlsx, global_ip=global_ip)
-        # Fonda ishga tushiradigan funksiya
 
-        # Generatsiya va tozalashni ketma-ket bajaradigan funksiya
+        # Excel ochiq bulsa uni yopamiz
+        converter.force_kill_excel()
+
+        # Fonda Generatsiya va tozalashni ketma-ket bajaradigan funksiya
         def background_task():
             converter.generate_multiple_pdfs_with_qr()
             converter.save_to_generated_document(application_id=application.id, user_id=request.user.id)

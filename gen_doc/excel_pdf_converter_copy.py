@@ -1,5 +1,4 @@
-import os, re
-
+import os
 import pythoncom
 import qrcode
 import win32com.client
@@ -31,30 +30,21 @@ class ExcelToPDFConverter:
             box_size=10,
             border=4,
         )
-
-        # _qr va undan keyingi raqamlarni olib tashlash
-        clean_name = re.sub(r"_qr\d+$", "", pdf_filename)
-        qr.add_data(f"http://{self.global_ip}/media/uploads/generated/pdf/{clean_name}.pdf")
+        qr.add_data(f"http://{self.global_ip}/media/uploads/generated/pdf/{pdf_filename}.pdf")
         qr.make(fit=True)
 
         img = qr.make_image(fill="black", back_color="white")
         img.save(self.qr_file_path)
 
-    def add_qr_to_excel(self, sheet_name, img_positions):
-        """Bir nechta QR kodni Excel faylga joylashtiradi"""
+    def add_qr_to_excel(self, sheet_name, img_position):
+        """ QR kodni Excel faylga joylashtiradi """
         wb = load_workbook(filename=self.xlsx, read_only=False, data_only=True)
         ws = wb[sheet_name]
 
-        for idx, pos in enumerate(img_positions):
-            # qr_filename = f"{self.filename}_{sheet_name}_qr{idx + 1}.png"
-            qr_filename = f"{self.filename}_{sheet_name}_qr{idx + 1}"
-            self.create_qr_code(qr_filename)
-            qr_filename_with_png = f"{qr_filename}.png"
-            qr_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/qrcode", qr_filename_with_png)
-            img = Image(qr_path)
-            img.width = 80
-            img.height = 80
-            ws.add_image(img, pos)
+        img = Image(self.qr_file_path)
+        img.width = 100
+        img.height = 100
+        ws.add_image(img, img_position)
 
         excel_file_name = f"{self.filename}_{sheet_name}.xlsx"
         excel_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/excel", excel_file_name)
@@ -115,31 +105,26 @@ class ExcelToPDFConverter:
     def generate_multiple_pdfs_with_qr(self):
         """ Bir nechta sahifalar uchun alohida PDFlar yaratadi """
         sheets_info = {
-            "shartnoma": {"img_positions": ["A126"], "start_cell": "A1", "end_cell": "B133"},
-            "buyruq": {"img_positions": ["C27"], "start_cell": "A1", "end_cell": "E29"},
-            "bayonnoma": {"img_positions": ["C37", "C41", "C45"], "start_cell": "A1", "end_cell": "E49"},
-            "xulosa": {"img_positions": ["C54", "C58", "C62", "C66"], "start_cell": "A1", "end_cell": "E70"},
-            "dalolatnoma": {"img_positions": ["D51"], "start_cell": "A1", "end_cell": "E65"},
-            "grafik": {"img_positions": ["A59"], "start_cell": "A1", "end_cell": "G63"},
-            "ariza": {"img_positions": ["C20"], "start_cell": "A1", "end_cell": "D25"},
-            "muqova": {"start_cell": "A1", "end_cell": "F40"},
+            "shartnoma": {"img_position": "A126", "start_cell": "A1", "end_cell": "B133"},
+            "buyruq": {"img_position": "A25", "start_cell": "A1", "end_cell": "E29"},
+            "bayonnoma": {"img_position": "A37", "start_cell": "A1", "end_cell": "E41"},
+            "xulosa": {"img_position": "A53", "start_cell": "A1", "end_cell": "E58"},
+            "dalolatnoma": {"img_position": "C51", "start_cell": "A1", "end_cell": "E65"},
+            "grafik": {"img_position": "A59", "start_cell": "A1", "end_cell": "G63"},
+            "ariza": {"img_position": "C19", "start_cell": "A1", "end_cell": "D25"},
+            "muqova": {"start_cell": "A1", "end_cell": "F41"},
             "mijoz_anketasi": {"start_cell": "A1", "end_cell": "F36"},
             "majburiyatnoma": {"start_cell": "A1", "end_cell": "B11"},
-            "kredit_ariza": {"img_positions": ["C43"], "start_cell": "A1", "end_cell": "D45"},
-            "garov_ariza": {"img_positions": ["C23"], "start_cell": "A1", "end_cell": "C25"},
-            "akt_monitoring_1": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
-            "akt_monitoring_2": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
-            "akt_monitoring_3": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
-            "akt_monitoring_4": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H30"},
+            "dalolatnoma_monitoring_1": {"img_position": "D19", "start_cell": "A1", "end_cell": "H26"}
         }
 
         self.pdf_paths = {}  # PDF pathlarni dict ko'rinishida saqlaymiz
         for sheet, info in sheets_info.items():
             pdf_filename = f"{self.filename}_{sheet}"
 
-            if "img_positions" in info:
+            if "img_position" in info:
                 self.create_qr_code(pdf_filename)
-                excel_path = self.add_qr_to_excel(sheet, img_positions=info["img_positions"])
+                excel_path = self.add_qr_to_excel(sheet, img_position=info["img_position"])
             else:
                 excel_path = os.path.join(settings.MEDIA_ROOT, f"uploads/xlsx_template/{self.filename}.xlsx")
 
@@ -170,13 +155,7 @@ class ExcelToPDFConverter:
             pdf_ariza=get_relative_path(self.pdf_paths.get('ariza')),
             pdf_muqova=get_relative_path(self.pdf_paths.get('muqova')),
             pdf_mijoz_anketasi=get_relative_path(self.pdf_paths.get('mijoz_anketasi')),
-            pdf_majburiyatnoma=get_relative_path(self.pdf_paths.get('majburiyatnoma')),
-            pdf_kredit_ariza=get_relative_path(self.pdf_paths.get('kredit_ariza')),
-            pdf_garov_ariza=get_relative_path(self.pdf_paths.get('garov_ariza')),
-            pdf_akt_monitoring_1=get_relative_path(self.pdf_paths.get('akt_monitoring_1')),
-            pdf_akt_monitoring_2=get_relative_path(self.pdf_paths.get('akt_monitoring_2')),
-            pdf_akt_monitoring_3=get_relative_path(self.pdf_paths.get('akt_monitoring_3')),
-            pdf_akt_monitoring_4=get_relative_path(self.pdf_paths.get('akt_monitoring_4')),
+            pdf_majburiyatnoma=get_relative_path(self.pdf_paths.get('majburiyatnoma'))
         )
         document.save()
 

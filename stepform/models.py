@@ -223,16 +223,22 @@ class GeneratedDocument(models.Model):
     state = models.BooleanField(default=True)
     application_id = models.IntegerField(blank=True, null=True)
 
-    pdf_shartnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_buyruq = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_dalolatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_grafik = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_bayonnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_xulosa = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_ariza = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_muqova = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_mijoz_anketasi = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
-    pdf_majburiyatnoma = models.FileField(blank=True, null=True, upload_to='uploads/generated/pdf/')
+    pdf_shartnoma = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_buyruq = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_dalolatnoma = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_grafik = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_bayonnoma = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_xulosa = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_ariza = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_muqova = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_mijoz_anketasi = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_majburiyatnoma = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_kredit_ariza = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_garov_ariza = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_akt_monitoring_1 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_akt_monitoring_2 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_akt_monitoring_3 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_akt_monitoring_4 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
 
     def __str__(self):
         return f"GeneratedDocument {self.id}"
@@ -252,7 +258,6 @@ class XlsxTemplate(models.Model):
     file = models.FileField(blank=True, null=True, upload_to='uploads/docx_org_templates/excel_template/')
     description = models.CharField(max_length=1024, blank=True, null=True)
     status = models.BooleanField(default=True)
-
 
     def __str__(self):
         return f"XlsxTemplate {self.id}"
