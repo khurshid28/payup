@@ -117,7 +117,7 @@ class ExcelToPDFConverter:
         sheets_info = {
             "shartnoma": {"img_positions": ["A126"], "start_cell": "A1", "end_cell": "B133"},
             "buyruq": {"img_positions": ["C27"], "start_cell": "A1", "end_cell": "E29"},
-            "bayonnoma": {"img_positions": ["C40", "C44", "C49"], "start_cell": "A1", "end_cell": "E49"},
+            "bayonnoma": {"img_positions": ["C40", "C44", "C49"], "start_cell": "A1", "end_cell": "E52"},
             "xulosa": {"img_positions": ["C54", "C58", "C62", "C66"], "start_cell": "A1", "end_cell": "E70"},
             "dalolatnoma": {"img_positions": ["D51"], "start_cell": "A1", "end_cell": "E65"},
             "grafik": {"img_positions": ["A59"], "start_cell": "A1", "end_cell": "G63"},
