@@ -115,7 +115,7 @@ class ExcelToPDFConverter:
     def generate_multiple_pdfs_with_qr(self):
         """ Bir nechta sahifalar uchun alohida PDFlar yaratadi """
         sheets_info = {
-            "shartnoma": {"img_positions": ["A126"], "start_cell": "A1", "end_cell": "B133"},
+            "shartnoma": {"img_positions": ["A124"], "start_cell": "A1", "end_cell": "B133"},
             "buyruq": {"img_positions": ["C27"], "start_cell": "A1", "end_cell": "E29"},
             "bayonnoma": {"img_positions": ["C40", "C44", "C49"], "start_cell": "A1", "end_cell": "E52"},
             "xulosa": {"img_positions": ["C54", "C58", "C62", "C66"], "start_cell": "A1", "end_cell": "E70"},
