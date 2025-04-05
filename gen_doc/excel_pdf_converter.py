@@ -82,7 +82,7 @@ class ExcelToPDFConverter:
         ws.PageSetup.FitToPagesWide = 1
         ws.PageSetup.FitToPagesTall = False
 
-        ws.PageSetup.LeftMargin = excel.InchesToPoints(0.3)
+        ws.PageSetup.LeftMargin = excel.InchesToPoints(0.7)
         ws.PageSetup.RightMargin = excel.InchesToPoints(0.3)
         ws.PageSetup.TopMargin = excel.InchesToPoints(0.3)
         ws.PageSetup.BottomMargin = excel.InchesToPoints(0.3)
