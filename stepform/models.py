@@ -239,6 +239,7 @@ class GeneratedDocument(models.Model):
     pdf_akt_monitoring_2 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
     pdf_akt_monitoring_3 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
     pdf_akt_monitoring_4 = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
+    pdf_notarius = models.FileField(blank=True, null=True, default="#", upload_to='uploads/generated/pdf/')
 
     def __str__(self):
         return f"GeneratedDocument {self.id}"

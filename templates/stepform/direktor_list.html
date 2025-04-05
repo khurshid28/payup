@@ -2,13 +2,15 @@
 {% load static %}
 {% block content %}
     <h3 class="mt-2">Direktor sahifasi</h3>
+
+
     <div class="card mt-2">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Shartnomalar
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table table-striped table-bordered">
+            <table id="applicationTable" class="display table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -115,14 +117,24 @@
                                         6. <a href="{{ doc.pdf_grafik.url }}" target="_blank">Grafik</a> <br>
                                         7. <a href="{{ doc.pdf_ariza.url }}" target="_blank">Ariza</a> <br>
                                         8. <a href="{{ doc.pdf_muqova.url }}" target="_blank">Muqova</a> <br>
-                                        9. <a href="{{ doc.pdf_mijoz_anketasi.url }}" target="_blank">Mijoz anketasi</a> <br>
-                                        10. <a href="{{ doc.pdf_majburiyatnoma.url }}" target="_blank">Majburiyatnoma</a> <br>
-                                        11. <a href="{{ doc.pdf_kredit_ariza.url }}" target="_blank">Kredit ariza</a> <br>
-                                        12. <a href="{{ doc.pdf_garov_ariza.url}}" target="_blank">Garov ariza</a> <br>
-                                        13. <a href="{{ doc.pdf_akt_monitoring_1.url}}" target="_blank">AKT monitoring 1</a> <br>
-                                        14. <a href="{{ doc.pdf_akt_monitoring_2.url}}" target="_blank">AKT monitoring 2</a> <br>
-                                        15. <a href="{{ doc.pdf_akt_monitoring_3.url}}" target="_blank">AKT monitoring 3</a> <br>
-                                        16. <a href="{{ doc.pdf_akt_monitoring_4.url}}" target="_blank">AKT monitoring 4</a> <br>
+                                        9. <a href="{{ doc.pdf_mijoz_anketasi.url }}" target="_blank">Mijoz anketasi</a>
+                                        <br>
+                                        10.
+                                        <a href="{{ doc.pdf_majburiyatnoma.url }}" target="_blank">Majburiyatnoma</a>
+                                        <br>
+                                        11. <a href="{{ doc.pdf_kredit_ariza.url }}" target="_blank">Kredit ariza</a>
+                                        <br>
+                                        12. <a href="{{ doc.pdf_garov_ariza.url }}" target="_blank">Garov ariza</a> <br>
+                                        13.<a href="{{ doc.pdf_akt_monitoring_1.url }}" target="_blank">AKT monitoring
+                                        1</a> <br>
+                                        14.<a href="{{ doc.pdf_akt_monitoring_2.url }}" target="_blank">AKT monitoring
+                                        2</a> <br>
+                                        15.<a href="{{ doc.pdf_akt_monitoring_3.url }}" target="_blank">AKT monitoring
+                                        3</a> <br>
+                                        16.<a href="{{ doc.pdf_akt_monitoring_4.url }}" target="_blank">AKT monitoring
+                                        4</a> <br>
+                                        17.<a href="{{ doc.pdf_notarius.url }}" target="_blank">Notariusga xat</a>
+                                        <br>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -136,17 +148,39 @@
             </table>
         </div>
     </div>
-
-
-
 {% endblock %}
 
 {% block JavaScript %}
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-            crossorigin="anonymous"></script>
-    <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
+    <script>
+        $(document).ready(function () {
+            $('#applicationTable').DataTable({
+                pageLength: 10, // Har sahifada 10 ta yozuv
+                language: {
+                    "search": "Qidirish:",
+                    "lengthMenu": "_MENU_ ta yozuvni ko‘rsatish",
+                    "info": "Jami _TOTAL_ yozuvdan _START_ - _END_",
+                    "paginate": {
+                        "first": "Birinchi",
+                        "last": "Oxirgi",
+                        "next": "Keyingi",
+                        "previous": "Oldingi"
+                    },
+                    "zeroRecords": "Hech narsa topilmadi",
+                    "infoEmpty": "Yozuv yo‘q",
+                    "infoFiltered": "(umumiy _MAX_ yozuvdan filtrlangan)"
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
 

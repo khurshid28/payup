@@ -131,6 +131,7 @@ class ExcelToPDFConverter:
             "akt_monitoring_2": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
             "akt_monitoring_3": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
             "akt_monitoring_4": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H30"},
+            "notarius": {"img_positions": ["C20"], "start_cell": "A1", "end_cell": "D31"},
         }
 
         self.pdf_paths = {}  # PDF pathlarni dict ko'rinishida saqlaymiz
@@ -177,6 +178,7 @@ class ExcelToPDFConverter:
             pdf_akt_monitoring_2=get_relative_path(self.pdf_paths.get('akt_monitoring_2')),
             pdf_akt_monitoring_3=get_relative_path(self.pdf_paths.get('akt_monitoring_3')),
             pdf_akt_monitoring_4=get_relative_path(self.pdf_paths.get('akt_monitoring_4')),
+            pdf_notarius=get_relative_path(self.pdf_paths.get('notarius')),
         )
         document.save()
 

@@ -2,13 +2,14 @@
 {% load static %}
 {% block content %}
     <h3 class="mt-2">Direktor sahifasi</h3>
+
     <div class="card mt-2">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Shartnomalar
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table>
                 <thead>
                 <tr>
                     <th>#</th>
@@ -62,14 +63,10 @@
         </div>
     </div>
 
-
-
 {% endblock %}
 
 {% block JavaScript %}
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-            crossorigin="anonymous"></script>
-    <script src="{% static 'js/datatables-simple-demo.js' %} "></script>
+
 {% endblock %}
 
