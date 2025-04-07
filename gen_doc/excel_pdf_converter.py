@@ -115,7 +115,7 @@ class ExcelToPDFConverter:
     def generate_multiple_pdfs_with_qr(self):
         """ Bir nechta sahifalar uchun alohida PDFlar yaratadi """
         sheets_info = {
-            "shartnoma": {"img_positions": ["A124"], "start_cell": "A1", "end_cell": "B133"},
+            "shartnoma": {"img_positions": ["A125"], "start_cell": "A1", "end_cell": "B133"},
             "buyruq": {"img_positions": ["C27"], "start_cell": "A1", "end_cell": "E29"},
             "bayonnoma": {"img_positions": ["C40", "C44", "C49"], "start_cell": "A1", "end_cell": "E52"},
             "xulosa": {"img_positions": ["C54", "C58", "C62", "C66"], "start_cell": "A1", "end_cell": "E70"},
@@ -125,8 +125,8 @@ class ExcelToPDFConverter:
             "muqova": {"start_cell": "A1", "end_cell": "F40"},
             "mijoz_anketasi": {"start_cell": "A1", "end_cell": "F36"},
             "majburiyatnoma": {"start_cell": "A1", "end_cell": "B11"},
-            "kredit_ariza": {"img_positions": ["C43"], "start_cell": "A1", "end_cell": "D45"},
-            "garov_ariza": {"img_positions": ["C23"], "start_cell": "A1", "end_cell": "C25"},
+            "kredit_ariza": {"img_positions": ["C43"], "start_cell": "A1", "end_cell": "D46"},
+            "garov_ariza": {"img_positions": ["C22"], "start_cell": "A1", "end_cell": "C25"},
             "akt_monitoring_1": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
             "akt_monitoring_2": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
             "akt_monitoring_3": {"img_positions": ["F21", "F26",], "start_cell": "A1", "end_cell": "H32"},
@@ -198,6 +198,22 @@ class ExcelToPDFConverter:
                     print(f"⚠️ Xatolik: {e}")
         else:
             print("📁 Papka topilmadi!")
+
+    def clear_generated_png_files(self):
+        """ media/uploads/generated/qrcode papkasidagi barcha .png fayllarni o'chiradi """
+        images_folder_path = os.path.join(settings.MEDIA_ROOT, "uploads", "generated", "qrcode")
+
+        if os.path.exists(images_folder_path):
+            for filename in os.listdir(images_folder_path):
+                file_path = os.path.join(images_folder_path, filename)
+                try:
+                    if os.path.isfile(file_path) and filename.lower().endswith(".png"):
+                        os.remove(file_path)
+                        print(f"✅ PNG fayl o'chirildi: {file_path}")
+                except Exception as e:
+                    print(f"⚠️ Xatolik: {e}")
+        else:
+            print("📁 Rasm papkasi topilmadi!")
 
     def force_kill_excel(self):
         """ Osilib qolgan EXCEL jarayonlarini majburan o'chiradi """
