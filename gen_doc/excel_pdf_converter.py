@@ -120,7 +120,7 @@ class ExcelToPDFConverter:
             "bayonnoma": {"img_positions": ["C40", "C44", "C49"], "start_cell": "A1", "end_cell": "E52"},
             "xulosa": {"img_positions": ["C54", "C58", "C62", "C66"], "start_cell": "A1", "end_cell": "E70"},
             "dalolatnoma": {"img_positions": ["D51"], "start_cell": "A1", "end_cell": "E65"},
-            "grafik": {"img_positions": ["A59"], "start_cell": "A1", "end_cell": "G63"},
+            "grafik": {"img_positions": ["A59"], "start_cell": "A1", "end_cell": "G75"},
             "ariza": {"img_positions": ["C20"], "start_cell": "A1", "end_cell": "D25"},
             "muqova": {"start_cell": "A1", "end_cell": "F40"},
             "mijoz_anketasi": {"start_cell": "A1", "end_cell": "F36"},
