@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'payupdb',
         'USER': 'postgres',
         'PASSWORD': 'Nc778119!@',
-        'HOST': '83.221.176.88',
+        'HOST': '192.168.3.214',
         'PORT': '5435',
     }
 }
