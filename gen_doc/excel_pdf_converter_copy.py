@@ -49,6 +49,7 @@ class ExcelToPDFConverter:
         excel_file_name = f"{self.filename}_{sheet_name}.xlsx"
         excel_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/excel", excel_file_name)
         wb.save(excel_path)
+        wb.close()
 
         return excel_path
 
@@ -177,9 +178,29 @@ class ExcelToPDFConverter:
             print("📁 Papka topilmadi!")
 
     def force_kill_excel(self):
-        """ Osilib qolgan EXCEL jarayonlarini majburan o'chiradi """
+        """ Osilib qolgan EXCEL jarayonlarini to'g'ri yopadi """
         try:
-            os.system("taskkill /f /im excel.exe")
-            print("✅ Barcha osilib qolgan Excel jarayonlari tozalandi.")
+            pythoncom.CoInitialize()
+            excel = win32com.client.Dispatch("Excel.Application")
+            
+            # Barcha ochiq workbooklarni yopish
+            for wb in excel.Workbooks:
+                try:
+                    wb.Close(SaveChanges=False)
+                except Exception:
+                    pass
+            
+            excel.Quit()
+            del excel
+            print("✅ Excel to'g'ri yopildi.")
+            
         except Exception as e:
-            print(f"⚠️ Excel jarayonlarini tozalashda xatolik: {e}")
+            # Faqat eng oxirgi variant sifatida taskkill
+            print(f"⚠️ Excel to'g'ri yopilmadi, taskkill ishlatilmoqda: {e}")
+            os.system("taskkill /f /im excel.exe")
+            
+        finally:
+            try:
+                pythoncom.CoUninitialize()
+            except Exception:
+                pass

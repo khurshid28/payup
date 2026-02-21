@@ -68,7 +68,8 @@ class GenDocument:
         # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
         relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
         # Faylni modelga saqlash
-        self.generated_document.pdf_shartnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        with open(pdf_url, "rb") as f:
+            self.generated_document.pdf_shartnoma.save(relative_path, File(f), save=True)
 
         return self.generated_document
 
@@ -96,7 +97,8 @@ class GenDocument:
         # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
         relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
         # Faylni modelga saqlash
-        self.generated_document.pdf_buyruq.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        with open(pdf_url, "rb") as f:
+            self.generated_document.pdf_buyruq.save(relative_path, File(f), save=True)
 
         return self.generated_document
 
@@ -124,7 +126,8 @@ class GenDocument:
         # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
         relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
         # Faylni modelga saqlash
-        self.generated_document.pdf_dalolatnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        with open(pdf_url, "rb") as f:
+            self.generated_document.pdf_dalolatnoma.save(relative_path, File(f), save=True)
         return self.generated_document
 
     # Bayonnoma yaratish
@@ -151,7 +154,8 @@ class GenDocument:
         # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
         relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
         # Faylni modelga saqlash
-        self.generated_document.pdf_bayonnoma.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        with open(pdf_url, "rb") as f:
+            self.generated_document.pdf_bayonnoma.save(relative_path, File(f), save=True)
         return self.generated_document
 
 
@@ -179,7 +183,8 @@ class GenDocument:
         # Fayl yo‘lini nisbiy qilish (MEDIA_ROOT ni olib tashlash)
         relative_path = os.path.relpath(pdf_url, settings.MEDIA_ROOT).replace("\\", "/")
         # Faylni modelga saqlash
-        self.generated_document.pdf_grafik.save(relative_path, File(open(pdf_url, "rb")), save=True)
+        with open(pdf_url, "rb") as f:
+            self.generated_document.pdf_grafik.save(relative_path, File(f), save=True)
 
         return self.generated_document
 
@@ -321,6 +326,7 @@ class GenDocument:
         excel_file_name = f"{pdf_filename}.xlsx"
         excel_path = os.path.join(settings.MEDIA_ROOT, "uploads/generated/excel", excel_file_name)
         wb.save(excel_path)
+        wb.close()  # openpyxl workbookni yopish
 
         pythoncom.CoInitialize()  # COM obyektlarini ishga tushirish
 
@@ -355,9 +361,12 @@ class GenDocument:
         # Excel'ni yopish
         wb.Close(SaveChanges=False)
         excel.Quit()
+        del excel
+        pythoncom.CoUninitialize()
         # Faylni modelga saqlash
         relative_path = os.path.relpath(pdf_path, settings.MEDIA_ROOT).replace("\\", "/")
-        self.generated_document.pdf_xulosa.save(relative_path, File(open(pdf_path, "rb")), save=True)
+        with open(pdf_path, "rb") as f:
+            self.generated_document.pdf_xulosa.save(relative_path, File(f), save=True)
 
         return pdf_path
 
