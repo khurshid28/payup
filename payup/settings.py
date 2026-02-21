@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'payupdb',
         'USER': 'postgres',
         'PASSWORD': 'Nc778119!@',
-        'HOST': '192.168.3.214',
+        'HOST': 'localhost',
         'PORT': '5435',
     }
 }
@@ -171,11 +171,15 @@ ACCOUNT_LOGOUT_ON_GET = True
 # GLOBAL_IP = '192.168.0.109:1661'
 GLOBAL_IP = '83.221.176.88:1661'
 
+# CSRF sozlamalari
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:2662",
+    "http://127.0.0.1:2662",
+    "http://192.168.3.214:1661",
+    "http://83.221.176.88:1661",
+]
+
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
-#
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://192.168.3.214:1661",
-# ]
 
 # LOGGING = {
 #     'version': 1,

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
     <h3 class="mt-2">Operator sahifasi</h3>
     <div class="card mt-2">
@@ -103,8 +104,8 @@
                             {% if obj.moderator_signature == True and obj.direktor_signature == False %}
                                 <a href="{% url 'direktor_form' obj.pk %}" class="btn btn-outline-success btn-sm">IMZOLASH</a>
                             {% elif obj.direktor_signature == True %}
-                                {% for doc in generated_documents %}
-                                    {% if doc.application_id == obj.id %}
+                                {% with doc=docs_dict|get_item:obj.id %}
+                                {% if doc %}
                                         1. <a href="{{ doc.pdf_shartnoma.url }}" target="_blank">Shartnoma</a> <br>
                                         2. <a href="{{ doc.pdf_buyruq.url }}" target="_blank">Buyruq</a> <br>
                                         3. <a href="{{ doc.pdf_bayonnoma.url }}" target="_blank">Bayonnoma</a> <br>
@@ -131,8 +132,8 @@
                                         4</a> <br>
                                         17.<a href="{{ doc.pdf_notarius.url }}" target="_blank">Notariusga xat</a>
                                         <br>
-                                    {% endif %}
-                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
                             {% endif %}
                         </td>
                     </tr>
@@ -140,6 +141,8 @@
 
                 </tbody>
             </table>
+            
+            {% include 'includes/pagination.html' %}
         </div>
     </div>
 

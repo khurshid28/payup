@@ -4,6 +4,7 @@ import time
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from datetime import datetime
 
 from gen_doc.excel_pdf_converter import ExcelToPDFConverter
@@ -74,12 +75,23 @@ def done(request):
 def operator_list(request, pk=None):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    applications = Application.objects.all().order_by('-id').filter(state=True)
-    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+    applications_list = Application.objects.filter(state=True).order_by('-id')
+    
+    # Pagination - har sahifada 50 ta
+    paginator = Paginator(applications_list, 50)
+    page_number = request.GET.get('page', 1)
+    applications = paginator.get_page(page_number)
+    
+    # Faqat shu sahifadagi application_id lar uchun documentlarni olish
+    app_ids = [app.id for app in applications]
+    docs_qs = GeneratedDocument.objects.filter(state=True, application_id__in=app_ids)
+    # Dictionary: application_id -> document
+    docs_dict = {doc.application_id: doc for doc in docs_qs}
+    
     context = {
         'user_groups': user_groups,
         'applications': applications,
-        'generated_documents': generated_documents,
+        'docs_dict': docs_dict,
     }
     return render(request, 'stepform/operator_list.html', context)
 
@@ -88,13 +100,22 @@ def operator_list(request, pk=None):
 def moderator_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    applications = Application.objects.all().order_by('-id').filter(state=True)
-    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+    applications_list = Application.objects.filter(state=True).order_by('-id')
+    
+    # Pagination - har sahifada 50 ta
+    paginator = Paginator(applications_list, 50)
+    page_number = request.GET.get('page', 1)
+    applications = paginator.get_page(page_number)
+    
+    # Faqat shu sahifadagi application_id lar uchun documentlarni olish
+    app_ids = [app.id for app in applications]
+    docs_qs = GeneratedDocument.objects.filter(state=True, application_id__in=app_ids)
+    docs_dict = {doc.application_id: doc for doc in docs_qs}
 
     context = {
         'user_groups': user_groups,
         'applications': applications,
-        'generated_documents': generated_documents,
+        'docs_dict': docs_dict,
     }
     return render(request, 'stepform/moderator_list.html', context)
 
@@ -145,13 +166,22 @@ def moderator_form(request, pk):
 def loan_head_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    applications = Application.objects.all().order_by('-id').filter(state=True)
-    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+    applications_list = Application.objects.filter(state=True).order_by('-id')
+    
+    # Pagination - har sahifada 50 ta
+    paginator = Paginator(applications_list, 50)
+    page_number = request.GET.get('page', 1)
+    applications = paginator.get_page(page_number)
+    
+    # Faqat shu sahifadagi application_id lar uchun documentlarni olish
+    app_ids = [app.id for app in applications]
+    docs_qs = GeneratedDocument.objects.filter(state=True, application_id__in=app_ids)
+    docs_dict = {doc.application_id: doc for doc in docs_qs}
 
     context = {
         'user_groups': user_groups,
         'applications': applications,
-        'generated_documents': generated_documents,
+        'docs_dict': docs_dict,
     }
     return render(request, 'stepform/loan_head_list.html', context)
 
@@ -174,13 +204,22 @@ def loan_head_form(request, pk):
 def monitoring_head_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
-    applications = Application.objects.all().order_by('-id').filter(state=True)
-    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+    applications_list = Application.objects.filter(state=True).order_by('-id')
+    
+    # Pagination - har sahifada 50 ta
+    paginator = Paginator(applications_list, 50)
+    page_number = request.GET.get('page', 1)
+    applications = paginator.get_page(page_number)
+    
+    # Faqat shu sahifadagi application_id lar uchun documentlarni olish
+    app_ids = [app.id for app in applications]
+    docs_qs = GeneratedDocument.objects.filter(state=True, application_id__in=app_ids)
+    docs_dict = {doc.application_id: doc for doc in docs_qs}
 
     context = {
         'user_groups': user_groups,
         'applications': applications,
-        'generated_documents': generated_documents,
+        'docs_dict': docs_dict,
     }
     return render(request, 'stepform/monitoring_head_list.html', context)
 
@@ -204,13 +243,22 @@ def direktor_list(request):
     user = request.user
     user_groups = user.groups.all()  # Foydalanuvchi guruhlarini olish
 
-    applications = Application.objects.all().order_by('-id').filter(state=True)
-    generated_documents = GeneratedDocument.objects.all().order_by('-id').filter(state=True)
+    applications_list = Application.objects.filter(state=True).order_by('-id')
+    
+    # Pagination - har sahifada 50 ta
+    paginator = Paginator(applications_list, 50)
+    page_number = request.GET.get('page', 1)
+    applications = paginator.get_page(page_number)
+    
+    # Faqat shu sahifadagi application_id lar uchun documentlarni olish
+    app_ids = [app.id for app in applications]
+    docs_qs = GeneratedDocument.objects.filter(state=True, application_id__in=app_ids)
+    docs_dict = {doc.application_id: doc for doc in docs_qs}
 
     context = {
         'user_groups': user_groups,
         'applications': applications,
-        'generated_documents': generated_documents,
+        'docs_dict': docs_dict,
     }
 
     return render(request, 'stepform/direktor_list.html', context)
